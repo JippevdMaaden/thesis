@@ -18,8 +18,19 @@ print
 ### Search all files in the bucket
 all_files = searchInBucket(bucket_var)
 
+### Get new bucket
 new_bucket_name = raw_input('What bucket do you want to store the results in?\n')
 print
+
+### Index the dataset?
+to_index = input("Do you want to index the dataset using entwine?").lower().strip()
+if to_index == "true":
+    index_schema = raw_input('Which schema do you want to use?')
+    print 'Dataset will be indexed using %s.json' % index_schema
+elif to_index == "false":
+    print 'Dataset will not be indexed'
+else:
+    print("Error: Answer must be True or False")
 
 ### Check for files in the folder
 files_to_use = searchFiles(all_files, folder_var, file_var)
@@ -59,4 +70,7 @@ for file in files_to_use:
 	### Remove local file ###
 	removeFile(local_las_file_name)
 	removeFile(local_laz_file_name)
-	
+
+####### Possible index
+if to_index == "true": #only using the schema or do we know what i and o will be? And t as well???
+	indexLasFile(index_schema)
