@@ -217,7 +217,8 @@ def listBuckets():
     		print bucket.name
     		print "---"
 		
-    	for item in bucket.objects.all()
-      		print "\t%s, (%s MB)" % (item.key, item.size/1000000)
-    	print
+    		for item in bucket.objects.all():
+      			print "\t%s, (%s MB)" % (item.key, item.size/1000000)
+    		
+		print
   
