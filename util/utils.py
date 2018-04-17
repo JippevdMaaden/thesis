@@ -193,7 +193,7 @@ def indexLasFile(s):
 
 	os.system(variable)
 
-  def searchFiles(bucketfiles, folder, file):
+def searchFiles(bucketfiles, folder, file):
   
 	filesToUse = []
   
