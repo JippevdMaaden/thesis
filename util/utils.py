@@ -14,6 +14,10 @@ from awscli.customizations.s3.utils import split_s3_bucket_key
 from laspy.file import File
 from io import BytesIO
 
+### Create connection to s3
+client = boto3.client('s3')
+resource = boto3.resource('s3')
+
 ###################################################################################################################
 def searchInBucket(bucketname):
 	print 'Searching all files in %s' % bucketname
