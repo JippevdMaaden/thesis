@@ -111,7 +111,7 @@ def explorePointLayout(inFile):
 	print 'Exploring lasfile layout'
 	print
 
-  print 'There are %s points in the LAS file' % (len(inFile.Z))
+  	print 'There are %s points in the LAS file' % (len(inFile.Z))
 	print
   
   for dimension in inFile:
