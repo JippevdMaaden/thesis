@@ -23,7 +23,7 @@ new_bucket_name = raw_input('What bucket do you want to store the results in?\n'
 print
 
 ### Index the dataset?
-to_index = input("Do you want to index the dataset using entwine?").lower().strip()
+to_index = raw_input("Do you want to index the dataset using entwine?").lower().strip()
 if to_index == "true":
     index_schema = raw_input('Which schema do you want to use?')
     print 'Dataset will be indexed using %s.json' % index_schema
