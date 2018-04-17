@@ -114,16 +114,16 @@ def explorePointLayout(inFile):
   	print 'There are %s points in the LAS file' % (len(inFile.Z))
 	print
   
-  for dimension in inFile:
-    name = dimension.name
-    print '%s values are ranged from %s-%s and look like this' % (inFile.name, minmax(inFile.name))
-    print lasfile.name[:100]
-    print
+  	for dimension in inFile:
+    		name = dimension.name
+    		print '%s values are ranged from %s-%s and look like this' % (inFile.name, minmax(inFile.name))
+    		print lasfile.name[:100]
+    		print
    
 def exploreSubBytePointLayout(inFile):
 # Add flag byte (return_num, num_returns, scan_dir_flag and edge_flight_line)
 # Add classification byte (classification, synthetic, key_point, withheld)
-  pass
+	pass
 
 def fillList(listSize, minRange, maxRange):
   
@@ -153,10 +153,10 @@ def changeLASversion(inFile, newlasversion, newpointversion): # output name shou
 
 	closeLasFile(outFile)
   
-  return "output.las"
+  	return "output.las"
 
 def addI_currentfile(inFile):
-  print 'Generating Importance value for %s' % str(inFile)
+  	print 'Generating Importance value for %s' % str(inFile)
   
 	outFile = File('localI.las', mode = 'w', header = inFile.header)
 
@@ -175,7 +175,7 @@ def addI_currentfile(inFile):
 
 	closeLasFile(outFile)
   
-  return "localI.las"
+  	return "localI.las"
 
 def closeLasFile(lasfile):
 	print 'Closing %s' % str(lasfile)
@@ -211,12 +211,13 @@ def indexLasFile(s):
 	return filesToUse
 
 def listBuckets():
-  s3 = boto3.resource('s3')
+  	s3 = boto3.resource('s3')
   
-  for bucket in s3.buckets.all():
-    print bucket.name
-    print "---"
-    for item in bucket.objects.all()
-      print "\t%s, (%s MB)" % (item.key, item.size/1000000)
-    print
+  	for bucket in s3.buckets.all():
+    		print bucket.name
+    		print "---"
+		
+    	for item in bucket.objects.all()
+      		print "\t%s, (%s MB)" % (item.key, item.size/1000000)
+    	print
   
