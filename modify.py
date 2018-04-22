@@ -54,7 +54,7 @@ for file in files_to_use:
 	inFile = openLasFile(local_las_file_name)
 	
 	#
-	local_las_file_name = changeLASversion(inFile, 2, 1)
+	local_las_file_name = changeLASversion(inFile, 1.2, 1)
 	inFile = openLasFile(local_las_file_name)
 	examinePointFormat(inFile)
 	examineHeader(inFile)
