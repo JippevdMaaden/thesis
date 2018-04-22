@@ -139,25 +139,13 @@ def fillList(listSize, minRange, maxRange):
     
 	return inputList
 
-def changeLASversion(inFile, newlasversion, newpointversion): # output name should be param?
-	new_header = copy.copy(inFile.header)
-	new_header.format = newlasversion
-	new_header.pt_dat_format_id = newpointversion
-
-	outFile = laspy.file.File("./output.las", mode = 'w', vlrs = inFile.header.vlrs, header = new_header)
-
-	for spec in inFile.reader.point_format:
-		print("Copying dimension: " + spec.name)
-		in_spec = inFile.reader.get_dimension(spec.name)
-    
-		try:
-			outFile.writer.set_dimension(spec.name, in_spec)
-		except util.LaspyException:
-			print "Couldn't set dimension: " + spec.name + " with file format " + str(outFile.header.version) + ", and point_format" + str(outFile.header.data_format_id)
-
-	closeLasFile(outFile)
-  
-  	return "output.las"
+def changeLASversion(lasfile, newlasversion, newpointversion): # output name should be param?
+	print 'Changing point format of %s to %s' % (lasfile, newpointversion)
+	print
+	
+	variable = 'las2las -i %s -remove_vlrs_from_to 1 3 -remove_padding -set_version %s -set_point_type %s -cores 1' % (lasfile, newlasversion, newpointversion)
+	
+	os.system(variable)
 
 def addI_currentfile(inFile):
   	print 'Generating Importance value for %s' % str(inFile)
