@@ -51,11 +51,11 @@ for file in files_to_use:
 	removeFile(local_laz_file_name)
 
 ####### Do something with the file
+	changeLASversion(local_las_file_name, 1.2, 1)
+
 	inFile = openLasFile(local_las_file_name)
 	
 	#
-	local_las_file_name = changeLASversion(inFile, 1.2, 1)
-	inFile = openLasFile(local_las_file_name)
 	examinePointFormat(inFile)
 	examineHeader(inFile)
 	#
