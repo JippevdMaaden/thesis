@@ -157,7 +157,7 @@ def changeLASversion(inFile, newlasversion, newpointversion): # output name shou
 			print "Couldn't set dimension: " + spec.name + " with file format " + str(outFile.header.version) + ", and point_format" + str(outFile.header.data_format_id)
 
 	# add GPS Time
-	gpstimevar = [0]*len(new_file)
+	gpstimevar = [0]*len(outFile)
 	outFile.writer.set_dimension("gps_time", gpstimevar)
 	
 	closeLasFile(outFile)
