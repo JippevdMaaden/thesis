@@ -140,15 +140,15 @@ def fillList(listSize, minRange, maxRange):
 	return inputList
 
 def changeLASversion(inFile, newlasversion, newpointversion): # output name should be param?
-	new_header = copy.copy(infile.header)
+	new_header = copy.copy(inFile.header)
 	new_header.format = newlasversion
 	new_header.pt_dat_format_id = newpointversion
 
-	outFile = laspy.file.File("./output.las", mode = 'w', vlrs = infile.header.vlrs, header = new_header)
+	outFile = laspy.file.File("./output.las", mode = 'w', vlrs = inFile.header.vlrs, header = new_header)
 
 	for spec in inFile.reader.point_format:
 		print("Copying dimension: " + spec.name)
-		in_spec = infile.reader.get_dimension(spec.name)
+		in_spec = inFile.reader.get_dimension(spec.name)
     
 		try:
 			outFile.writer.set_dimension(spec.name, in_spec)
