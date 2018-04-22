@@ -149,12 +149,17 @@ def changeLASversion(inFile, newlasversion, newpointversion): # output name shou
 	for spec in inFile.reader.point_format:
 		print("Copying dimension: " + spec.name)
 		in_spec = inFile.reader.get_dimension(spec.name)
+		print spec.name, in_spec
     
 		try:
 			outFile.writer.set_dimension(spec.name, in_spec)
 		except util.LaspyException:
 			print "Couldn't set dimension: " + spec.name + " with file format " + str(outFile.header.version) + ", and point_format" + str(outFile.header.data_format_id)
 
+	# add GPS Time
+	gpstimevar = [0]*len(outFile)
+	outFile.writer.set_dimension("gps_time", gpstimevar)
+	
 	closeLasFile(outFile)
   
   	return "output.las"
