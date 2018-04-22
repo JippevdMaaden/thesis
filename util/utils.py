@@ -85,13 +85,13 @@ def examineHeader(inFile):
 	print 'Examining Header: '
 	print
 
-	headerformat = lasfile.header.header_format
+	headerformat = inFile.header.header_format
   
 	for spec in headerformat:
 		name = spec.name
     
 		try:
-			print '%s: %s' % (name, getattr(lasfile.header,name))
+			print '%s: %s' % (name, getattr(inFile.header,name))
 		except AttributeError:
 			pass
 	print
@@ -100,10 +100,10 @@ def swapLasValues(inFile, value1, value2):
 	print 'Swapping %s and %s values' % (str(value1), str(value2)) # make proper dimension.name
 	print
 
-	A = lasfile.value1
-	B = lasfile.value2
-	lasfile.value1 = B
-	lasfile.value2 = A
+	A = inFile.value1
+	B = inFile.value2
+	inFile.value1 = B
+	inFile.value2 = A
 
 def minmax(val_list):
 	min_val = min(val_list)
@@ -121,7 +121,7 @@ def explorePointLayout(inFile):
   	for dimension in inFile:
     		name = dimension.name
     		print '%s values are ranged from %s-%s and look like this' % (inFile.name, minmax(inFile.name))
-    		print lasfile.name[:100]
+    		print inFile.name[:100]
     		print
    
 def exploreSubBytePointLayout(inFile):
