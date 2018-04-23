@@ -126,7 +126,7 @@ def explorePointLayout(inFile):
 		print name
 		print attribute
 		print minmax(attribute)
-    		print '%s values are ranged from %s-%s and look like this' % (name, minmax(attribute))
+    		print '%s values are ranged from %s-%s and look like this' % (name, minmax(attribute)[0], minmax(attribute)[1])
     		print attribute
     		print
    
