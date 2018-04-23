@@ -67,7 +67,8 @@ for file in files_to_use:
 	
 ####### Prepare for indexing
 	### Convert LAS to LAZ ###
-	convertLasZip('outfile.las', local_laz_file_name)
+	sortbyGPSTime('outfile.las', 'outfilesorted.las', gps_time = true)
+	convertLasZip('outfilesorted.las', local_laz_file_name)
 
 	### Upload file to S3 ###
 	uploadToS3(local_laz_file_name, new_bucket_name, file)
