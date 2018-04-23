@@ -172,7 +172,7 @@ def addI_currentfile(inFile):
 def addGPSTime_currentfile(inFile):
 	print 'Adding GPS Time to %s' % str(inFile)
 	
-	inFile.gps_time = fillList(getattr(inFile.header, point_records_count), 0, 999)
+	inFile.gps_time = fillList(getattr(inFile.header, 'point_records_count'), 0, 999)
 
 def closeLasFile(lasfile):
 	print 'Closing %s' % str(lasfile)
