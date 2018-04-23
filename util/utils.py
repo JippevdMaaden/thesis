@@ -223,7 +223,7 @@ def listBuckets():
 		print
   
 def sortbyGPSTime(inputfile, outputfile, gps_time = false):
-	if gps_time = true:
+	if gps_time == true:
 		print 'Sorting %s by gps_time'
 		print
 		
@@ -235,7 +235,7 @@ def sortbyGPSTime(inputfile, outputfile, gps_time = false):
 		print 'Sorting %s'
 		print
 		
-		variable = 'lassort -i %s -o %s' % (inputfile, outputfile)
+		variable == 'lassort -i %s -o %s' % (inputfile, outputfile)
 		
 		os.system(variable)
 		
