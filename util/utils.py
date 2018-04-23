@@ -143,7 +143,7 @@ def changeLASversion(lasfile, newlasversion, newpointversion): # output name sho
 	print 'Changing point format of %s to %s' % (lasfile, newpointversion)
 	print
 	
-	variable = 'las2las -i %s -o %s -remove_vlrs_from_to 1 3 -remove_padding -set_version %s -set_point_type %s -cores 1' % (lasfile, lasfile, newlasversion, newpointversion)
+	variable = 'las2las -i %s -o outfile.las -remove_vlrs_from_to 1 3 -remove_padding -set_version %s -set_point_type %s -cores 1' % (lasfile, newlasversion, newpointversion)
 	
 	os.system(variable)
 
