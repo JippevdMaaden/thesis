@@ -53,9 +53,9 @@ for file in files_to_use:
 ####### Do something with the file
 	changeLASversion(local_las_file_name, 1.1, 1)
 	
-	#removeFile(local_las_file_name)
+	removeFile(local_las_file_name)
 	
-	inFile = openLasFile(local_las_file_name)
+	inFile = openLasFile('outfile.las')
 	
 	#
 	examinePointFormat(inFile)
@@ -66,15 +66,14 @@ for file in files_to_use:
 	
 ####### Prepare for indexing
 	### Convert LAS to LAZ ###
-	convertLasZip(local_las_file_name, local_laz_file_name)
+	convertLasZip('outfile.las', local_laz_file_name)
 
 	### Upload file to S3 ###
 	uploadToS3(local_laz_file_name, new_bucket_name, file)
 	
 ####### Cleanup
 	### Remove local file ###
-	#removeFile('outfile.las')
-	removeFile(local_las_file_name)
+	removeFile('outfile.las')
 	removeFile(local_laz_file_name)
 
 ####### Possible index
