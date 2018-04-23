@@ -52,12 +52,12 @@ for file in files_to_use:
 
 ####### Do something with the file
 	changeLASversion(local_las_file_name, 1.1, 1)
-	
 	removeFile(local_las_file_name)
 	
 	inFile = openLasFile('outfile.las')
 	
 	#
+	addGPSTime_currentfile(inFile)
 	examinePointFormat(inFile)
 	examineHeader(inFile)
 	#
