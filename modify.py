@@ -60,6 +60,7 @@ for file in files_to_use:
 	addGPSTime_currentfile(inFile)
 	examinePointFormat(inFile)
 	examineHeader(inFile)
+	explorePointLayout(inFile)
 	#
 	
 	closeLasFile(inFile)
