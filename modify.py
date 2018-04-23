@@ -53,7 +53,7 @@ for file in files_to_use:
 ####### Do something with the file
 	changeLASversion(local_las_file_name, 1.1, 1)
 	
-	removeFile(local_las_file_name)
+	#removeFile(local_las_file_name)
 	
 	inFile = openLasFile('outfile.las')
 	
@@ -73,7 +73,8 @@ for file in files_to_use:
 	
 ####### Cleanup
 	### Remove local file ###
-	removeFile('outfile.las')
+	#removeFile('outfile.las')
+	removeFile(local_las_file_name)
 	removeFile(local_laz_file_name)
 
 ####### Possible index
