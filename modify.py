@@ -55,7 +55,7 @@ for file in files_to_use:
 	
 	#removeFile(local_las_file_name)
 	
-	inFile = openLasFile('outfile.las')
+	inFile = openLasFile(local_las_file_name)
 	
 	#
 	examinePointFormat(inFile)
