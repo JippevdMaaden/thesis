@@ -115,11 +115,13 @@ def explorePointLayout(inFile):
 	print 'Exploring lasfile layout'
 	print
 
-  	print 'There are %s points in the LAS file' % (len(inFile.Z))
+  	print 'There are %s points in the LAS file' % getattr(inFile.header, 'point_records_count')
 	print
   
-  	for dimension in inFile:
-    		name = dimension.name
+	pointformat = inFile.point_format
+  
+	for spec in pointformat:
+		name = spec.name
     		print '%s values are ranged from %s-%s and look like this' % (inFile.name, minmax(inFile.name))
     		print inFile.name[:100]
     		print
