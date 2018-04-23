@@ -125,8 +125,9 @@ def explorePointLayout(inFile):
 		attribute = getattr(inFile, name)
 		print name
 		print attribute
+		print minmax(attribute)
     		print '%s values are ranged from %s-%s and look like this' % (name, minmax(attribute))
-    		print attribute[:100]
+    		print attribute
     		print
    
 def exploreSubBytePointLayout(inFile):
