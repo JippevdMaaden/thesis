@@ -123,8 +123,10 @@ def explorePointLayout(inFile):
 	for spec in pointformat:
 		name = spec.name
 		attribute = getattr(inFile, name)
+		print name
+		print attribute
     		print '%s values are ranged from %s-%s and look like this' % (name, minmax(attribute))
-    		print inFile.name[:100]
+    		print attribute[:100]
     		print
    
 def exploreSubBytePointLayout(inFile):
