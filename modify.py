@@ -51,9 +51,9 @@ for file in files_to_use:
 	removeFile(local_laz_file_name)
 
 ####### Do something with the file
-	changeLASversion(local_las_file_name, 1.2, 1)
+	changeLASversion(local_las_file_name, 1.1, 1)
 	
-	removefile(local_las_file_name)
+	removeFile(local_las_file_name)
 	
 	inFile = openLasFile('outfile.laz')
 	
