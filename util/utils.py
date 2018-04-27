@@ -222,8 +222,8 @@ def listBuckets():
     		
 		print
   
-def sortbyGPSTime(inputfile, outputfile, gps_time = false):
-	if gps_time == true:
+def sortbyGPSTime(inputfile, outputfile, gps_time = False):
+	if gps_time == True:
 		print 'Sorting %s by gps_time'
 		print
 		
