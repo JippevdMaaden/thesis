@@ -9,6 +9,17 @@ from util.utils import *
 client = boto3.client('s3')
 resource = boto3.resource('s3')
 
+### Index by schema
+schema_bool = raw_input('Should Entwine use a schema? (y/n)\n')
+print
+if schema_bool == 'y':
+  schema_var = raw_input('Which schema should Entwine use?\n')
+  print
+  runstring = 'docker run -it -v ~/.aws:/root/.aws connormanning/entwine build' + ' ' + s
+  print runstring
+  os.system(runstring)
+  sys.exit(0)
+
 ### Get bucket, folder and file variable
 bucket_var = raw_input('What bucket do you want to search?\n')
 folder_var = raw_input('What folder do you want to search?\n')
@@ -21,14 +32,6 @@ all_files = searchInBucket(bucket_var)
 ### Get amount of threads
 threads_var = raw_input('How many threads should Entwine use?\n')
 print
-
-### Get schema
-schema_bool = raw_input('Should Entwine use a schema? (y/n)\n')
-print
-schema_var = ''
-if schema_bool == 'y':
-  schema_var = raw_input('Which schema should Entwine use?\n')
-  print
 
 i = 's3://' + bucket_var + '/'
 if folder_var != '':
@@ -49,3 +52,4 @@ if schema_bool == 'y':
   
 print runstring
 os.system(runstring)
+sys.exit(0)
