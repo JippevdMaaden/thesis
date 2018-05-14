@@ -39,7 +39,7 @@ o = 's3://jippe-test/greyhound/' + folder_var
 
 t = threads_var
 
-runstring = 'docker run -it -v ~/.aws:/root/.aws connormanning/entwine build' + '-i ' + i + '-o ' + o + '-t ' + t
+runstring = 'docker run -it -v ~/.aws:/root/.aws connormanning/entwine build' + ' -i ' + i + ' -o ' + o + ' -t ' + t
 
 if schema_bool == 'y':
   runstring = 'docker run -it -v ~/.aws:/root/.aws connormanning/entwine build' + schema_var
