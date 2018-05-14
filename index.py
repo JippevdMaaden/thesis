@@ -25,6 +25,7 @@ print
 ### Get schema
 schema_bool = raw_input('Should Entwine use a schema? (y/n)\n')
 print
+schema_var = ''
 if schema_bool == 'y':
   schema_var = raw_input('Which schema should Entwine use?\n')
   print
@@ -35,7 +36,7 @@ if folder_var != '':
   if file_var != '':
     i += file_var
     
-o = 's3://jippe-test/greyhound/' + folder_var
+o = 's3://jippe-test/greyhound/' + bucket_var
 
 t = threads_var
 
