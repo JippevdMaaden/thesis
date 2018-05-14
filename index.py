@@ -48,4 +48,4 @@ if schema_bool == 'y':
   runstring = 'docker run -it -v ~/.aws:/root/.aws connormanning/entwine build' + ' ' + s
   
 print runstring
-#os.system(runstring)
+os.system(runstring)
