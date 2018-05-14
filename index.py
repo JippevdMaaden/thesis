@@ -19,7 +19,7 @@ print
 all_files = searchInBucket(bucket_var)
 
 ### Get amount of threads
-threads_var = raw_intput('How many threads should Entwine use?\n')
+threads_var = raw_input('How many threads should Entwine use?\n')
 print
 
 ### Get schema
