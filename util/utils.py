@@ -260,6 +260,6 @@ def lasPointFormat():
 	formatdict[2] = {}
 	
 	for key in formatdict:
-		key['intensity'] = 2
+		formatdict[key]['intensity'] = 2
 	
 	return formatdict
