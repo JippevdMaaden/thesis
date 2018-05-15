@@ -44,7 +44,7 @@ for file in files_to_use:
 	inFile = openLasFile(local_las_file_name)
 	
 	#
-  fillRandomVariable(inFile, 'intensity')
+  	fillRandomVariable(inFile, 'intensity')
 	#
 	
 	closeLasFile(inFile)
