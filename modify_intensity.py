@@ -45,6 +45,13 @@ for file in files_to_use:
 	
 	#
   	fillRandomVariable(inFile, 'intensity')
+	a = 'X'
+	print inFile.a[:100]
+	print 
+	print inFile.intensity[:100]
+	print
+	b = 'intensity'
+	print inFile.b[:100]
 	#
 	
 	closeLasFile(inFile)
