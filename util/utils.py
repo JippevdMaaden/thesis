@@ -246,7 +246,8 @@ def fillRandomVariable(inFile, variable):
 	numbytes = sizedict[version][variable]
 	
 	minRange = 0
-	maxRange = (2 ** (numbytes * 8)) - 1
+	#maxRange = (2 ** (numbytes * 8)) - 1
+	maxRange = 15
 		
 	inputlist = fillList(getattr(inFile.header, 'point_records_count'), minRange, maxRange)
 	
