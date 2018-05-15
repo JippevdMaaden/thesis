@@ -240,8 +240,6 @@ def sortbyGPSTime(inputfile, outputfile, gps_time = False):
 		os.system(variable)
 		
 def fillRandomVariable(inFile, variable):
-	inputlist = fillList(getattr(inFile.header, 'point_records_count'), minRange, maxRange)
-	
 	version = getattr(inFile.header, 'version_minor')
 	sizedict = lasPointFormat()
 	
