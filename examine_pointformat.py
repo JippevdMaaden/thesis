@@ -42,8 +42,8 @@ for file in files_to_use:
 	inFile = openLasFile(local_las_file_name)
 	
 	#
-  print file
-  examinePointFormat(inFile)
+  	print file
+  	examinePointFormat(inFile)
 	#
 	
 	closeLasFile(inFile)
