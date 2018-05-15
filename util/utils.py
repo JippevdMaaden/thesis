@@ -250,7 +250,7 @@ def fillRandomVariable(inFile, variable):
 		
 	inputlist = fillList(getattr(inFile.header, 'point_records_count'), minRange, maxRange)
 	
-	inFile.variable = inputlist
+	inFile.intensity = inputlist
 	
 def lasPointFormat():
 	formatdict = {}
