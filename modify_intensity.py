@@ -45,7 +45,6 @@ for file in files_to_use:
 	
 	#
   	fillRandomVariable(inFile, 'intensity')
-	print inFile.intensity[:100]
 	#
 	
 	closeLasFile(inFile)
