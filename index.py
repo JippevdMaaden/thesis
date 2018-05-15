@@ -15,7 +15,7 @@ print
 if schema_bool == 'y':
   schema_var = raw_input('Which schema should Entwine use?\n')
   print
-  runstring = 'docker run -it -v ~/.aws:/root/.aws connormanning/entwine build' + ' ' + schema_var
+  runstring = 'docker run -it -v ~/.aws:/root/.aws connormanning/entwine build s3://jippe-home/' + schema_var
   print runstring
   os.system(runstring)
   sys.exit(0)
