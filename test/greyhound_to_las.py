@@ -4,6 +4,8 @@ import json
 import struct
 import laspy
 
+from util.utils import *
+
 def info(resource):
     url = BASE+"resource/"+resource+"/info"
     http = urllib3.PoolManager()
@@ -27,11 +29,7 @@ def read(resource, rng, depth):
     http = urllib3.PoolManager()
     u = http.request('GET', url)
     data = u.data
-    print 'read data'
-    print data
-    print
     return data
-
 
 def readdata():
     data = read(resource, rng, depth)
@@ -108,4 +106,10 @@ if __name__ == '__main__':
     j = info(resource)
     dtype = buildNumpyDescription(j['schema'])
     data = readdata()
+    
     writeLASfile(data, 'output.las')
+    convertLasZip('output.las', 'output.laz')
+    uploadToS3('output.laz', ..., 'greyhound_to_las_test.laz')
+    
+    removeFile('output.las')
+    removeFile('output.laz')
