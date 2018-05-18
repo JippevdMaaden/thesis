@@ -6,7 +6,7 @@ import laspy
 
 def info(resource):
     url = BASE+"resource/"+resource+"/info"
-    http = urllib2.PoolManager()
+    http = urllib3.PoolManager()
     u = http.request('GET', url)
     data = u.data
     print 'json data'
@@ -24,7 +24,7 @@ def read(resource, rng, depth):
     box = '['+ ','.join([str(i) for i in [lr[0], lr[1], z0, ul[0], ul[1], z1]]) + ']'
     url = BASE+'resource/' + resource + '/read?'
     url += 'bounds=%s&depthEnd=%d&depthBegin=%d&compress=false' % (box,depth[1],depth[0])
-    http = urllib2.PoolManager()
+    http = urllib3.PoolManager()
     u = http.request('GET', url)
     data = u.read()
     print 'read data'
