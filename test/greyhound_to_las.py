@@ -109,7 +109,7 @@ if __name__ == '__main__':
     
     writeLASfile(data, 'output.las')
     convertLasZip('output.las', 'output.laz')
-    uploadToS3('output.laz', ..., 'greyhound_to_las_test.laz')
+    uploadToS3('output.laz', 'jippe-greyhound-to-las-test', 'greyhound_to_las_test.laz')
     
     removeFile('output.las')
     removeFile('output.laz')
