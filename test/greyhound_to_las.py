@@ -1,4 +1,4 @@
-import urllib2
+import urllib3
 import numpy as np
 import json
 import struct
