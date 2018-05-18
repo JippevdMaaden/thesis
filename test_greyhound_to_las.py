@@ -4,7 +4,7 @@ import json
 import struct
 import laspy
 
-from /thesis/util/utils.py import *
+from util.utils import *
 
 def info(resource):
     url = BASE+"resource/"+resource+"/info"
