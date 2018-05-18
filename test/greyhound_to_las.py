@@ -26,7 +26,7 @@ def read(resource, rng, depth):
     url += 'bounds=%s&depthEnd=%d&depthBegin=%d&compress=false' % (box,depth[1],depth[0])
     http = urllib3.PoolManager()
     u = http.request('GET', url)
-    data = u.read()
+    data = u.data
     print 'read data'
     print data
     print
