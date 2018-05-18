@@ -95,16 +95,16 @@ def writeLASfile(data, filename):
 
 if __name__ == '__main__':
 
-    resource = 'min'
-    center = [-10375539.03, 6210523.43]
+    resource = 'tu-delft-campus'
+    center = [85910.0, 445600.0]
     depth = [0,24]
 
 
     # Select in a cube 1000m in every direction from the
     # given point
-    rng = 1000
+    rng = 10
 
-    BASE='http://devdata.greyhound.io/'
+    BASE='http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/'
     j = info(resource)
     dtype = buildNumpyDescription(j['schema'])
     data = readdata()
