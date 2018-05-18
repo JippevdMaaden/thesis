@@ -98,9 +98,9 @@ if __name__ == '__main__':
     depth = [0,24]
 
 
-    # Select in a cube 1000m in every direction from the
+    # Select in a cube 100m in every direction from the
     # given point
-    rng = 10
+    rng = 100
 
     BASE='http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/'
     j = info(resource)
