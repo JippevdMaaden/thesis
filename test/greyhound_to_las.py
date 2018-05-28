@@ -4,6 +4,8 @@ import json
 import struct
 import laspy
 
+sys.path.insert(0, '/home/ec2-user/thesis')
+
 from util.utils import *
 
 def info(resource):
