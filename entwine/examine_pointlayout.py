@@ -3,6 +3,8 @@
 import boto3
 import botocore
 
+sys.path.insert(0, '/home/ec2-user/thesis')
+
 from util.utils import *
 
 ### Create connection to s3
