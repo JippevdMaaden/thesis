@@ -294,10 +294,10 @@ class CameraCone:
 		#ll = [-x, -y, -1]
 		#ul = [-x, y, -1]
 
-		lr = [2000, -2000, 1000]
-		ur = [2000, 2000, 1000]
-		ll = [-2000, -2000, 1000]
-		ul = [-2000, 2000, 1000]
+		lr = [2000, -2000, -1000]
+		ur = [2000, 2000, -1000]
+		ll = [-2000, -2000, -1000]
+		ul = [-2000, 2000, -1000]
 
 		# normalize normals
 		self.half_plane_normals = [
@@ -319,9 +319,8 @@ class CameraCone:
 		#return True
 
 		#adjust point because of hardcode
-		print point
+
 		pointv = [point[0] - 85910, point[1] - 445600, -point[2]]
-		print pointv
 
 		#positive?
 		#pointv = [point[0] - self.origin[0], point[1] - self.origin[1], point[2] - self.origin[2]]
@@ -331,9 +330,7 @@ class CameraCone:
 
 		for norm in self.half_plane_normals:
 			z = np.dot(pointv, norm)
-			print z
 			if z < -fudge:
-				print
 				return False
 
 		return True
