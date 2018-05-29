@@ -119,7 +119,7 @@ if __name__ == '__main__':
     
     print 'There are %s points in the original file' % len(inFile.points)
     
-    allpoints = np.vstack((inFile.X, inFile.Y, inFile.Z)).transpose()
+    allpoints = np.vstack((inFile.x, inFile.y, inFile.z)).transpose()
     
     for point in allpoints:
       if viewfrustum.isVisible([point[0], point[1], point[2]]):
