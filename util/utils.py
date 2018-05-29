@@ -264,3 +264,75 @@ def lasPointFormat():
 		formatdict[key]['intensity'] = 2
 	
 	return formatdict
+
+def normalize(vector):
+	lengthv = (vector[0] ** 2 + vector[1] ** 2 + vector[2] ** 2) ** 0.5
+	nvector = [vector[0] / lengthv, vector[1] / lengthv, vector[2] / lengthv]
+	return nvector
+
+class CameraCone:
+	# use local ref system (translation matrix) or global ref system? Currently global hardcoded for tu-delft-campus top down
+	def __init__(self, origin, lens, fov):
+	# translation matrix for camera relative to env (crs)
+        #self.matrix = matrix.inverted()
+	self.origin = [85910, 445600, 2000]
+	target = [85910, 445600, -1000]
+        self.lens = [target[0] - origin[0], target[1] - origin[1], target[2] - origin[2]]
+
+        # adjust for possible rectangular resolution
+        
+	#w = 0.5 * sensor_width / lens
+        #if resolution_x > resolution_y:
+        #    x = w
+        #    y = w * resolution_y / resolution_x
+        #else:
+        #    x = w * resolution_x / resolution_y
+        #    y = w
+
+        #lr = [x, -y, -1]
+        #ur = [x, y, -1]
+        #ll = [-x, -y, -1]
+        #ul = [-x, y, -1]
+
+	lr = [1000, -1000, -3000]
+	ur = [1000, 1000, -3000]
+	ll = [-1000, -1000, -3000]
+	ul = [-1000, 1000, -3000]
+	
+        # normalize normals
+        self.half_plane_normals = [
+            normalize(np.cross(lr, ll)),
+            normalize(np.cross(ll, ul)),
+            normalize(np.cross(ul, ur)),
+            normalize(np.cross(ur, lr))
+            ]
+
+    def isVisible(self, point, fudge = 0):
+	# translation to local camera CRS
+        #loc2 = self.matrix * loc
+
+        #for norm in self.half_plane_normals:
+            #z2 = loc2.dor(norm)
+            #if z2 < -fudge:
+                #return False
+
+        #return True
+	
+	#adjust point because of hardcode
+	pointv = [point[0] - 85910, point[1] - 445600, point[2]]
+	
+	#positive?
+	#pointv = [point[0] - self.origin[0], point[1] - self.origin[1], point[2] - self.origin[2]]
+	#or
+	#negative?
+	#poitnv = [self.origin[0] - point[0], self.origin[1] - point[1], self.origin[2] - point[2]]
+	
+	for norm in self.half_plane_normals:
+		z = np.dot(pointv, norm)
+		if z < -fudge:
+			return False
+	
+	return True
+	
+	
+	
