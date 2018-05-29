@@ -320,6 +320,7 @@ class CameraCone:
 
 		#adjust point because of hardcode
 		pointv = [point[0] - 85910, point[1] - 445600, point[2]]
+		print pointv
 
 		#positive?
 		#pointv = [point[0] - self.origin[0], point[1] - self.origin[1], point[2] - self.origin[2]]
@@ -329,7 +330,9 @@ class CameraCone:
 
 		for norm in self.half_plane_normals:
 			z = np.dot(pointv, norm)
+			print z
 			if z < -fudge:
+				print
 				return False
 
 		return True
