@@ -103,7 +103,7 @@ if __name__ == '__main__':
 
     # Select in a cube 10000m in every direction from the
     # given point
-    rng = 500
+    rng = 200
 
     BASE='http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/'
     j = info(resource)
