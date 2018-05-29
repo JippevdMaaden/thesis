@@ -134,12 +134,14 @@ if __name__ == '__main__':
     
     print 'There are %s points in the view frustum' % len(goodpointx)
     
-    inFile.close()
+    
     
     output_file = File('frustumfile.las', mode = "w", header = inFile.header)
     output_file.x = goodpointx
     output_file.y = goodpointy
     output_file.z = goodpointz
+    
+    inFile.close()
     output_file.close()
     
     convertLasZip('originalfile.las', 'originalfile.laz')
