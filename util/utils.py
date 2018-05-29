@@ -307,32 +307,29 @@ class CameraCone:
 		    normalize(np.cross(ur, lr))
 		]
 
-    def isVisible(self, point, fudge = 0):
-	# translation to local camera CRS
-        #loc2 = self.matrix * loc
+    	def isVisible(self, point, fudge = 0):
+		# translation to local camera CRS
+		#loc2 = self.matrix * loc
 
-        #for norm in self.half_plane_normals:
-            #z2 = loc2.dor(norm)
-            #if z2 < -fudge:
-                #return False
+		#for norm in self.half_plane_normals:
+		    #z2 = loc2.dor(norm)
+		    #if z2 < -fudge:
+			#return False
 
-        #return True
-	
-	#adjust point because of hardcode
-	pointv = [point[0] - 85910, point[1] - 445600, point[2]]
-	
-	#positive?
-	#pointv = [point[0] - self.origin[0], point[1] - self.origin[1], point[2] - self.origin[2]]
-	#or
-	#negative?
-	#poitnv = [self.origin[0] - point[0], self.origin[1] - point[1], self.origin[2] - point[2]]
-	
-	for norm in self.half_plane_normals:
-		z = np.dot(pointv, norm)
-		if z < -fudge:
-			return False
-	
-	return True
-	
-	
-	
+		#return True
+
+		#adjust point because of hardcode
+		pointv = [point[0] - 85910, point[1] - 445600, point[2]]
+
+		#positive?
+		#pointv = [point[0] - self.origin[0], point[1] - self.origin[1], point[2] - self.origin[2]]
+		#or
+		#negative?
+		#poitnv = [self.origin[0] - point[0], self.origin[1] - point[1], self.origin[2] - point[2]]
+
+		for norm in self.half_plane_normals:
+			z = np.dot(pointv, norm)
+			if z < -fudge:
+				return False
+
+		return True
