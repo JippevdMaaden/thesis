@@ -132,7 +132,7 @@ if __name__ == '__main__':
         goodpointy.append(point[1])
         goodpointz.append(point[2])
     
-    print 'There are %s points in the view frustum' % len(goodpoint)
+    print 'There are %s points in the view frustum' % len(goodpointx)
     
     inFile.close()
     
