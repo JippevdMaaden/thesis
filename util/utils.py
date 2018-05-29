@@ -319,6 +319,7 @@ class CameraCone:
 		#return True
 
 		#adjust point because of hardcode
+		print point
 		pointv = [point[0] - 85910, point[1] - 445600, point[2]]
 		print pointv
 
