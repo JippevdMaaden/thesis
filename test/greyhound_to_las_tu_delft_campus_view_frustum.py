@@ -3,6 +3,7 @@ import numpy as np
 import json
 import struct
 import laspy
+import sys
 
 sys.path.insert(0, '/home/ec2-user/thesis')
 
