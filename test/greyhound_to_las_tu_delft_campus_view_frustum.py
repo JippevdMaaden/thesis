@@ -98,7 +98,7 @@ if __name__ == '__main__':
 
     resource = 'tu-delft-campus'
     center = [85910.0, 445600.0]
-    depth = [0,24]
+    depth = [0,12]
 
 
     # Select in a cube 10000m in every direction from the
