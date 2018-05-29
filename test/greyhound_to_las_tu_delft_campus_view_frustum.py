@@ -120,7 +120,7 @@ if __name__ == '__main__':
     print 'There are %s points in the original file' % len(inFile.points)
     
     for point in inFile.points:
-      if viewfrustrum.isVisible([point.X, point.Y, point.Z]):
+      if viewfrustum.isVisible([point.X, point.Y, point.Z]):
         goodpoint.append(points)
     
     print 'There are %s points in the view frustum' % len(goodpoints)
