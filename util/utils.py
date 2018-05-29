@@ -330,7 +330,7 @@ class CameraCone:
 
 		for norm in self.half_plane_normals:
 			z = np.dot(pointv, norm)
-			if z > -fudge:
+			if z < -fudge:
 				return False
 
 		return True
