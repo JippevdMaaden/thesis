@@ -149,5 +149,7 @@ if __name__ == '__main__':
     uploadToS3('originalfile.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test_original.laz')
     uploadToS3('frustumfile.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test_frustum.laz')
     
-    removeFile('output.las')
-    removeFile('output.laz')
+    removeFile('originalfile.las')
+    removeFile('originalfile.laz')
+    removeFile('frustumfile.las')
+    removeFile('frustumfile.laz')
