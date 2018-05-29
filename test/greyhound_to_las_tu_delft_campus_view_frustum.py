@@ -102,7 +102,7 @@ if __name__ == '__main__':
 
     # Select in a cube 10000m in every direction from the
     # given point
-    rng = 10000
+    rng = 1500
 
     BASE='http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/'
     j = info(resource)
@@ -116,11 +116,13 @@ if __name__ == '__main__':
     
     inFile = openLasFile('output.las')
     
+    print 'There are %s points in the original file' % len(inFile.points)
+    
     for point in inFile.points:
       if viewfrustrum.isVisible([point.X, point.Y, point.Z]):
         goodpoint.append(points)
     
-    print len(goodpoints)
+    print 'There are %s points in the view frustum' % len(goodpoints)
     
     convertLasZip('output.las', 'output.laz')
     uploadToS3('output.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test.laz')
