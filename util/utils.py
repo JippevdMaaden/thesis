@@ -273,39 +273,39 @@ def normalize(vector):
 class CameraCone:
 	# use local ref system (translation matrix) or global ref system? Currently global hardcoded for tu-delft-campus top down
 	def __init__(self, origin, lens, fov):
-	# translation matrix for camera relative to env (crs)
-        #self.matrix = matrix.inverted()
-	self.origin = [85910, 445600, 2000]
-	target = [85910, 445600, -1000]
-        self.lens = [target[0] - origin[0], target[1] - origin[1], target[2] - origin[2]]
+		# translation matrix for camera relative to env (crs)
+		#self.matrix = matrix.inverted()
+		self.origin = [85910, 445600, 2000]
+		target = [85910, 445600, -1000]
+		self.lens = [target[0] - origin[0], target[1] - origin[1], target[2] - origin[2]]
 
-        # adjust for possible rectangular resolution
-        
-	#w = 0.5 * sensor_width / lens
-        #if resolution_x > resolution_y:
-        #    x = w
-        #    y = w * resolution_y / resolution_x
-        #else:
-        #    x = w * resolution_x / resolution_y
-        #    y = w
+		# adjust for possible rectangular resolution
 
-        #lr = [x, -y, -1]
-        #ur = [x, y, -1]
-        #ll = [-x, -y, -1]
-        #ul = [-x, y, -1]
+		#w = 0.5 * sensor_width / lens
+		#if resolution_x > resolution_y:
+		#    x = w
+		#    y = w * resolution_y / resolution_x
+		#else:
+		#    x = w * resolution_x / resolution_y
+		#    y = w
 
-	lr = [1000, -1000, -3000]
-	ur = [1000, 1000, -3000]
-	ll = [-1000, -1000, -3000]
-	ul = [-1000, 1000, -3000]
-	
-        # normalize normals
-        self.half_plane_normals = [
-            normalize(np.cross(lr, ll)),
-            normalize(np.cross(ll, ul)),
-            normalize(np.cross(ul, ur)),
-            normalize(np.cross(ur, lr))
-            ]
+		#lr = [x, -y, -1]
+		#ur = [x, y, -1]
+		#ll = [-x, -y, -1]
+		#ul = [-x, y, -1]
+
+		lr = [1000, -1000, -3000]
+		ur = [1000, 1000, -3000]
+		ll = [-1000, -1000, -3000]
+		ul = [-1000, 1000, -3000]
+
+		# normalize normals
+		self.half_plane_normals = [
+		    normalize(np.cross(lr, ll)),
+		    normalize(np.cross(ll, ul)),
+		    normalize(np.cross(ul, ur)),
+		    normalize(np.cross(ur, lr))
+		    ]
 
     def isVisible(self, point, fudge = 0):
 	# translation to local camera CRS
