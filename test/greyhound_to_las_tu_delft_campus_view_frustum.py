@@ -121,11 +121,13 @@ if __name__ == '__main__':
     
     allpoints = np.vstack((inFile.x, inFile.y, inFile.z)).transpose()
     
+    goodpoint = []
+    
     for point in allpoints:
       if viewfrustum.isVisible([point[0], point[1], point[2]]):
-        goodpoint.append(points)
+        goodpoint.append(point)
     
-    print 'There are %s points in the view frustum' % len(goodpoints)
+    print 'There are %s points in the view frustum' % len(goodpoint)
     
     convertLasZip('output.las', 'output.laz')
     uploadToS3('output.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test.laz')
