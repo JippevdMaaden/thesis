@@ -137,9 +137,9 @@ if __name__ == '__main__':
     
     
     output_file = File('frustumfile.las', mode = "w", header = inFile.header)
-    output_file.x = goodpointx
-    output_file.y = goodpointy
-    output_file.z = goodpointz
+    output_file.X = goodpointx
+    output_file.Y = goodpointy
+    output_file.Z = goodpointz
     
     inFile.close()
     output_file.close()
