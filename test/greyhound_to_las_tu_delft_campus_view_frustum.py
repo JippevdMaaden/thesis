@@ -4,6 +4,7 @@ import json
 import struct
 import laspy
 import sys
+from laspy.file import File
 
 sys.path.insert(0, '/home/ec2-user/thesis')
 
@@ -110,27 +111,41 @@ if __name__ == '__main__':
     dtype = buildNumpyDescription(j['schema'])
     data = readdata()
     
-    writeLASfile(data, 'output.las')
+    writeLASfile(data, 'originalfile.las')
     
     goodpoints = []
     viewfrustum = CameraCone([85910, 445600, 2000], [0,0,0], 120)
     
-    inFile = openLasFile('output.las')
+    inFile = openLasFile('originalfile.las')
     
     print 'There are %s points in the original file' % len(inFile.points)
     
     allpoints = np.vstack((inFile.x, inFile.y, inFile.z)).transpose()
     
-    goodpoint = []
+    goodpointx = []
+    goodpointy = []
+    goodpointz = []
     
     for point in allpoints:
       if viewfrustum.isVisible([point[0], point[1], point[2]]):
-        goodpoint.append(point)
+        goodpointx.append(point[0])
+        goodpointy.append(point[1])
+        goodpointz.append(point[2])
     
     print 'There are %s points in the view frustum' % len(goodpoint)
     
-    convertLasZip('output.las', 'output.laz')
-    uploadToS3('output.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test.laz')
+    inFile.close()
+    
+    output_file = File('frustumfile.las', mode = "w", header = inFile.header)
+    output_file.x = goodpointx
+    output_file.y = goodpointy
+    output_file.z = goodpointz
+    output_file.close()
+    
+    convertLasZip('originalfile.las', 'originalfile.laz')
+    convertLasZip('frustumfile.las', 'frustumfile.laz')
+    uploadToS3('originalfile.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test_original.laz')
+    uploadToS3('frustumfile.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test_frustum.laz')
     
     removeFile('output.las')
     removeFile('output.laz')
