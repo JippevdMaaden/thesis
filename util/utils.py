@@ -282,6 +282,7 @@ class CameraCone:
 		# translation matrix testing
 		#
 		# helpful (looking 2D from top down)
+		# start = 0,0,0
 		# right = +x
 		# left = -x
 		# up = +y
@@ -299,10 +300,24 @@ class CameraCone:
 		self.translationmatrix = tempmatrix.I
 		
 		# rotation matrix testing
+		#
+		# helpful
+		# start = 2D looking upwards
+		# x-axis = 90 - looking South
+		# x-axis = 270 - looking North
+		# y-axis = ..
+		# y-axis = ..
+		# z-axis = ..
+		# z-axis = ..
 		
 		#rotate the camera 90 deg along the x-axis (look north in stead of down)
 		rotation = 270
 		tempmatrix = np.matrix([[1,0,0,0],[0,np.cos(np.radians(rotation)),-np.sin(np.radians(-rotation)),0],[0,np.sin(np.radians(rotation)),np.cos(np.radians(rotation)),0],[0,0,0,1]])
+		self.rotationmatrix = tempmatrix.I
+		
+		#rotate the camera 90 deg along the y-axis (look east in stead of down)
+		rotation = 90
+		tempmatrix = np.matrix([[np.cos(np.radians(rotation)),0,np.sin(np.radians(rotation)),0],[0,1,0,0],[-np.sin(np.radians(rotation)),0,np.cos(np.radians(rotation)),0],[0,0,0,1]])
 		self.rotationmatrix = tempmatrix.I
 		
 		# adjust for possible rectangular resolution
