@@ -282,13 +282,20 @@ class CameraCone:
 		# translation matrix testing
 		
 		#move the camera 50 to the right (x)
-		viewmatrix = np.matrix([[1,0,0,50],[0,1,0,0],[0,0,1,0],[0,0,0,1]])
-		self.translationmatrix = viewmatrix.I
+		tempmatrix = np.matrix([[1,0,0,50],[0,1,0,0],[0,0,1,0],[0,0,0,1]])
+		self.translationmatrix = tempmatrix.I
 		
 		
 		#move the camera 50 to the right and 100 up (x and y)
-		viewmatrix = np.matrix([[1,0,0,50],[0,1,0,100],[0,0,1,0],[0,0,0,1]])
-		self.translationmatrix = viewmatrix.I
+		tempmatrix = np.matrix([[1,0,0,50],[0,1,0,100],[0,0,1,0],[0,0,0,1]])
+		self.translationmatrix = tempmatrix.I
+		
+		# rotation matrix testing
+		
+		#rotate the camera 90 deg along the x-axis (look forward in stead of up)
+		rotation = 90
+		tempmatrix = np.matrix([[1,0,0,0],[0,np.cos(np.radians(rotation)),-np.sin(np.radians(-rotation)),0],[0,np.sin(np.radians(rotation)),np.cos(np.radians(rotation)),0],[0,0,0,1]])
+		self.rotationmatrix = tempmatrix.I
 		
 		# adjust for possible rectangular resolution
 		
@@ -333,9 +340,10 @@ class CameraCone:
 
 		temppoint = [point[0] - 85910, point[1] - 445600, -point[2], 1]
 		temppoint2 = self.translationmatrix.dot(temppoint)
-		temppoint3 = temppoint2.tolist()
-		temppoint4 = temppoint3[0]
-		pointv = [temppoint4[0], temppoint4[1], temppoint4[2]]
+		temppoint3 = self.rotationmatrix.dot(temppoint2)
+		temppoint4 = temppoint3.tolist()
+		temppoint5 = temppoint4[0]
+		pointv = [temppoint5[0], temppoint5[1], temppoint5[2]]
 
 		#positive?
 		#pointv = [point[0] - self.origin[0], point[1] - self.origin[1], point[2] - self.origin[2]]
