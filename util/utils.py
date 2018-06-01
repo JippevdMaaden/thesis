@@ -338,12 +338,13 @@ class CameraCone:
 
 		#adjust point because of hardcode
 
-		temppoint = [point[0] - 85910, point[1] - 445600, -point[2], 1]
-		temppoint2 = self.translationmatrix.dot(temppoint)
-		temppoint3 = self.rotationmatrix.dot(temppoint2)
-		temppoint4 = temppoint3.tolist()
-		temppoint5 = temppoint4[0]
-		pointv = [temppoint5[0], temppoint5[1], temppoint5[2]]
+		temppoint1 = [point[0] - 85910, point[1] - 445600, -point[2], 1]
+		temppoint2 = self.translationmatrix.dot(temppoint1)
+		temppoint3 = [temppoint2.tolist()[0][0], temppoint2.tolist()[0][1], temppoint2.tolist()[0][2], 1]
+		temppoint4 = self.rotationmatrix.dot(temppoint3)
+		temppoint5 = temppoint4.tolist()
+		temppoint6 = temppoint5[0]
+		pointv = [temppoint6[0], temppoint6[1], temppoint6[2]]
 
 		#positive?
 		#pointv = [point[0] - self.origin[0], point[1] - self.origin[1], point[2] - self.origin[2]]
