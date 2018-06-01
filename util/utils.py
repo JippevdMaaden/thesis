@@ -281,10 +281,14 @@ class CameraCone:
 
 		# translation matrix testing
 		
-		#move the camera 500 to the right (x?)
+		#move the camera 50 to the right (x)
 		viewmatrix = np.matrix([[1,0,0,50],[0,1,0,0],[0,0,1,0],[0,0,0,1]])
 		self.translationmatrix = viewmatrix.I
 		
+		
+		#move the camera 50 to the right and 100 up (x and y)
+		viewmatrix = np.matrix([[1,0,0,50],[0,1,0,100],[0,0,1,0],[0,0,0,1]])
+		self.translationmatrix = viewmatrix.I
 		
 		# adjust for possible rectangular resolution
 		
