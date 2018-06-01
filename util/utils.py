@@ -280,6 +280,7 @@ class CameraCone:
 		self.lens = [target[0] - origin[0], target[1] - origin[1], target[2] - origin[2]]
 
 		# translation matrix testing
+		# should end with = [View To Projection]x[World To View]x[Model to World]=[ModelViewProjectionMatrix].
 		#
 		# helpful (looking 2D from top down)
 		# start = 0,0,0
