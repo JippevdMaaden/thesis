@@ -305,8 +305,8 @@ class CameraCone:
 		# start = 2D looking upwards
 		# x-axis = 90 - looking South
 		# x-axis = 270 - looking North
-		# y-axis = ..
-		# y-axis = ..
+		# y-axis = 90 - looking West
+		# y-axis = 270 - looking East
 		# z-axis = ..
 		# z-axis = ..
 		
@@ -316,7 +316,7 @@ class CameraCone:
 		self.rotationmatrix = tempmatrix.I
 		
 		#rotate the camera 90 deg along the y-axis (look east in stead of down)
-		rotation = 90
+		rotation = 270
 		tempmatrix = np.matrix([[np.cos(np.radians(rotation)),0,np.sin(np.radians(rotation)),0],[0,1,0,0],[-np.sin(np.radians(rotation)),0,np.cos(np.radians(rotation)),0],[0,0,0,1]])
 		self.rotationmatrix = tempmatrix.I
 		
