@@ -279,8 +279,15 @@ class CameraCone:
 		target = [85910, 445600, -1000]
 		self.lens = [target[0] - origin[0], target[1] - origin[1], target[2] - origin[2]]
 
+		# translation matrix testing
+		
+		#move the camera 500 to the right (x?)
+		viewmatrix = np.matrix([[1,0,0,50],[0,1,0,0],[0,0,1,0],[0,0,0,1]])
+		self.translationmatrix = viewmatrix.I
+		
+		
 		# adjust for possible rectangular resolution
-
+		
 		#w = 0.5 * sensor_width / lens
 		#if resolution_x > resolution_y:
 		#    x = w
@@ -294,10 +301,10 @@ class CameraCone:
 		#ll = [-x, -y, -1]
 		#ul = [-x, y, -1]
 
-		lr = [5000, -5000, -3000]
-		ur = [5000, 5000, -3000]
-		ll = [-5000, -5000, -3000]
-		ul = [-5000, 5000, -3000]
+		lr = [5000, -5000, -1000]
+		ur = [5000, 5000, -1000]
+		ll = [-5000, -5000, -1000]
+		ul = [-5000, 5000, -1000]
 
 		# normalize normals
 		self.half_plane_normals = [
@@ -320,7 +327,8 @@ class CameraCone:
 
 		#adjust point because of hardcode
 
-		pointv = [point[0] - 85910, point[1] - 445600, -point[2]]
+		temppoint = [point[0] - 85910, point[1] - 445600, -point[2], 1]
+		pointv = self.viewmatrix.dot(temppoint)
 
 		#positive?
 		#pointv = [point[0] - self.origin[0], point[1] - self.origin[1], point[2] - self.origin[2]]
