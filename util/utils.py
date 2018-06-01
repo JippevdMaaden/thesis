@@ -280,6 +280,14 @@ class CameraCone:
 		self.lens = [target[0] - origin[0], target[1] - origin[1], target[2] - origin[2]]
 
 		# translation matrix testing
+		#
+		# helpful (looking 2D from top down)
+		# right = +x
+		# left = -x
+		# up = +y
+		# down = -y
+		# towards camera = +z
+		# away from camera = -z
 		
 		#move the camera 50 to the right (x)
 		tempmatrix = np.matrix([[1,0,0,50],[0,1,0,0],[0,0,1,0],[0,0,0,1]])
@@ -292,8 +300,8 @@ class CameraCone:
 		
 		# rotation matrix testing
 		
-		#rotate the camera 90 deg along the x-axis (look forward in stead of up)
-		rotation = 90
+		#rotate the camera 90 deg along the x-axis (look north in stead of down)
+		rotation = 270
 		tempmatrix = np.matrix([[1,0,0,0],[0,np.cos(np.radians(rotation)),-np.sin(np.radians(-rotation)),0],[0,np.sin(np.radians(rotation)),np.cos(np.radians(rotation)),0],[0,0,0,1]])
 		self.rotationmatrix = tempmatrix.I
 		
