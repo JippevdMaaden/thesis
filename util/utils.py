@@ -329,7 +329,9 @@ class CameraCone:
 
 		temppoint = [point[0] - 85910, point[1] - 445600, -point[2], 1]
 		temppoint2 = self.translationmatrix.dot(temppoint)
-		pointv = [temppoint2[0], temppoint2[1], temppoint2[2]]
+		temppoint3 = temppoint2.tolist()
+		temppoint4 = temppoint3[0]
+		pointv = [temppoint4[0], temppoint4[1], temppoint4[2]]
 
 		#positive?
 		#pointv = [point[0] - self.origin[0], point[1] - self.origin[1], point[2] - self.origin[2]]
