@@ -307,7 +307,7 @@ class CameraCone:
 		# x-axis = 270 - looking North
 		# y-axis = 90 - looking West
 		# y-axis = 270 - looking East
-		# z-axis = 90 - 
+		# z-axis = 90 - cant check yet (viewer always shows north as north) check by differing extend x and y (rectangle
 		# z-axis = ..
 		
 		#rotate the camera 90 deg along the x-axis (look north in stead of down)
