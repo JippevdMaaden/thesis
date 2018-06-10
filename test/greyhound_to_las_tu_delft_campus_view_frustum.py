@@ -112,7 +112,7 @@ if __name__ == '__main__':
 
         dtype = buildNumpyDescription(allinfo['schema'])
         data = readdata()
-        
+        print data
         try:
             writeLASfile(data, 'originalfile.las')
             inFile = openLasFile('originalfile.las')
