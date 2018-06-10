@@ -106,9 +106,7 @@ if __name__ == '__main__':
     maxdepth = 30
     
     for i in range(maxdepth):
-        ####### test to print amount of points per level #######
-        print i
-        
+        ####### test to print amount of points per level #######        
         depth = [i, i + 1]
         rng = 200
 
@@ -119,10 +117,10 @@ if __name__ == '__main__':
             writeLASfile(data, 'originalfile.las')
             inFile = openLasFile('originalfile.las')
             print 'There are %s points in the original file at level %s' % (len(inFile.points), i)
+            print
         except ValueError:
             print 'There are 0 points in the original file at level %s' % i
-
-        
+            print        
         
     depth = [7,8]
 
