@@ -270,12 +270,6 @@ def normalize(vector):
 	nvector = [vector[0] / lengthv, vector[1] / lengthv, vector[2] / lengthv]
 	return nvector
 
-def checkmaxdepth(datalength):
-	if datalength == 4:
-		return break
-	else:
-		return None
-
 class CameraCone:
 	# use local ref system (translation matrix) or global ref system? Currently global hardcoded for tu-delft-campus top down
 	def __init__(self, worldorigin, cameraorigin, cameralens, fov):
