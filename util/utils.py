@@ -346,6 +346,8 @@ class CameraCone:
 		allaxis = xaxis.dot(yaxis.dot(zaxis))
 		print allaxis
 		
+		self.rotationmatrix = allaxis
+		
 		# adjust for possible rectangular resolution
 		
 		#w = 0.5 * sensor_width / lens
