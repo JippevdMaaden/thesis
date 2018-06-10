@@ -114,7 +114,7 @@ if __name__ == '__main__':
     
     while temp == True:
         try:
-            tempcameralens = raw_input('What does the camera look at?\n(X,Y,Z)\n')
+            cameralens = raw_input('What does the camera look at?\n(X,Y,Z)\n')
         except:
             print 'Not the correct format'
         temp = False
