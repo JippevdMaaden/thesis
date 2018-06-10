@@ -99,9 +99,27 @@ if __name__ == '__main__':
 
     resource = 'tu-delft-campus'
     center = [85910.0, 445600.0]
+    _3Dcenter = (center[0], center[1], 0)
     depth = [0,13]
 
-
+    # get CameraCone variables
+    temp = True
+    while temp == True:
+        try:
+            cameraorigin = tuple(raw_input('What position does the camera start in?\n(X,Y,Z)\n'))
+        except:
+            print 'Not the correct format'
+        temp = False
+    temp = True
+    
+    while temp == True:
+        try:
+            tempcameralens = raw_input('What does the camera look at?\n(X,Y,Z)\n')
+        except:
+            print 'Not the correct format'
+        temp = False
+    
+    
     # Select in a cube 10000m in every direction from the
     # given point
     rng = 200
@@ -114,7 +132,7 @@ if __name__ == '__main__':
     writeLASfile(data, 'originalfile.las')
     
     goodpoints = []
-    viewfrustum = CameraCone([85910, 445600, 2000], [0,0,0], 120)
+    viewfrustum = CameraCone(_3Dcenter, cameraorigin, cameralens, 120)
     
     inFile = openLasFile('originalfile.las')
     
