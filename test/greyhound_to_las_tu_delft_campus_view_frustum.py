@@ -113,7 +113,7 @@ if __name__ == '__main__':
 
         dtype = buildNumpyDescription(allinfo['schema'])
         data = readdata()
-        maxdepth = i
+        maxdepth = i - 1
         try:
             writeLASfile(data, 'originalfile.las')
             inFile = openLasFile('originalfile.las')
