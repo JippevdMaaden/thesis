@@ -117,14 +117,12 @@ if __name__ == '__main__':
         
         try:
             writeLASfile(data, 'originalfile.las')
+            inFile = openLasFile('originalfile.las')
+            print 'There are %s points in the original file at level %s' % (len(inFile.points), i)
         except ValueError:
             print 'There are 0 points in the original file at level %s' % i
-        goodpoints = []
-        viewfrustum = CameraCone(_3Dcenter, cameraorigin, cameralens, 120)
-    
-        inFile = openLasFile('originalfile.las')
-    
-        print 'There are %s points in the original file at level %s' % (len(inFile.points), i)
+
+        
         
     depth = [7,8]
 
