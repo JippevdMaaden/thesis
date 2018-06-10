@@ -112,8 +112,8 @@ if __name__ == '__main__':
 
         dtype = buildNumpyDescription(allinfo['schema'])
         data = readdata()
-        print dtype
-        print len(data)
+        maxdepth = i
+        checkmaxdepth(len(data))
         try:
             writeLASfile(data, 'originalfile.las')
             inFile = openLasFile('originalfile.las')
@@ -122,7 +122,10 @@ if __name__ == '__main__':
         except ValueError:
             print 'There are 0 points in the original file at level %s' % i
             print        
-        
+    
+    print basedepth
+    print maxdepth
+    
     depth = [7,8]
 
     # get CameraCone variables
