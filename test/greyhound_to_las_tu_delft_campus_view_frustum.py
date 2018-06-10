@@ -103,7 +103,7 @@ if __name__ == '__main__':
     _3Dcenter = (allinfo['offset'][0], allinfo['offset'][1], allinfo['offset'][2])
     center = [_3Dcenter[0], _3Dcenter[1]]
     basedepth = allinfo['baseDepth']
-    maxdepth = 12
+    maxdepth = 30
     
     for i in range(maxdepth):
         ####### test to print amount of points per level #######
