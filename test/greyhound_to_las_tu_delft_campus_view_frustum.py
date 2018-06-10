@@ -105,7 +105,7 @@ if __name__ == '__main__':
     basedepth = allinfo['baseDepth']
     maxdepth = 30
     
-    for i in range(maxdepth):
+    for i in range(basedepth, maxdepth):
         ####### test to print amount of points per level #######        
         depth = [i, i + 1]
         rng = 200
