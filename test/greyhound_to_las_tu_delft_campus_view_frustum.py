@@ -114,15 +114,17 @@ if __name__ == '__main__':
 
         dtype = buildNumpyDescription(allinfo['schema'])
         data = readdata()
-    
-        writeLASfile(data, 'originalfile.las')
-    
+        
+        try:
+            writeLASfile(data, 'originalfile.las')
+        except ValueError:
+            print 'There are 0 points in the original file at level %s' % i
         goodpoints = []
         viewfrustum = CameraCone(_3Dcenter, cameraorigin, cameralens, 120)
     
         inFile = openLasFile('originalfile.las')
     
-        print 'There are %s points in the original file' % len(inFile.points)
+        print 'There are %s points in the original file at level %s' % (len(inFile.points), i)
         
     depth = [7,8]
 
