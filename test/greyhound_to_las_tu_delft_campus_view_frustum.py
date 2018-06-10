@@ -99,6 +99,7 @@ if __name__ == '__main__':
     resource = 'tu-delft-campus'
     BASE='http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/'
     allinfo = info(resource)
+    rng = 200
     
     _3Dcenter = (allinfo['offset'][0], allinfo['offset'][1], allinfo['offset'][2])
     center = [_3Dcenter[0], _3Dcenter[1]]
@@ -108,12 +109,11 @@ if __name__ == '__main__':
     for i in range(basedepth, maxdepth):
         ####### test to print amount of points per level #######        
         depth = [i, i + 1]
-        rng = 200
+        
 
         dtype = buildNumpyDescription(allinfo['schema'])
         data = readdata()
         maxdepth = i
-        checkmaxdepth(len(data))
         try:
             writeLASfile(data, 'originalfile.las')
             inFile = openLasFile('originalfile.las')
@@ -121,7 +121,14 @@ if __name__ == '__main__':
             print
         except ValueError:
             print 'There are 0 points in the original file at level %s' % i
-            print        
+            print
+        
+        # stop when max depth is defined
+        if len(data) == 4:
+            break
+        else:
+            continue
+        break
     
     print basedepth
     print maxdepth
@@ -154,7 +161,7 @@ if __name__ == '__main__':
     
     # Select in a cube 10000m in every direction from the
     # given point
-    rng = 200
+    #rng = 200
 
     BASE='http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/'
     j = info(resource)
