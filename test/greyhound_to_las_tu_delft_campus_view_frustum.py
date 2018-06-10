@@ -100,7 +100,7 @@ if __name__ == '__main__':
     resource = 'tu-delft-campus'
     center = [85910.0, 445600.0]
     _3Dcenter = (center[0], center[1], 0)
-    depth = [0,13]
+    depth = [7,8]
 
     # get CameraCone variables
     temp = True
