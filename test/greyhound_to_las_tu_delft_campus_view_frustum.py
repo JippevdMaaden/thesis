@@ -106,17 +106,23 @@ if __name__ == '__main__':
     temp = True
     while temp == True:
         try:
-            cameraorigin = tuple(raw_input('What position does the camera start in?\n(X,Y,Z)\n'))
+            cameraoriginX = int(raw_input('What position does the camera start in?\nX\n'))
+            cameraoriginY = int(raw_input('What position does the camera start in?\nY\n'))
+            cameraoriginZ = int(raw_input('What position does the camera start in?\nZ\n'))
         except:
             print 'Not the correct format'
+        cameraorigin = (cameraoriginX, cameraoriginY, cameraoriginZ)
         temp = False
     temp = True
     
     while temp == True:
         try:
-            cameralens = raw_input('What does the camera look at?\n(X,Y,Z)\n')
+            cameralensX = int(raw_input('What position does the camera look at?\nX\n'))
+            cameralensY = int(raw_input('What position does the camera look at?\nY\n'))
+            cameralensZ = int(raw_input('What position does the camera look at?\nZ\n'))
         except:
             print 'Not the correct format'
+        cameralens = (cameralensX, cameralensY, cameralensZ)
         temp = False
     
     
