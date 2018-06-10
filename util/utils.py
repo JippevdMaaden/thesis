@@ -303,10 +303,11 @@ class CameraCone:
 		self.translationmatrix = tempmatrix.I
 		
 		#move the camera according to the cameraorigin
-		X = self.cameraorigin[0]
-		Y = self.cameraorigin[1]
-		Z = self.cameraorigin[2]
-		templist = [[1,0,0,X],[0,1,0,Y],[0,0,1,Z],[0,0,0,1]]
+		x = self.cameraorigin[0]
+		y = self.cameraorigin[1]
+		z = self.cameraorigin[2]
+		templist = [[1,0,0,x],[0,1,0,y],[0,0,1,z],[0,0,0,1]]
+		print templist
 		tempmatrix = np.matrix(templist)
 		self.translationmatrix = tempmatrix.I
 		
