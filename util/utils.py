@@ -326,16 +326,25 @@ class CameraCone:
 		rotation = 270
 		tempmatrix = np.matrix([[1,0,0,0],[0,np.cos(np.radians(rotation)),-np.sin(np.radians(-rotation)),0],[0,np.sin(np.radians(rotation)),np.cos(np.radians(rotation)),0],[0,0,0,1]])
 		self.rotationmatrix = tempmatrix.I
+		xaxis = tempmatrix.I
+		print xaxis
 		
 		#rotate the camera 90 deg along the y-axis (look east in stead of down)
 		rotation = 270
 		tempmatrix = np.matrix([[np.cos(np.radians(rotation)),0,np.sin(np.radians(rotation)),0],[0,1,0,0],[-np.sin(np.radians(rotation)),0,np.cos(np.radians(rotation)),0],[0,0,0,1]])
 		self.rotationmatrix = tempmatrix.I
+		yaxis = tempmatrix.I
+		print yaxis
 		
 		#rotate the camera 90 deg along the z-axis (still look down, make west become north)
 		rotation = 270
 		tempmatrix = np.matrix([[np.cos(np.radians(rotation)),-np.sin(np.radians(rotation)),0,0],[np.sin(np.radians(rotation)),np.cos(np.radians(rotation)),0,0],[0,0,1,0],[0,0,0,1]])
 		self.rotationmatrix = tempmatrix.I
+		zaxis = tempmatrix.I
+		print zaxis
+		
+		allaxis = xaxis.dot(yaxis.dot(zaxis))
+		print allaxis
 		
 		# adjust for possible rectangular resolution
 		
@@ -367,7 +376,7 @@ class CameraCone:
 
     	def isVisible(self, point, fudge = 0):
 		# translation to local camera CRS
-		#loc2 = self.matrix * loc
+		# loc2 = self.matrix * loc
 
 		#for norm in self.half_plane_normals:
 		    #z2 = loc2.dor(norm)
