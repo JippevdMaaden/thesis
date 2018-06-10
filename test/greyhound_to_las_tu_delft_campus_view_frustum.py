@@ -96,10 +96,34 @@ def writeLASfile(data, filename):
     output.close()
 
 if __name__ == '__main__':
-
     resource = 'tu-delft-campus'
-    center = [85910.0, 445600.0]
-    _3Dcenter = (center[0], center[1], 0)
+    allinfo = info(resource)
+    
+    _3Dcenter = (allinfo['offset'][0], allinfo['offset'][1], allinfo['offset'][2])
+    center = [_3Dcenter[0], _3Dcenter[1]]
+    basedepth = allinfo['baseDepth']
+    maxdepth = 12
+    
+    for i in range(maxdepth):
+        ####### test to print amount of points per level #######
+        print i
+        
+        depth = [i, i + 1]
+        rng = 200
+
+        BASE='http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/'
+        dtype = buildNumpyDescription(allinfo['schema'])
+        data = readdata()
+    
+        writeLASfile(data, 'originalfile.las')
+    
+        goodpoints = []
+        viewfrustum = CameraCone(_3Dcenter, cameraorigin, cameralens, 120)
+    
+        inFile = openLasFile('originalfile.las')
+    
+        print 'There are %s points in the original file' % len(inFile.points)
+        
     depth = [7,8]
 
     # get CameraCone variables
