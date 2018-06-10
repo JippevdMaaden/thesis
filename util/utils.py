@@ -306,7 +306,8 @@ class CameraCone:
 		X = self.cameraorigin[0]
 		Y = self.cameraorigin[1]
 		Z = self.cameraorigin[2]
-		tempmatrix = np.matrix([[1,0,0,500],[0,1,0,500],[0,0,1,500],[0,0,0,1]])
+		templist = [[1,0,0,X],[0,1,0,Y],[0,0,1,Z],[0,0,0,1]]
+		tempmatrix = np.matrix(templist)
 		self.translationmatrix = tempmatrix.I
 		
 		# rotation matrix testing
