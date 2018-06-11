@@ -115,14 +115,14 @@ if __name__ == '__main__':
         dtype = buildNumpyDescription(allinfo['schema'])
         data = readdata()
         maxdepth = i - 1
-        try:
-            writeLASfile(data, 'originalfile.las')
-            inFile = openLasFile('originalfile.las')
-            print 'There are %s points in the original file at level %s' % (len(inFile.points), i)
-            print
-        except ValueError:
-            print 'There are 0 points in the original file at level %s' % i
-            print
+#        try:
+#            writeLASfile(data, 'originalfile.las')
+#            inFile = openLasFile('originalfile.las')
+#            print 'There are %s points in the original file at level %s' % (len(inFile.points), i)
+#            print
+#        except ValueError:
+#            print 'There are 0 points in the original file at level %s' % i
+#            print
         
         # stop when max depth is defined
         if len(data) == 4:
