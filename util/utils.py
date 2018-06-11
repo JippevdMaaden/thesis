@@ -273,8 +273,6 @@ def normalize(vector):
 class CameraCone:
 	# use local ref system (translation matrix) or global ref system? Currently global hardcoded for tu-delft-campus top down
 	def __init__(self, worldorigin, cameraorigin, cameratarget, fov):
-		# translation matrix for camera relative to env (crs)
-		#self.matrix = matrix.inverted()
 		self.worldorigin = worldorigin
 		self.cameraorigin = cameraorigin
 		target = [85910, 445600, -1000]
@@ -299,21 +297,19 @@ class CameraCone:
 		# away from camera = -z
 		
 		#move the camera 50 to the right (x)
-		tempmatrix = np.matrix([[1,0,0,50],[0,1,0,0],[0,0,1,0],[0,0,0,1]])
-		self.translationmatrix = tempmatrix.I
+		#tempmatrix = np.matrix([[1,0,0,50],[0,1,0,0],[0,0,1,0],[0,0,0,1]])
+		#self.translationmatrix = tempmatrix.I
 		
 		
 		#move the camera 50 to the right and 100 up (x and y)
-		tempmatrix = np.matrix([[1,0,0,50],[0,1,0,100],[0,0,1,0],[0,0,0,1]])
-		self.translationmatrix = tempmatrix.I
+		#tempmatrix = np.matrix([[1,0,0,50],[0,1,0,100],[0,0,1,0],[0,0,0,1]])
+		#self.translationmatrix = tempmatrix.I
 		
 		#move the camera according to the cameraorigin
 		x = self.cameraorigin[0]
 		y = self.cameraorigin[1]
 		z = self.cameraorigin[2]
-		templist = [[1,0,0,x],[0,1,0,y],[0,0,1,z],[0,0,0,1]]
-		print templist
-		tempmatrix = np.matrix(templist)
+		tempmatrix = np.matrix([[1,0,0,x],[0,1,0,y],[0,0,1,z],[0,0,0,1]])
 		self.translationmatrix = tempmatrix.I
 		
 		# rotation matrix testing
@@ -328,14 +324,14 @@ class CameraCone:
 		# z-axis = ..
 		
 		#rotate the camera 90 deg along the x-axis (look north in stead of down)
-		rotation = 45
+		rotation = 180
 		tempmatrix = np.matrix([[1,0,0,0],[0,np.cos(np.radians(rotation)),-np.sin(np.radians(-rotation)),0],[0,np.sin(np.radians(rotation)),np.cos(np.radians(rotation)),0],[0,0,0,1]])
 		self.rotationmatrix = tempmatrix.I
 		xaxis = tempmatrix
 		print xaxis
 		
 		#rotate the camera 90 deg along the y-axis (look east in stead of down)
-		rotation = 45
+		rotation = 0
 		tempmatrix = np.matrix([[np.cos(np.radians(rotation)),0,np.sin(np.radians(rotation)),0],[0,1,0,0],[-np.sin(np.radians(rotation)),0,np.cos(np.radians(rotation)),0],[0,0,0,1]])
 		self.rotationmatrix = tempmatrix.I
 		yaxis = tempmatrix
@@ -353,16 +349,6 @@ class CameraCone:
 		
 		self.rotationmatrix = allaxis.I
 		
-		# adjust for possible rectangular resolution
-		
-		#w = 0.5 * sensor_width / lens
-		#if resolution_x > resolution_y:
-		#    x = w
-		#    y = w * resolution_y / resolution_x
-		#else:
-		#    x = w * resolution_x / resolution_y
-		#    y = w
-
 		#lr = [x, -y, -1]
 		#ur = [x, y, -1]
 		#ll = [-x, -y, -1]
@@ -415,9 +401,9 @@ class CameraCone:
 			if z < -fudge:
 				return False
 	
-		for norm in self.bottom_plane_normal:
-			z = np.dot(pointv, norm)
-			if z < -fudge:
-				return False
+		#for norm in self.bottom_plane_normal:
+			#z = np.dot(pointv, norm)
+			#if z < -fudge:
+				#return False
 
 		return True
