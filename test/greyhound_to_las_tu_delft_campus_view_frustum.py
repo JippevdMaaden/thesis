@@ -100,6 +100,7 @@ if __name__ == '__main__':
     BASE='http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/'
     allinfo = info(resource)
     rng = 200
+    fov = 120
     
     _3Dcenter = (allinfo['offset'][0], allinfo['offset'][1], allinfo['offset'][2])
     center = [_3Dcenter[0], _3Dcenter[1]]
@@ -150,12 +151,12 @@ if __name__ == '__main__':
     
     while temp == True:
         try:
-            cameralensX = int(raw_input('What position does the camera look at?\nX\n'))
-            cameralensY = int(raw_input('What position does the camera look at?\nY\n'))
-            cameralensZ = int(raw_input('What position does the camera look at?\nZ\n'))
+            cameratargetX = int(raw_input('What position does the camera look at?\nX\n'))
+            cameratargetY = int(raw_input('What position does the camera look at?\nY\n'))
+            cameratargetZ = int(raw_input('What position does the camera look at?\nZ\n'))
         except:
             print 'Not the correct format'
-        cameralens = (cameralensX, cameralensY, cameralensZ)
+        cameratarget = (cameratargetX, cameratargetY, cameratargetZ)
         temp = False
     
     
@@ -171,7 +172,7 @@ if __name__ == '__main__':
     writeLASfile(data, 'originalfile.las')
     
     goodpoints = []
-    viewfrustum = CameraCone(_3Dcenter, cameraorigin, cameralens, 120)
+    viewfrustum = CameraCone(_3Dcenter, cameraorigin, cameratarget, fov)
     
     inFile = openLasFile('originalfile.las')
     
