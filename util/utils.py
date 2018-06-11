@@ -348,6 +348,9 @@ class CameraCone:
 		
 		self.rotationmatrix = allaxis.I
 		
+		# find defining vectors
+		print self.radius
+		
 		#lr = [x, -y, -1]
 		#ur = [x, y, -1]
 		#ll = [-x, -y, -1]
