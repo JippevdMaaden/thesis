@@ -174,8 +174,8 @@ if __name__ == '__main__':
     goodpoints = []
     
     # override raw_input for testing
-    cameraorigin = (85910, 445600, 0)
-    cameratarget = (85910, 445600, -1)
+    cameraorigin = (85910, 445600, 500)
+    cameratarget = (85910, 445600, -500)
     viewfrustum = CameraCone(_3Dcenter, cameraorigin, cameratarget, fov)
     
     inFile = openLasFile('originalfile.las')
