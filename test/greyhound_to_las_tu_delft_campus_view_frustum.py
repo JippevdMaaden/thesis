@@ -134,7 +134,7 @@ if __name__ == '__main__':
     print basedepth
     print maxdepth
     
-    depth = [7,8]
+    depth = [7,12]
 
     # get CameraCone variables
     temp = True
@@ -172,6 +172,10 @@ if __name__ == '__main__':
     writeLASfile(data, 'originalfile.las')
     
     goodpoints = []
+    
+    # override raw_input for testing
+    cameraorigin = (85910, 445600, 5000)
+    cameratarget = (85910, 445600, 0)
     viewfrustum = CameraCone(_3Dcenter, cameraorigin, cameratarget, fov)
     
     inFile = openLasFile('originalfile.las')
