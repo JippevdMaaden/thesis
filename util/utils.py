@@ -380,6 +380,8 @@ class CameraCone:
 		    normalize(np.cross(ul, ur)),
 		    normalize(np.cross(ur, lr))
 		]
+		
+		self.bottom_plane_normal = [normalize(self.azimutt)]
 
     	def isVisible(self, point, fudge = 0):
 		# translation to local camera CRS
@@ -409,6 +411,11 @@ class CameraCone:
 		#poitnv = [self.origin[0] - point[0], self.origin[1] - point[1], self.origin[2] - point[2]]
 
 		for norm in self.half_plane_normals:
+			z = np.dot(pointv, norm)
+			if z < -fudge:
+				return False
+	
+		for norm in self.bottom_plane_normal:
 			z = np.dot(pointv, norm)
 			if z < -fudge:
 				return False
