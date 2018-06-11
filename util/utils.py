@@ -370,7 +370,7 @@ class CameraCone:
 		]
 		
 		self.tempazimut = (self.azimut[0] * -1, self.azimut[1] * -1, self.azimut[2] * -1)
-		self.bottom_plane_normal = [normalize(self.tempazimut)]
+		self.bottom_plane_normal = [normalize(self.azimut)]
 
     	def isVisible(self, point, fudge = 0):
 		# translation to local camera CRS
