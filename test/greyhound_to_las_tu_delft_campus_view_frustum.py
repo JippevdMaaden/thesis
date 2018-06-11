@@ -15,9 +15,6 @@ def info(resource):
     http = urllib3.PoolManager()
     u = http.request('GET', url)
     data = u.data
-    print 'json data'
-    print json.loads(data)
-    print
     return json.loads(data)
 
 def read(resource, rng, depth):
@@ -105,7 +102,7 @@ if __name__ == '__main__':
     _3Dcenter = (allinfo['offset'][0], allinfo['offset'][1], allinfo['offset'][2])
     center = [_3Dcenter[0], _3Dcenter[1]]
     basedepth = allinfo['baseDepth']
-    maxdepth = 30
+    maxdepth = 999
     
     for i in range(basedepth, maxdepth):
         ####### test to print amount of points per level #######        
@@ -131,40 +128,31 @@ if __name__ == '__main__':
             continue
         break
     
-    print basedepth
-    print maxdepth
-    
     depth = [7,12]
 
     # get CameraCone variables
-    temp = True
-    while temp == True:
-        try:
-            cameraoriginX = int(raw_input('What position does the camera start in?\nX\n'))
-            cameraoriginY = int(raw_input('What position does the camera start in?\nY\n'))
-            cameraoriginZ = int(raw_input('What position does the camera start in?\nZ\n'))
-        except:
-            print 'Not the correct format'
-        cameraorigin = (cameraoriginX, cameraoriginY, cameraoriginZ)
-        temp = False
-    temp = True
+#    temp = True
+#    while temp == True:
+#        try:
+#            cameraoriginX = int(raw_input('What position does the camera start in?\nX\n'))
+#            cameraoriginY = int(raw_input('What position does the camera start in?\nY\n'))
+#            cameraoriginZ = int(raw_input('What position does the camera start in?\nZ\n'))
+#        except:
+#            print 'Not the correct format'
+#        cameraorigin = (cameraoriginX, cameraoriginY, cameraoriginZ)
+#        temp = False
+#    temp = True
+#    
+#    while temp == True:
+#        try:
+#            cameratargetX = int(raw_input('What position does the camera look at?\nX\n'))
+#            cameratargetY = int(raw_input('What position does the camera look at?\nY\n'))
+#            cameratargetZ = int(raw_input('What position does the camera look at?\nZ\n'))
+#        except:
+#            print 'Not the correct format'
+#        cameratarget = (cameratargetX, cameratargetY, cameratargetZ)
+#        temp = False
     
-    while temp == True:
-        try:
-            cameratargetX = int(raw_input('What position does the camera look at?\nX\n'))
-            cameratargetY = int(raw_input('What position does the camera look at?\nY\n'))
-            cameratargetZ = int(raw_input('What position does the camera look at?\nZ\n'))
-        except:
-            print 'Not the correct format'
-        cameratarget = (cameratargetX, cameratargetY, cameratargetZ)
-        temp = False
-    
-    
-    # Select in a cube 10000m in every direction from the
-    # given point
-    #rng = 200
-
-    BASE='http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/'
     j = info(resource)
     dtype = buildNumpyDescription(j['schema'])
     data = readdata()
@@ -175,7 +163,7 @@ if __name__ == '__main__':
     
     # override raw_input for testing
     cameraorigin = (85910, 445600, 0)
-    cameratarget = (85910, 445600, -0.5)
+    cameratarget = (85910, 445600, -1)
     viewfrustum = CameraCone(_3Dcenter, cameraorigin, cameratarget, fov)
     
     inFile = openLasFile('originalfile.las')
