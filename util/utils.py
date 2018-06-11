@@ -406,9 +406,9 @@ class CameraCone:
 			if z < -fudge:
 				return False
 	
-		#for norm in self.bottom_plane_normal:
-			#z = np.dot(pointv, norm)
-			#if z < -fudge:
-				#return False
+		for norm in self.bottom_plane_normal:
+			z = np.dot(pointv, norm)
+			if z < -fudge:
+				return False
 
 		return True
