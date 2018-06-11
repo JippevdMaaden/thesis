@@ -281,7 +281,7 @@ class CameraCone:
 		self.cameratarget = cameratarget
 		self.fov = fov
 		self.azimut = (self.cameratarget[0] - self.cameraorigin[0], self.cameratarget[1] - self.cameraorigin[1], self.cameratarget[2] - self.cameraorigin[2])
-		self.azimutlength = (self.zimut[0] ** 2 + self.azimut[1] ** 2 + self.azimut[2] ** 2) ** 0.5
+		self.azimutlength = (self.azimut[0] ** 2 + self.azimut[1] ** 2 + self.azimut[2] ** 2) ** 0.5
 		self.radius = np.tan(np.radians(self.fov/2)) * self.azimutlength
 		
 		print np.tan(np.radians(60)) * 2 
