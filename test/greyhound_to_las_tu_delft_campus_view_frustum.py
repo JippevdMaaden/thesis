@@ -174,7 +174,7 @@ if __name__ == '__main__':
     goodpoints = []
     
     # override raw_input for testing
-    cameraorigin = (85910, 445600, 5000)
+    cameraorigin = (85910, 445600, 3500)
     cameratarget = (85910, 445600, 0)
     viewfrustum = CameraCone(_3Dcenter, cameraorigin, cameratarget, fov)
     
