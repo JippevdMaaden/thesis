@@ -175,7 +175,7 @@ if __name__ == '__main__':
     
     # override raw_input for testing
     cameraorigin = (85910, 445600, 0)
-    cameratarget = (85910, 445600, -500)
+    cameratarget = (85910, 445600, -50000)
     viewfrustum = CameraCone(_3Dcenter, cameraorigin, cameratarget, fov)
     
     inFile = openLasFile('originalfile.las')
