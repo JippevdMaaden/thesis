@@ -349,17 +349,17 @@ class CameraCone:
 		self.rotationmatrix = allaxis.I
 		
 		# find defining vectors
-		print self.azimut
+		print self.azimutlength
 		
 		#lr = [x, -y, -1]
 		#ur = [x, y, -1]
 		#ll = [-x, -y, -1]
 		#ul = [-x, y, -1]
 
-		lr = [self.radius, -self.radius, -self.azimut]
-		ur = [self.radius, self.radius, -self.azimut]
-		ll = [-self.radius, -self.radius, -self.azimut]
-		ul = [-self.radius, self.radius, -self.azimut]
+		lr = [self.radius, -self.radius, -self.azimutlength]
+		ur = [self.radius, self.radius, -self.azimutlength]
+		ll = [-self.radius, -self.radius, -self.azimutlength]
+		ul = [-self.radius, self.radius, -self.azimutlength]
 
 		# normalize normals
 		self.half_plane_normals = [
