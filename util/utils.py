@@ -275,7 +275,6 @@ class CameraCone:
 	def __init__(self, worldorigin, cameraorigin, cameratarget, fov):
 		self.worldorigin = worldorigin
 		self.cameraorigin = cameraorigin
-		target = [85910, 445600, -1000]
 		self.cameratarget = cameratarget
 		self.fov = fov
 		self.azimut = (self.cameratarget[0] - self.cameraorigin[0], self.cameratarget[1] - self.cameraorigin[1], self.cameratarget[2] - self.cameraorigin[2])
