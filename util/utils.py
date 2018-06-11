@@ -411,12 +411,12 @@ class CameraCone:
 				return False
 	
 		for norm in self.bottom_plane_normal:
-			print pointv
-			print norm
 			z = np.dot(pointv, norm)
-			print z
-			print
 			if z < -fudge:
+				print pointv
+				print norm
+				print z
+				print
 				return False
 
 		return True
