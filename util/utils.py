@@ -272,15 +272,20 @@ def normalize(vector):
 
 class CameraCone:
 	# use local ref system (translation matrix) or global ref system? Currently global hardcoded for tu-delft-campus top down
-	def __init__(self, worldorigin, cameraorigin, cameralens, fov):
+	def __init__(self, worldorigin, cameraorigin, cameratarget, fov):
 		# translation matrix for camera relative to env (crs)
 		#self.matrix = matrix.inverted()
 		self.worldorigin = worldorigin
 		self.cameraorigin = cameraorigin
 		target = [85910, 445600, -1000]
-		self.lens = cameralens
+		self.cameratarget = cameratarget
 		self.fov = fov
-
+		self.azimut = (self.cameratarget[0] - self.cameraorigin[0], self.cameratarget[1] - self.cameraorigin[1], self.cameratarget[2] - self.cameraorigin[2])
+		self.azimutlength = (self.zimut[0] ** 2 + self.azimut[1] ** 2 + self.azimut[2] ** 2) ** 0.5
+		self.radius = np.tan(np.radians(self.fov/2)) * self.azimutlength
+		
+		print np.tan(np.radians(60)) * 2 
+		
 		# translation matrix testing
 		# should end with = [View To Projection]x[World To View]x[Model to World]=[ModelViewProjectionMatrix].
 		#
