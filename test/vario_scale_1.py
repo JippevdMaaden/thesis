@@ -208,6 +208,24 @@ if __name__ == '__main__':
     timetaken1 = endtime1 - starttime1
     print 'There are %s points in the view frustum after vario-scale method application' % len(methodpoints)
     print 'This took %s seconds to calculate' % timetaken1
+    
+    methodpointx = []
+    methodpointy = []
+    methodpointz = []
+    
+    for point in methodpoints:
+      methodpointx.append(point[0])
+      methodpointy.append(point[1])
+      methodpointz.append(point[2])
+    
+    print 'There are %s points in the view frustum' % len(methodpointx)    
+    
+    newoutput_file = File('methodfile.las', mode = "w", header = inFile.header)
+    newoutput_file.X = methodpointx
+    newoutput_file.Y = methodpointy
+    newoutput_file.Z = methodpointz
+    
+    newoutput_file.close()
     #########################
     
     inFile.close()
@@ -215,10 +233,15 @@ if __name__ == '__main__':
     
     convertLasZip('originalfile.las', 'originalfile.laz')
     convertLasZip('frustumfile.las', 'frustumfile.laz')
+    convertLasZip('methodfile.las', 'methodfile.laz')
+    
     uploadToS3('originalfile.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test_original.laz')
     uploadToS3('frustumfile.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test_frustum.laz')
+    uploadToS3('methodfile.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test_method.laz')
     
     removeFile('originalfile.las')
     removeFile('originalfile.laz')
     removeFile('frustumfile.las')
     removeFile('frustumfile.laz')
+    removeFile('methodfile.las')
+    removeFile('methodfile.laz')
