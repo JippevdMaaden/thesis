@@ -119,7 +119,7 @@ if __name__ == '__main__':
     center = [_3Dcenter[0], _3Dcenter[1]]
     basedepth = allinfo['baseDepth']
 
-    depth = [7,12]
+    depth = [7,14]
     dtype = buildNumpyDescription(allinfo['schema'])
     data = readdata()
     
@@ -186,7 +186,7 @@ if __name__ == '__main__':
       distancevector = (point[0] - cameraorigin[0], point[1] - cameraorigin[1], point[2] - cameraorigin[2])
       distance = (distancevector[0] ** 2 + distancevector[1] ** 2 + distancevector[2] ** 2) ** 0.5
       
-      nn = kdtree.query_ball_point(point, distance * 0.1)
+      nn = kdtree.query_ball_point(point, distance * 0.02)
       
       appendvar = True
       
@@ -218,7 +218,7 @@ if __name__ == '__main__':
       methodpointy.append(point[1])
       methodpointz.append(point[2])
     
-    print 'There are %s points in the view frustum' % len(methodpointx)    
+    print
     
     newoutput_file = File('methodfile.las', mode = "w", header = inFile.header)
     newoutput_file.X = methodpointx
