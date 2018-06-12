@@ -168,15 +168,20 @@ if __name__ == '__main__':
       templist.append(goodpointz[i])
       allpoints.append(tuple(templist))
     
+    used = [False] * len(allpoints)
+    
     kdtree = scipy.spatial.KDTree(allpoints)
     
     methodpoints = set([])
     
     starttime1 = time.time()
-    c = 0
-    for point in allpoints:
+    
+    for j, point in enumerate(allpoints):
+      if used[j] == True:
+        continue
+      
       starttime2 = time.time()
-      print 'Working on point %s' % c
+      print 'Working on point %s' % j
         
       distancevector = (point[0] - cameraorigin[0], point[1] - cameraorigin[1], point[2] - cameraorigin[2])
       distance = (distancevector[0] ** 2 + distancevector[1] ** 2 + distancevector[2] ** 2) ** 0.5
@@ -192,11 +197,12 @@ if __name__ == '__main__':
         
       if appendvar == True:
         methodpoints.add(point)
+        for i in nn:
+            used[i] = True
       
       endtime2 = time.time()
       timetaken2 = endtime2 - starttime2
-      print 'done working on point %s in %s seconds' % (c, timetaken2)
-      c += 1
+      print 'done working on point %s in %s seconds' % (j, timetaken2)
     
     endtime1 = time.time()
     timetaken1 = endtime1 - starttime1
