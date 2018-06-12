@@ -185,13 +185,11 @@ if __name__ == '__main__':
       
       appendvar = True
       
-      shouldbreak = False
-      while shouldbreak == False:
-          for i in nn:
-              if allpoints[i] in methodpoints:
-                  appendvar = False
-                  shouldbreak = True
-      
+      for i in nn:
+          if allpoints[i] in methodpoints:
+              appendvar = False
+              break
+        
       if appendvar == True:
         methodpoints.append(point)
       
