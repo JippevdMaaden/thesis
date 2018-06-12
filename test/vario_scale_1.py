@@ -173,10 +173,10 @@ if __name__ == '__main__':
     methodpoints = []
     
     starttime = time.time()
-    c = 0
+#    c = 0
     for point in allpoints:
-      starttime = time.time()
-      print 'Working on point %s' % c
+#      starttime = time.time()
+#      print 'Working on point %s' % c
         
       distancevector = (point[0] - cameraorigin[0], point[1] - cameraorigin[1], point[2] - cameraorigin[2])
       distance = (distancevector[0] ** 2 + distancevector[1] ** 2 + distancevector[2] ** 2) ** 0.5
@@ -192,12 +192,14 @@ if __name__ == '__main__':
       if appendvar == True:
         methodpoints.append(point)
       
-      endtime = time.time()
-      timeittook = endtime - starttime
-      print 'done working on point %s in %s seconds' % (c, timeittook)
-      c += 1
-     
+ #     endtime = time.time()
+ #     timeittook = endtime - starttime
+ #     print 'done working on point %s in %s seconds' % (c, timeittook)
+ #     c += 1
+    endtime = teme.time()
+    timetaken = endtime - starttime
     print 'There are %s points in the view frustum after vario-scale method application' % len(methodpoints)
+    print 'This took %s seconds to calculate' % timetaken
     #########################
     
     inFile.close()
