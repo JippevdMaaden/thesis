@@ -171,7 +171,7 @@ if __name__ == '__main__':
     methodpoints = []
     
     for point in allpoints:
-      distancevector = (point[0] - self.cameraorigin[0], point[1] - self.cameraorigin[1], point[2] - self.cameraorigin[2])
+      distancevector = (point[0] - cameraorigin[0], point[1] - cameraorigin[1], point[2] - cameraorigin[2])
       distance = (distancevector[0] ** 2 + distancevector[1] ** 2 + distancevector[2] ** 2) ** 0.5
       
       nn = kdtree.query_ball_point(point, distance)
