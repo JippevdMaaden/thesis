@@ -166,7 +166,7 @@ if __name__ == '__main__':
       templist.append(goodpointx[i])
       templist.append(goodpointy[i])
       templist.append(goodpointz[i])
-      allpoints.append(templist)
+      allpoints.append(tuple(templist))
     
     kdtree = scipy.spatial.KDTree(allpoints)
     
