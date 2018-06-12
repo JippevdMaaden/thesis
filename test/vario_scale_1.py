@@ -159,7 +159,7 @@ if __name__ == '__main__':
     
     allpoints = []
     
-    for i in len(goodpointx):
+    for i in range(len(goodpointx)):
       templist = []
       templist.append(goodpointx[i])
       templist.append(goodpointy[i])
