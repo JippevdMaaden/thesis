@@ -162,8 +162,8 @@ if __name__ == '__main__':
     for i in len(goodpointx):
       templist = []
       templist.append(goodpointx[i])
-      templist.append(goodpointx[i])
-      templist.append(goodpointx[i])
+      templist.append(goodpointy[i])
+      templist.append(goodpointz[i])
       allpoints.append(templist)
     
     kdtree = scipy.spatial.KDTree(allpoints)
@@ -174,7 +174,7 @@ if __name__ == '__main__':
       distancevector = (point[0] - self.cameraorigin[0], point[1] - self.cameraorigin[1], point[2] - self.cameraorigin[2])
       distance = (distancevector[0] ** 2 + distancevector[1] ** 2 + distancevector[2] ** 2) ** 0.5
       
-      nn = kdtree.query_ball_point(point,distance)
+      nn = kdtree.query_ball_point(point, distance)
       
       appendvar = True
       
