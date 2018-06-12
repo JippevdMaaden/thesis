@@ -170,7 +170,7 @@ if __name__ == '__main__':
     
     kdtree = scipy.spatial.KDTree(allpoints)
     
-    methodpoints = []
+    methodpoints = set([])
     
     starttime = time.time()
     c = 0
@@ -191,7 +191,7 @@ if __name__ == '__main__':
               break
         
       if appendvar == True:
-        methodpoints.append(point)
+        methodpoints.add(point)
       
       endtime = time.time()
       timeittook = endtime - starttime
