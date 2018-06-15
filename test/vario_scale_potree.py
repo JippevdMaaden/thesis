@@ -31,7 +31,7 @@ def info(resource):
 
 def read(resource, box, depthBegin, depthEnd):
     url = BASE+'resource/' + resource + '/read?'
-    url += 'bounds=%s&depthEnd=%s&depthBegin=%s&compress=false' % (box, depthEnd, depthBegin)
+    url += 'bounds=%s&depthEnd=%s&depthBegin=%s&compress=false&offset=[85910,445600,50]' % (box, depthEnd, depthBegin)
     http = urllib3.PoolManager()
     u = http.request('GET', url)
     data = u.data
