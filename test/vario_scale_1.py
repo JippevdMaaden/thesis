@@ -119,7 +119,7 @@ if __name__ == '__main__':
     center = [_3Dcenter[0], _3Dcenter[1]]
     basedepth = allinfo['baseDepth']
 
-    depth = [7,14]
+    depth = [7,17]
     dtype = buildNumpyDescription(allinfo['schema'])
     data = readdata()
     
