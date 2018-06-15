@@ -23,32 +23,10 @@ from util.utils import *
 # camera parameters.
 #
 
-def info(resource):
-    url = BASE+"resource/"+resource+"/info"
+def read(url):
     http = urllib3.PoolManager()
     u = http.request('GET', url)
     data = u.data
-    return json.loads(data)
-
-def read(resource, rng, depth):
-
-    lr = [center[0] - rng, center[1] - rng]
-    ul = [center[0] + rng, center[1] + rng]
-    z0 = 0 - rng
-    z1= 0 + rng
-
-    box = '['+ ','.join([str(i) for i in [lr[0], lr[1], z0, ul[0], ul[1], z1]]) + ']'
-    url = BASE+'resource/' + resource + '/read?'
-    url += 'bounds=%s&depthEnd=%d&depthBegin=%d&compress=false' % (box,depth[1],depth[0])
-    http = urllib3.PoolManager()
-    u = http.request('GET', url)
-    data = u.data
-    return data
-
-def readdata():
-    data = read(resource, rng, depth)
-    #f = open('raw-greyhound-data','rb')
-    #data = f.read()
     return data
 
 def buildNumpyDescription(schema):
@@ -105,65 +83,36 @@ def writeLASfile(data, filename):
     output.Raw_Classification = d['Classification']
     output.close()
 
-if __name__ == '__main__':
-    resource = 'tu-delft-campus'
-    BASE='http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/'
-    allinfo = info(resource)
-    rng = 200
-    fov = 120
+if __name__ == '__main__':  
+    # Data preparation, this should be automated
+    writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=0&depthEnd=9&bounds=[-187000,-187000,-187000,187000,187000,187000]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile0.las')
+    writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=9&depthEnd=10&bounds=[0,-187000,0,187000,0,187000]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile1.las')
+    writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=9&depthEnd=10&bounds=[-187000,-187000,0,0,0,187000]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile2.las')
+    writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=9&depthEnd=10&bounds=[0,-187000,-187000,187000,0,0]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile3.las')
+    writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=9&depthEnd=10&bounds=[-187000,0,0,0,187000,187000]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile4.las')
+    writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=9&depthEnd=10&bounds=[-187000,-187000,-187000,0,0,0]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile5.las')
+    writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=9&depthEnd=10&bounds=[0,0,-187000,187000,187000,0]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile6.las')
+    writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=9&depthEnd=10&bounds=[-187000,0,-187000,0,187000,0]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile7.las')
+    writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=10&depthEnd=11&bounds=[0,-93500,0,93500,0,93500]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile8.las')
+    writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=10&depthEnd=11&bounds=[-93500,-93500,0,0,0,93500]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile9.las')
+    writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=10&depthEnd=11&bounds=[93500,-187000,-93500,187000,-93500,0]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile10.las')
+    writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=10&depthEnd=11&bounds=[93500,-187000,-93500,187000,-93500,0]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile11.las')
+    writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=10&depthEnd=11&bounds=[0,-93500,-93500,93500,0,0]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile12.las')
     
-    _3Dcenter = (allinfo['offset'][0], allinfo['offset'][1], allinfo['offset'][2])
-    center = [_3Dcenter[0], _3Dcenter[1]]
-    basedepth = allinfo['baseDepth']
-
-    depth = [7,17]
-    dtype = buildNumpyDescription(allinfo['schema'])
-    data = readdata()
+    merge_all_files = 'lasmerge -i *.las -o out.las'
+    os.system(merge_all_files)
     
-    writeLASfile(data, 'originalfile.las')
-    
-    goodpoints = []
-    
-    # override raw_input for testing
-    cameraorigin = (85910, 445600, 0)
-    cameratarget = (85910, 445600, -1)
-    viewfrustum = CameraCone(_3Dcenter, cameraorigin, cameratarget, fov)
-    
-    inFile = openLasFile('originalfile.las')
+    # Method preparation
+    inFile = openLasFile('out.las')
     
     print 'There are %s points in the original file' % len(inFile.points)
     
     allpoints = np.vstack((inFile.x, inFile.y, inFile.z)).transpose()
     
-    goodpointx = []
-    goodpointy = []
-    goodpointz = []
-    
-    for point in allpoints:
-      if viewfrustum.isVisible([point[0], point[1], point[2]]):
-        goodpointx.append(point[0])
-        goodpointy.append(point[1])
-        goodpointz.append(point[2])
-    
-    print 'There are %s points in the view frustum' % len(goodpointx)    
-    
-    output_file = File('frustumfile.las', mode = "w", header = inFile.header)
-    output_file.X = goodpointx
-    output_file.Y = goodpointy
-    output_file.Z = goodpointz
-    
     #########################
     # Method implementation #
     #########################
     
-    allpoints = []
-    
-    for i in range(len(goodpointx)):
-      templist = []
-      templist.append(goodpointx[i])
-      templist.append(goodpointy[i])
-      templist.append(goodpointz[i])
-      allpoints.append(tuple(templist))
     
     used = [False] * len(allpoints)
     
@@ -171,36 +120,35 @@ if __name__ == '__main__':
     
     methodpoints = set([])
     
-    starttime1 = time.time()
+    startime1 = time.time()
     
     for j, point in enumerate(allpoints):
-      if used[j] == True:
-        continue
-      
-      starttime2 = time.time()
-      print 'Working on point %s' % j
+        if used[j] == True:
+            continue
         
-      distancevector = (point[0] - cameraorigin[0], point[1] - cameraorigin[1], point[2] - cameraorigin[2])
-      distance = (distancevector[0] ** 2 + distancevector[1] ** 2 + distancevector[2] ** 2) ** 0.5
-      
-      nn = kdtree.query_ball_point(point, distance * 0.02)
-      
-      appendvar = True
-      
-      for i in nn:
-          if allpoints[i] in methodpoints:
-              appendvar = False
-              break
+        starttime2 = time.time()
+        print 'Working on point %s' % j
         
-      if appendvar == True:
-        methodpoints.add(point)
+        distancevector = (point[0] - cameraorigin[0], point[1] - cameraorigin[1], point[2] - cameraorigin[2])
+        distance = (distancevector[0] ** 2 + distancevector[1] ** 2 + distancevector[2] ** 2) ** 0.5
+        
+        nn = kdtree.query_ball_point(point, distance * 0.02)
+        appendvar = True
+        
         for i in nn:
-            used[i] = True
-      
-      endtime2 = time.time()
-      timetaken2 = endtime2 - starttime2
-      print 'done working on point %s in %s seconds' % (j, timetaken2)
-    
+            if allpoints[i] in methodpoints:
+                appendvar = False
+                break
+        
+        if appendvar == True:
+            methodpoints.add(point)
+            for i in nn:
+                used[i] = True
+        
+        endtime2 = time.time()
+        timetaken2 = endtime2 - startime2
+        print 'done working onn point %s in %s seconds' % (j, timetaken2)
+            
     endtime1 = time.time()
     timetaken1 = endtime1 - starttime1
     print 'There are %s points in the view frustum after vario-scale method application' % len(methodpoints)
@@ -228,17 +176,13 @@ if __name__ == '__main__':
     inFile.close()
     output_file.close()
     
-    convertLasZip('originalfile.las', 'originalfile.laz')
-    convertLasZip('frustumfile.las', 'frustumfile.laz')
-    convertLasZip('methodfile.las', 'methodfile.laz')
+    convertLasZip('out.las', 'out.laz')
+    convertLasZip('method.las', 'method.laz')
     
-    uploadToS3('originalfile.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test_original.laz')
-    uploadToS3('frustumfile.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test_frustum.laz')
-    uploadToS3('methodfile.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test_method.laz')
+    uploadToS3('out.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test_original.laz')
+    uploadToS3('method.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test_method.laz')
     
-    removeFile('originalfile.las')
-    removeFile('originalfile.laz')
-    removeFile('frustumfile.las')
-    removeFile('frustumfile.laz')
-    removeFile('methodfile.las')
-    removeFile('methodfile.laz')
+    removeFile('out.las')
+    removeFile('out.laz')
+    removeFile('method.las')
+    removeFile('method.laz')
