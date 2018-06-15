@@ -164,15 +164,15 @@ if __name__ == '__main__':
     
     print 'There are %s points in the original file' % len(inFile.points)
     
-    allpoints = np.vstack((inFile.x, inFile.y, inFile.z)).transpose()
+    goodpoints = np.vstack((inFile.x, inFile.y, inFile.z)).transpose()
     
     allpoints = []
     
-    for i in range(len(goodpointx)):
+    for i in range(len(goodpoints)):
       templist = []
-      templist.append(goodpointx[i])
-      templist.append(goodpointy[i])
-      templist.append(goodpointz[i])
+      templist.append(goodpoints[i][0])
+      templist.append(goodpoints[i][1])
+      templist.append(goodpoints[i][2])
       allpoints.append(tuple(templist))
     
     used = [False] * len(allpoints)
