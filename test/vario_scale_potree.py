@@ -76,6 +76,7 @@ def writeLASfile(data, filename):
         minz = min(d['Z'])
     except ValueError:
         print 'No points available in this bbox geometry'
+        return
 
     header = laspy.header.Header()
     scale = 0.01
