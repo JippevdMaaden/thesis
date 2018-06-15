@@ -149,8 +149,11 @@ if __name__ == '__main__':
     #cleanup
     print j
     for i in range(j):
-        filename = 'originalfile%s.las' % i
-        removeFile(filename)
+        try:
+            filename = 'originalfile%s.las' % i
+            removeFile(filename)
+        except OSError:
+            print '%s does not exist' % filename
     
     convertLasZip('out.las', 'out.laz')
     
