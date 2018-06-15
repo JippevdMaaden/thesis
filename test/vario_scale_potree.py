@@ -140,3 +140,20 @@ if __name__ == '__main__':
         filename = 'originalfile%s.las' % j
         data = readdata()
         writeLASfile(data, filename)
+    
+    mergefiles = 'lasmerge -i *.las -o out.las'
+    os.system(mergefiles)
+    
+    #cleanup
+    for j, line in enumerate(potreefile):
+        filename = 'originalfile%s.las' % j
+        removeFile('filename')
+        
+    convertLasZip('out.las', 'out.laz')
+    
+    uploadToS3('out.laz', 'jippe-greyhound-to-las-test-dense', 'potree_original.laz')
+    
+    removeFile('out.las')
+    removeFile('out.laz')
+    removeFile('urls.txt')
+    
