@@ -147,12 +147,11 @@ if __name__ == '__main__':
     os.system(mergefiles)
     
     #cleanup
-    for j, line in enumerate(potreefile):
-        filename = 'originalfile%s.las' % j
+    print j
+    for i in range(j):
+        filename = 'originalfile%s.las' % i
         print 'Removing %s' % filenamen
         removeFile(filename)
-    
-    potreefile.close()
     
     convertLasZip('out.las', 'out.laz')
     
