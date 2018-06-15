@@ -38,7 +38,7 @@ def read(resource, box, depthBegin, depthEnd):
     return data
 
 def readdata():
-    data = read(resource, rng, depth)
+    data = read(resource, box, depthBegin, depthEnd)
     #f = open('raw-greyhound-data','rb')
     #data = f.read()
     return data
@@ -129,15 +129,11 @@ if __name__ == '__main__':
     for j, line in enumerate(potreefile):
         print 'row %s' % j
         newline = line.split('&')
-        bounds = newline[2].split('=')[1]
+        box = newline[2].split('=')[1]
         depthBegin = newline[0].split('=')[1]
         depthEnd = newline[1].split('=')[1]
-        
-        print bounds
-        print depthBegin
-        print depthEnd
-        print
     
+    data = readdata()
     writeLASfile(data, 'originalfile.las')
     
     print 'Done'
