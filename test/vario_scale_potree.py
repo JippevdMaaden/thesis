@@ -114,7 +114,7 @@ if __name__ == '__main__':
     url = BASE+'resource/' + resource + '/read?'
     url += 'bounds=%s&depthEnd=%d&depthBegin=%d&compress=false' % ('[-187000,-187000,-187000,187000,187000,187000]',9,1)
     
-    writeLASfile(read(url, 'outfile.las'))
+    writeLASfile(read(url), 'outfile.las')
     
     merge_all_files = 'lasmerge -i *.las -o out.las'
     os.system(merge_all_files)
