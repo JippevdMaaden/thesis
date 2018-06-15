@@ -29,16 +29,9 @@ def info(resource):
     data = u.data
     return json.loads(data)
 
-def read(resource, rng, depth):
-
-    lr = [center[0] - rng, center[1] - rng]
-    ul = [center[0] + rng, center[1] + rng]
-    z0 = 0 - rng
-    z1= 0 + rng
-
-    box = '['+ ','.join([str(i) for i in [lr[0], lr[1], z0, ul[0], ul[1], z1]]) + ']'
+def read(resource, box, depthBegin, depthEnd):
     url = BASE+'resource/' + resource + '/read?'
-    url += 'bounds=%s&depthEnd=%d&depthBegin=%d&compress=false' % (box,depth[1],depth[0])
+    url += 'bounds=%s&depthEnd=%s&depthBegin=%s&compress=false' % (box, depthEnd, depthBegin)
     http = urllib3.PoolManager()
     u = http.request('GET', url)
     data = u.data
@@ -108,8 +101,7 @@ if __name__ == '__main__':
     resource = 'tu-delft-campus'
     BASE='http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/'
     allinfo = info(resource)
-    rng = 200
-    fov = 120
+    dtype = buildNumpyDescription(allinfo['schema'])
     
     #writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=0&depthEnd=9&bounds=[-187000,-187000,-187000,187000,187000,187000]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile0.las')
     #writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=9&depthEnd=10&bounds=[0,-187000,0,187000,0,187000]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile1.las')
@@ -128,23 +120,27 @@ if __name__ == '__main__':
     downloadFromS3('jippe-home', 'POTREE_reads.txt', 'urls.txt')
     
     potreefile = open('urls.txt', 'r')
+
+    # from each line I need:
+    # bounds = []
+    # depthBegin = int
+    # depthEnd = int
+    # compress=false
     for j, line in enumerate(potreefile):
         print 'row %s' % j
         newline = line.split('&')
         bounds = newline[2].split('=')[1]
         depthBegin = newline[0].split('=')[1]
         depthEnd = newline[1].split('=')[1]
-        compress = False
         
         print bounds
         print depthBegin
         print depthEnd
-        print compress
         print
     
-    # from each line I need:
-    # bounds = []
-    # depthBegin = int
-    # depthEnd = int
-    # compress=false
+    writeLASfile(data, 'originalfile.las')
+    
+    print 'Done'
+    
+
     
