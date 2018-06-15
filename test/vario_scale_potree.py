@@ -147,6 +147,7 @@ if __name__ == '__main__':
     #cleanup
     for j, line in enumerate(potreefile):
         filename = 'originalfile%s.las' % j
+        print 'Removing %s' % filenamen
         removeFile(filename)
         
     convertLasZip('out.las', 'out.laz')
