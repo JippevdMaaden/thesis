@@ -154,12 +154,102 @@ if __name__ == '__main__':
             removeFile(filename)
         except OSError:
             print '%s does not exist' % filename
+            
+    # Unknown variables
+    cameraorigin = [0,0,0]
+    #########################
+    # Method implementation #
+    #########################
+    inFile = openLasFile('out.las')
     
+    print 'There are %s points in the original file' % len(inFile.points)
+    
+    allpoints = np.vstack((inFile.x, inFile.y, inFile.z)).transpose()
+    
+    allpoints = []
+    
+    for i in range(len(goodpointx)):
+      templist = []
+      templist.append(goodpointx[i])
+      templist.append(goodpointy[i])
+      templist.append(goodpointz[i])
+      allpoints.append(tuple(templist))
+    
+    used = [False] * len(allpoints)
+    
+    kdtree = scipy.spatial.KDTree(allpoints)
+    
+    methodpoints = set([])
+    
+    starttime1 = time.time()
+    
+    for j, point in enumerate(allpoints):
+      if used[j] == True:
+        continue
+      
+      starttime2 = time.time()
+      print 'Working on point %s' % j
+        
+      distancevector = (point[0] - cameraorigin[0], point[1] - cameraorigin[1], point[2] - cameraorigin[2])
+      distance = (distancevector[0] ** 2 + distancevector[1] ** 2 + distancevector[2] ** 2) ** 0.5
+      
+      nn = kdtree.query_ball_point(point, distance * 0.02)
+      
+      appendvar = True
+      
+      for i in nn:
+          if allpoints[i] in methodpoints:
+              appendvar = False
+              break
+        
+      if appendvar == True:
+        methodpoints.add(point)
+        for i in nn:
+            used[i] = True
+      
+      endtime2 = time.time()
+      timetaken2 = endtime2 - starttime2
+      print 'done working on point %s in %s seconds' % (j, timetaken2)
+    
+    endtime1 = time.time()
+    timetaken1 = endtime1 - starttime1
+    print 'There are %s points in the view frustum after vario-scale method application' % len(methodpoints)
+    print 'This took %s seconds to calculate' % timetaken1
+    
+    methodpointx = []
+    methodpointy = []
+    methodpointz = []
+    
+    for point in methodpoints:
+      methodpointx.append(point[0])
+      methodpointy.append(point[1])
+      methodpointz.append(point[2])
+    
+    print
+    
+    newoutput_file = File('method.las', mode = "w", header = inFile.header)
+    newoutput_file.X = methodpointx
+    newoutput_file.Y = methodpointy
+    newoutput_file.Z = methodpointz
+    
+    newoutput_file.close()
+    inFile.close()
+    
+    
+    
+    
+    
+    
+    #######################
     convertLasZip('out.las', 'out.laz')
+    convertLasZip('method.las', 'method.laz')
     
     uploadToS3('out.laz', 'jippe-greyhound-to-las-test-dense', 'potree_original.laz')
+    uploadToS3('method.laz', 'jippe-greyhound-to-las-test-dense', 'potree_method.laz')
     
     removeFile('out.las')
     removeFile('out.laz')
+    removeFile('method.las')
+    removeFile('method.laz')
     removeFile('urls.txt')
     
