@@ -129,6 +129,7 @@ if __name__ == '__main__':
     
     potreefile = open('urls.txt', 'r')
     for j, line in enumerate(potreefile):
+        print 'row %s' % j
         newline = line.split('&')
         bounds = newline[2].split('=')[1]
         depthBegin = newline[0].split('=')[1]
