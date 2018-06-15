@@ -29,10 +29,25 @@ def info(resource):
     data = u.data
     return json.loads(data)
 
-def read(url):
+def read(resource, rng, depth):
+
+    lr = [center[0] - rng, center[1] - rng]
+    ul = [center[0] + rng, center[1] + rng]
+    z0 = 0 - rng
+    z1= 0 + rng
+
+    box = '['+ ','.join([str(i) for i in [lr[0], lr[1], z0, ul[0], ul[1], z1]]) + ']'
+    url = BASE+'resource/' + resource + '/read?'
+    url += 'bounds=%s&depthEnd=%d&depthBegin=%d&compress=false' % (box,depth[1],depth[0])
     http = urllib3.PoolManager()
     u = http.request('GET', url)
     data = u.data
+    return data
+
+def readdata():
+    data = read(resource, rng, depth)
+    #f = open('raw-greyhound-data','rb')
+    #data = f.read()
     return data
 
 def buildNumpyDescription(schema):
@@ -61,7 +76,6 @@ def writeLASfile(data, filename):
 
     # last four bytes are the count
     data = data[0:-4]
-    print 'Bit-stream is %s bytes' % sys.getsizeof(data)
     d = np.ndarray(shape=(count,),buffer=data,dtype=dtype)
     minx = min(d['X'])
     miny = min(d['Y'])
@@ -90,12 +104,12 @@ def writeLASfile(data, filename):
     output.Raw_Classification = d['Classification']
     output.close()
 
-if __name__ == '__main__':  
-    # Data preparation, this should be automated
-    BASE='http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/'
+if __name__ == '__main__':
     resource = 'tu-delft-campus'
+    BASE='http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/'
     allinfo = info(resource)
-    dtype = buildNumpyDescription(allinfo['schema'])
+    rng = 200
+    fov = 120
     
     #writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=0&depthEnd=9&bounds=[-187000,-187000,-187000,187000,187000,187000]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile0.las')
     #writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=9&depthEnd=10&bounds=[0,-187000,0,187000,0,187000]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile1.las')
@@ -111,95 +125,9 @@ if __name__ == '__main__':
     #writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=10&depthEnd=11&bounds=[93500,-187000,-93500,187000,-93500,0]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile11.las')
     #writeLASfile(read('http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/read?depthBegin=10&depthEnd=11&bounds=[0,-93500,-93500,93500,0,0]&schema=[{%22name%22:%22X%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Y%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Z%22,%22size%22:4,%22type%22:%22signed%22},{%22name%22:%22Intensity%22,%22size%22:2,%22type%22:%22unsigned%22},{%22name%22:%22Classification%22,%22size%22:1,%22type%22:%22unsigned%22}]&compress=true&scale=0.01&offset=[85910,445600,50]'), 'originalfile12.las')
     
-    url = BASE+'resource/' + resource + '/read?'
-    url += 'bounds=%s&depthEnd=%d&depthBegin=%d&compress=false' % ('[-187000,-187000,-187000,187000,187000,187000]',9,1)
+    downloadFromS3('jippe-home', 'POTREE_reads.txt', 'urls.txt')
     
-    writeLASfile(read(url), 'outfile.las')
+    potreefile = open('urls.txt', 'r')
+    for line in potreefile:
+        print line
     
-    merge_all_files = 'lasmerge -i *.las -o out.las'
-    os.system(merge_all_files)
-    
-    # Method preparation
-    inFile = openLasFile('out.las')
-    
-    print 'There are %s points in the original file' % len(inFile.points)
-    
-    allpoints = np.vstack((inFile.x, inFile.y, inFile.z)).transpose()
-    
-    #########################
-    # Method implementation #
-    #########################
-    
-    
-    used = [False] * len(allpoints)
-    
-    kdtree = scipy.spatial.KDTree(allpoints)
-    
-    methodpoints = set([])
-    
-    startime1 = time.time()
-    
-    for j, point in enumerate(allpoints):
-        if used[j] == True:
-            continue
-        
-        starttime2 = time.time()
-        print 'Working on point %s' % j
-        
-        distancevector = (point[0] - cameraorigin[0], point[1] - cameraorigin[1], point[2] - cameraorigin[2])
-        distance = (distancevector[0] ** 2 + distancevector[1] ** 2 + distancevector[2] ** 2) ** 0.5
-        
-        nn = kdtree.query_ball_point(point, distance * 0.02)
-        appendvar = True
-        
-        for i in nn:
-            if allpoints[i] in methodpoints:
-                appendvar = False
-                break
-        
-        if appendvar == True:
-            methodpoints.add(point)
-            for i in nn:
-                used[i] = True
-        
-        endtime2 = time.time()
-        timetaken2 = endtime2 - startime2
-        print 'done working onn point %s in %s seconds' % (j, timetaken2)
-            
-    endtime1 = time.time()
-    timetaken1 = endtime1 - starttime1
-    print 'There are %s points in the view frustum after vario-scale method application' % len(methodpoints)
-    print 'This took %s seconds to calculate' % timetaken1
-    
-    methodpointx = []
-    methodpointy = []
-    methodpointz = []
-    
-    for point in methodpoints:
-      methodpointx.append(point[0])
-      methodpointy.append(point[1])
-      methodpointz.append(point[2])
-    
-    print
-    
-    newoutput_file = File('methodfile.las', mode = "w", header = inFile.header)
-    newoutput_file.X = methodpointx
-    newoutput_file.Y = methodpointy
-    newoutput_file.Z = methodpointz
-    
-    newoutput_file.close()
-    #########################
-    
-    inFile.close()
-    output_file.close()
-    
-    convertLasZip('out.las', 'out.laz')
-    convertLasZip('method.las', 'method.laz')
-    
-    uploadToS3('out.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test_original.laz')
-    uploadToS3('method.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test_method.laz')
-    
-    removeFile('out.las')
-    removeFile('out.laz')
-    removeFile('method.las')
-    removeFile('method.laz')
