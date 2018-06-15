@@ -129,5 +129,21 @@ if __name__ == '__main__':
     
     potreefile = open('urls.txt', 'r')
     for line in potreefile:
-        print line
+        newline = line.split('&')
+        bounds = newline[2]
+        depthBegin = newline[0]
+        depthEnd = newline[1]
+        compress = False
+        
+        print bounds
+        print depthBegin
+        print depthEnd
+        print compress
+        print
+    
+    # from each line I need:
+    # bounds = []
+    # depthBegin = int
+    # depthEnd = int
+    # compress=false
     
