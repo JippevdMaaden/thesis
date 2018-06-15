@@ -150,7 +150,6 @@ if __name__ == '__main__':
     print j
     for i in range(j):
         filename = 'originalfile%s.las' % i
-        print 'Removing %s' % filenamen
         removeFile(filename)
     
     convertLasZip('out.las', 'out.laz')
