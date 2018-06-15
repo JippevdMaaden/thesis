@@ -70,6 +70,8 @@ def writeLASfile(data, filename):
     # last four bytes are the count
     data = data[0:-4]
     d = np.ndarray(shape=(count,),buffer=data,dtype=dtype)
+    print d
+    print d['X']
     minx = min(d['X'])
     miny = min(d['Y'])
     minz = min(d['Z'])
