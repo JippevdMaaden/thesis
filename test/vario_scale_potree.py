@@ -134,11 +134,7 @@ if __name__ == '__main__':
         box = newline[2].split('=')[1]
         depthBegin = newline[0].split('=')[1]
         depthEnd = newline[1].split('=')[1]
-    
-    data = readdata()
-    writeLASfile(data, 'originalfile.las')
-    
-    print 'Done'
-    
-
-    
+        
+        filename = 'originalfile%s.las' % j
+        data = readdata()
+        writeLASfile(data, filename)
