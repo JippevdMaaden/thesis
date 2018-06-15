@@ -130,9 +130,9 @@ if __name__ == '__main__':
     potreefile = open('urls.txt', 'r')
     for line in potreefile:
         newline = line.split('&')
-        bounds = newline[2]
-        depthBegin = newline[0]
-        depthEnd = newline[1]
+        bounds = newline[2].split('=')[1]
+        depthBegin = newline[0].split('=')[1]
+        depthEnd = newline[1].split('=')[1]
         compress = False
         
         print bounds
