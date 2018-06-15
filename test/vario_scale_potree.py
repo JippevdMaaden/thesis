@@ -61,7 +61,7 @@ def writeLASfile(data, filename):
 
     # last four bytes are the count
     data = data[0:-4]
-    print sys.getsizeof(data)
+    print 'Bit-stream is %s bytes' % sys.getsizeof(data)
     d = np.ndarray(shape=(count,),buffer=data,dtype=dtype)
     minx = min(d['X'])
     miny = min(d['Y'])
