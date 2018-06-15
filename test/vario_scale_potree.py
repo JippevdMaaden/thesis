@@ -128,7 +128,7 @@ if __name__ == '__main__':
     downloadFromS3('jippe-home', 'POTREE_reads.txt', 'urls.txt')
     
     potreefile = open('urls.txt', 'r')
-    for line in potreefile:
+    for j, line in enumerate(potreefile):
         newline = line.split('&')
         bounds = newline[2].split('=')[1]
         depthBegin = newline[0].split('=')[1]
