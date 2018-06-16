@@ -189,8 +189,6 @@ if __name__ == '__main__':
     for j, point in enumerate(allpoints):
       if used[j] == True:
         continue
-      
-      print 'Working on point %s' % j
         
       distancevector = (point[0] - cameraorigin[0], point[1] - cameraorigin[1], point[2] - cameraorigin[2])
       distance = (distancevector[0] ** 2 + distancevector[1] ** 2 + distancevector[2] ** 2) ** 0.5
@@ -212,7 +210,7 @@ if __name__ == '__main__':
       newpercentage = int(j/float(numpoints)*100)
       if newpercentage > percentage:
         percentage = newpercentage
-        print "Work in progress, %s% done" % percentage
+        print "Work in progress, %d%% done" % percentage
     
     endtime1 = time.time()
     timetaken1 = endtime1 - starttime1
