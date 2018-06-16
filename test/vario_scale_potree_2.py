@@ -178,15 +178,12 @@ if __name__ == '__main__':
           url = 'http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/count?depth=%d' % i
           http = urllib3.PoolManager()
           u = http.request('GET', url)
-          print u
-          print type(u)
           data = u.data
-          print data
-          print type(data)
-          temp = json.loads(data)
-          print temp
-          print type(temp)
-          countPerLevel[i] = temp['points']
+          try:
+            temp = json.loads(data)
+            countPerLevel[i] = temp['points']
+          except ValueError:
+            print 'Count request for level %d returned a Reservation Failure' % i
     print countPerLevel
     print maxdensity
     
