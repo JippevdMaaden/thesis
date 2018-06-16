@@ -179,7 +179,9 @@ if __name__ == '__main__':
           http = urllib3.PoolManager()
           u = http.request('GET', url)
           temp = u.data
-          countPerLevel[i] = temp['points']
+          print temp['points']
+          print type(temp['points']
+          countPerLevel[i] = 'nothing'
     print countPerLevel
     print maxdensity
     
