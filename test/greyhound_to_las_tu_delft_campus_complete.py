@@ -104,7 +104,7 @@ if __name__ == '__main__':
     # given point
     rng = 10000
 
-    BASE='http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/'
+    BASE = getGreyhoundServer()
     j = info(resource)
     dtype = buildNumpyDescription(j['schema'])
     data = readdata()
