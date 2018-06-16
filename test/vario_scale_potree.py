@@ -156,7 +156,7 @@ if __name__ == '__main__':
             print '%s does not exist' % filename
             
     # Unknown variables
-    cameraorigin = [2500,-3600,500]
+    cameraorigin = [1000,-1800,100]
     
     #########################
     # Method implementation #
