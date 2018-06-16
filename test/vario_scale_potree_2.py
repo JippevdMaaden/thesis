@@ -158,6 +158,55 @@ if __name__ == '__main__':
     # Unknown variables
     cameraorigin = [1000,-1800,100]
     
+    
+    ####################################
+    ### Variable linear realtionship ###
+    ####################################
+    # The relationship is based on reaching the lowest density 
+    # at the artefact (d2). When this artefact is reached.
+    # This means the shortest distance to the artefact (Af)
+    # must be identified
+    #
+    # The packingvariable is a guess between the max packing
+    # variable for 2D circle packing (90%) and 3D sphere
+    # packing (74%). This is done because the aerial LiDAR
+    # point cloud is a 2.5D point cloud.
+    #
+    # methodvar = 1 / ( Af / ( ( packingvar / d2 ) / np.pi ) ** 0.5 )
+    # First the area per point at the artefact is determined
+    # by (packingvar / d2)
+    # Secondly the radius per point at the artefact is determined
+    # by (area / np.pi) ** 0.5
+    # Thirdly the methodvariable is determined according to the
+    # radius needed at the distance closest to the artefact
+    # by 1 / ( Af / radius )
+    methodvar = 0.01
+    ########
+    # Calc density
+    ########
+    baseDepth = allinfo['baseDepth']
+    maxdensity = allinfo['density']
+        
+    countPerLevel = {}
+    for i in range(18)[baseDepth:]:
+          url = 'http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/count?depth=%d' % i
+          http = urllib3.PoolManager()
+          u = http.request('GET', url)
+          print u.data
+    print maxdensity
+    
+    ########
+   
+    #Af = None
+    #packingvar = 0.8
+    #d2 = None
+      
+    #area = ( packingvar / d2 )
+    #radius = ( area / np.pi ) ** 0.5
+    #methodvar = 1 / ( Af / radius )
+    ####################################
+        
+        
     #########################
     # Method implementation #
     #########################
@@ -193,52 +242,7 @@ if __name__ == '__main__':
       distancevector = (point[0] - cameraorigin[0], point[1] - cameraorigin[1], point[2] - cameraorigin[2])
       distance = (distancevector[0] ** 2 + distancevector[1] ** 2 + distancevector[2] ** 2) ** 0.5
       
-      ####################################
-      ### Variable linear realtionship ###
-      ####################################
-      # The relationship is based on reaching the lowest density 
-      # at the artefact (d2). When this artefact is reached.
-      # This means the shortest distance to the artefact (Af)
-      # must be identified
-      #
-      # The packingvariable is a guess between the max packing
-      # variable for 2D circle packing (90%) and 3D sphere
-      # packing (74%). This is done because the aerial LiDAR
-      # point cloud is a 2.5D point cloud.
-      #
-      # methodvar = 1 / ( Af / ( ( packingvar / d2 ) / np.pi ) ** 0.5 )
-      # First the area per point at the artefact is determined
-      # by (packingvar / d2)
-      # Secondly the radius per point at the artefact is determined
-      # by (area / np.pi) ** 0.5
-      # Thirdly the methodvariable is determined according to the
-      # radius needed at the distance closest to the artefact
-      # by 1 / ( Af / radius )
-      methodvar = 0.01
-      ########
-      # Calc density
-      ########
-      baseDepth = allinfo['baseDepth']
-      maxdensity = allinfo['density']
-        
-      countPerLevel = {}
-      for i in range(18)[baseDepth:]:
-            url = 'http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/count?depth=%d' % i
-            http = urllib3.PoolManager()
-            u = http.request('GET', url)
-            print u
-      print maxdensity
-    
-      ########
-   
-      #Af = None
-      #packingvar = 0.8
-      #d2 = None
       
-      #area = ( packingvar / d2 )
-      #radius = ( area / np.pi ) ** 0.5
-      #methodvar = 1 / ( Af / radius )
-      ####################################
       
       nn = kdtree.query_ball_point(point, distance * methodvar)
       
