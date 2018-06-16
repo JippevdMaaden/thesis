@@ -180,7 +180,7 @@ if __name__ == '__main__':
           u = http.request('GET', url)
           temp = u.data
           print temp['points']
-          print type(temp['points']
+          print type(temp['points'])
           countPerLevel[i] = 'nothing'
     print countPerLevel
     print maxdensity
