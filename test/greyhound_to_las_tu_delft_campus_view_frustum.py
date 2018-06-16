@@ -94,7 +94,7 @@ def writeLASfile(data, filename):
 
 if __name__ == '__main__':
     resource = 'tu-delft-campus'
-    BASE='http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/'
+    BASE = getGreyhoundServer()
     allinfo = info(resource)
     rng = 200
     fov = 120
