@@ -178,10 +178,9 @@ if __name__ == '__main__':
           url = 'http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/count?depth=%d' % i
           http = urllib3.PoolManager()
           u = http.request('GET', url)
-          temp = u.data
-          print temp
-          countPerLevel[i] = 'nothing'
-    print allinfo
+          data = u.data
+          temp = json.loads(data)
+          countPerLevel[i] = temp['points']
     print countPerLevel
     print maxdensity
     
