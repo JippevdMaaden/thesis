@@ -174,16 +174,23 @@ if __name__ == '__main__':
     maxdensity = allinfo['density']
         
     countPerLevel = {}
-    for i in range(18)[baseDepth:]:
+    for i in range(999)[baseDepth:]:
           url = 'http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/count?depth=%d' % i
           http = urllib3.PoolManager()
           u = http.request('GET', url)
           data = u.data
           try:
             temp = json.loads(data)
-            countPerLevel[i] = temp['points']
+            
           except ValueError:
             print 'Count request for level %d returned a Reservation Failure' % i
+            continue
+            
+          if temp['points'] == 0:
+            print i
+            break
+            
+          countPerLevel[i] = temp['points']
     print countPerLevel
     print maxdensity
     
