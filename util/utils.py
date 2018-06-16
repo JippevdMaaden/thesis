@@ -19,6 +19,12 @@ client = boto3.client('s3')
 resource = boto3.resource('s3')
 
 ###################################################################################################################
+def getGreyhoundServer():
+	return 'http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/'
+
+def getGreyhoundTempServer():
+	return None
+
 def searchInBucket(bucketname):
 	print 'Searching all files in %s' % bucketname
 	print
