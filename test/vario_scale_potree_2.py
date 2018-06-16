@@ -103,7 +103,7 @@ def writeLASfile(data, filename):
 
 if __name__ == '__main__':
     resource = 'tu-delft-campus'
-    BASE='http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/'
+    BASE = getGreyhoundServer()
     allinfo = info(resource)
     dtype = buildNumpyDescription(allinfo['schema'])
     
@@ -175,8 +175,7 @@ if __name__ == '__main__':
         
     countPerLevel = {}
     for i in range(999)[baseDepth:]:
-          url = 'http://ec2-54-93-79-134.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/count?depth=%d' % i
-          url = 'http://ec2-18-184-186-42.eu-central-1.compute.amazonaws.com:8080/resource/tu-delft-campus/count?depth=%d' % i
+          url = BASE + "resource/" + resource + "/count?depth=%d" % i
           http = urllib3.PoolManager()
           u = http.request('GET', url)
           data = u.data
