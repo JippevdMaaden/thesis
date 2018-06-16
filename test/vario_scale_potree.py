@@ -163,7 +163,8 @@ if __name__ == '__main__':
     #########################
     inFile = openLasFile('out.las')
     
-    print 'There are %s points in the original file' % len(inFile.points)
+    numpoints = len(inFile.points)
+    print 'There are %s points in the original file' % numpoints
     
     goodpoints = np.vstack((inFile.x, inFile.y, inFile.z)).transpose()
     
@@ -184,17 +185,17 @@ if __name__ == '__main__':
     
     starttime1 = time.time()
     
+    percentage = 0
     for j, point in enumerate(allpoints):
       if used[j] == True:
         continue
       
-      starttime2 = time.time()
       print 'Working on point %s' % j
         
       distancevector = (point[0] - cameraorigin[0], point[1] - cameraorigin[1], point[2] - cameraorigin[2])
       distance = (distancevector[0] ** 2 + distancevector[1] ** 2 + distancevector[2] ** 2) ** 0.5
       
-      nn = kdtree.query_ball_point(point, distance * 0.001)
+      nn = kdtree.query_ball_point(point, distance * 0.01)
       
       appendvar = True
       
@@ -208,9 +209,10 @@ if __name__ == '__main__':
         for i in nn:
             used[i] = True
       
-      endtime2 = time.time()
-      timetaken2 = endtime2 - starttime2
-      print 'done working on point %s in %s seconds' % (j, timetaken2)
+      newpercentage = int(j/float(numpoints)*100)
+      if newpercentage > percentage:
+        percentage = newpercentage
+        print "Work in progress, %s% done" % percentage
     
     endtime1 = time.time()
     timetaken1 = endtime1 - starttime1
