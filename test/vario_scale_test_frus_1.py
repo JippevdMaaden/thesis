@@ -119,7 +119,7 @@ if __name__ == '__main__':
     center = [_3Dcenter[0], _3Dcenter[1]]
     basedepth = allinfo['baseDepth']
 
-    depth = [7,17]
+    depth = [7,13]
     dtype = buildNumpyDescription(allinfo['schema'])
     data = readdata()
     
@@ -172,7 +172,7 @@ if __name__ == '__main__':
     
     for key in distdict:
         print key
-        print distdict[key][5:]
+        print distdict[key][:5]
     #########################
     
     inFile.close()
