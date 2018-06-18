@@ -220,13 +220,43 @@ if __name__ == '__main__':
                 allpoints.remove(point)
     
     print len(allpoints)
+    
+    # Save to file
+    goodpointx = []
+    goodpointy = []
+    goodpointz = []
+    
+    for point in allpoints:
+      if viewfrustum.isVisible([point[0], point[1], point[2]]):
+        goodpointx.append(point[0])
+        goodpointy.append(point[1])
+        goodpointz.append(point[2])
+    
+    print 'There are %s points left when using the method' % len(goodpointx)    
+    
+    method_file = File('methodfile.las', mode = "w", header = inFile.header)
+    method_file.X = goodpointx
+    method_file.Y = goodpointy
+    method_file.Z = goodpointz
+    
+    
     #########################
     
     inFile.close()
+    output_file.close()
+    method_file.close()
     
     convertLasZip('originalfile.las', 'originalfile.laz')
+    convertLasZip('frustumfile.las', 'frustumfile.laz')
+    convertLasZip('methodfile.las', 'methodfile.laz')
     
     uploadToS3('originalfile.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test_original.laz')
+    uploadToS3('frustumfile.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test_frustum.laz')
+    uploadToS3('methodfile.laz', 'jippe-greyhound-to-las-test-dense', 'greyhound_to_las_test_method.laz')
     
     removeFile('originalfile.las')
     removeFile('originalfile.laz')
+    removeFile('frustumfile.las')
+    removeFile('frustumfile.laz')
+    removeFile('methodfile.las')
+    removeFile('methodfile.laz')
