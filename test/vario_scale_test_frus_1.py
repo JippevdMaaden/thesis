@@ -218,8 +218,13 @@ if __name__ == '__main__':
         if int(key) % 10 == 0:
             for point in distdict[key]:
                 allpoints.remove(point)
+                
+    # remove using exponential formula where 0 -> 1 and 100 -> 0.001
+    # TODO
     
     print len(allpoints)
+    
+    
     
     # Save to file
     goodpointx = []
