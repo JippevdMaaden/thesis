@@ -6,7 +6,6 @@ import laspy
 import sys
 import scipy.spatial
 import time
-import matplotlib.pyplot as plt
 
 from operator import itemgetter
 from laspy.file import File
@@ -190,8 +189,7 @@ if __name__ == '__main__':
     
     for key in densdict:
         print densdict[key]
-    # Plot the histogram before method operation
-    
+ 
     #########################
     
     inFile.close()
