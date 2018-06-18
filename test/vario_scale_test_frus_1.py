@@ -167,7 +167,7 @@ if __name__ == '__main__':
       
       dictkey = '%s' % int(distance)
       if dictkey not in distdict:
-        distdict[dictkey] = [distance]
+        distdict[dictkey] = [point]
       else:
         distdict[dictkey].append(point)
     
