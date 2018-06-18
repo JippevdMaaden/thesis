@@ -197,7 +197,11 @@ if __name__ == '__main__':
 #        volume = abs(bbox[0][0] - bbox[1][0]) * abs(bbox[0][1] - bbox[1][1]) + abs(bbox[0][2] - bbox[1][2])
         volume = area * abs(bbox[0][2] - bbox[1][2])
         numpoints = len(distdict[key])
-        density = float(numpoints) / float(volume)
+        try:
+            density = float(numpoints) / float(volume)
+        except ZeroDivisionError:
+            print "ZeroDivisionErro when calculation density"
+            density = 999
         densdict[key] = density
     
 #    denslist = []
