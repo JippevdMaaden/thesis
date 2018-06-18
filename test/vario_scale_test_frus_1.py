@@ -189,7 +189,7 @@ if __name__ == '__main__':
     
     denslist = []
     for key in densdict:
-        denslist.append((key, densdict[key]))
+        denslist.append((int(key), densdict[key]))
     
     denslist.sort()
     for histo in denslist:
