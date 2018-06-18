@@ -171,6 +171,8 @@ if __name__ == '__main__':
       else:
         distdict[dictkey].append(point)
     
+    print distdict['100'][:5]
+    
     maxdict = {}
     for key in distdict:
         templist = distdict[key][:5]
