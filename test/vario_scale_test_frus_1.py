@@ -170,9 +170,18 @@ if __name__ == '__main__':
       else:
         distdict[dictkey].append(point)
     
+    maxdict = {}
     for key in distdict:
-        print key
-        print distdict[key][:5]
+        templist = distdict[key][:5]
+        sortedx = sorted(templist, key=lambda x: x[0])
+        sortedy = sorted(templist, key=lambda x: x[1])
+        sortedz = sorted(templist, key=lambda x: x[2])
+        maxdict[key] = [(sortedx[0][0], sortedy[0][1], sortedz[0][2]), (sortedx[-1][0], sortedy[-1][1], sortedz[-1][2])]
+    
+    for key in maxdict:
+        print "This is the bounding box for points between %s and %s.99 units from the camera origin" % (key, key)
+        print maxdict[key]
+        print
     #########################
     
     inFile.close()
