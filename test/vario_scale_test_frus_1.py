@@ -204,13 +204,13 @@ if __name__ == '__main__':
             density = 999
         densdict[key] = density
     
-#    denslist = []
-#    for key in densdict:
-#        denslist.append((int(key), densdict[key]))
-#    
-#    denslist.sort()
-#    for histo in denslist:
-#        print histo
+    denslist = []
+    for key in densdict:
+        denslist.append((int(key), densdict[key]))
+    
+    denslist.sort()
+    for histo in denslist:
+        print histo
     
     print len(allpoints)
     # remove every 10th meter of points
