@@ -6,6 +6,7 @@ import laspy
 import sys
 import scipy.spatial
 import time
+import matplotlib.pyplot as plt
 
 from operator import itemgetter
 from laspy.file import File
@@ -170,21 +171,27 @@ if __name__ == '__main__':
         distdict[dictkey] = [point]
       else:
         distdict[dictkey].append(point)
-    
-    print distdict['100'][:5]
-    
+      
     maxdict = {}
     for key in distdict:
         templist = distdict[key][:5]
         sortedx = sorted(templist, key=itemgetter(0))
         sortedy = sorted(templist, key=itemgetter(1))
         sortedz = sorted(templist, key=itemgetter(2))
-        maxdict[key] = [(sortedx[0][0], sortedy[0][1], sortedz[0][2]), (sortedx[-1][0], sortedy[-1][1], sortedz[-1][2])]
-    
+        maxdict[key] = [(sortedx[0][0], sortedy[0][1], sortedz[0][2]), (sortedx[-1][0], sortedy[-1][1], sortedz[-1][2])]     
+        
+    densdict = {}
     for key in maxdict:
-        print "This is the bounding box for points between %s and %s.99 units from the camera origin" % (key, key)
-        print maxdict[key]
-        print
+        bbox = maxdict[key]
+        volume = abs(bbox[0][0] - bbox[1][0]) * abs(bbox[0][1] - bbox[1][1]) + abs(bbox[0][2] - bbox[1][2])
+        numpoints = len(distdict[key])
+        density = float(numpoints) / float(volume)
+        densdict[key] = density
+    
+    for key in densdict:
+        print densdict[key]
+    # Plot the histogram before method operation
+    
     #########################
     
     inFile.close()
