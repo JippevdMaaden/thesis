@@ -7,6 +7,7 @@ import sys
 import scipy.spatial
 import time
 
+from operator import itemgetter
 from laspy.file import File
 
 sys.path.insert(0, '/home/ec2-user/thesis')
@@ -173,9 +174,9 @@ if __name__ == '__main__':
     maxdict = {}
     for key in distdict:
         templist = distdict[key][:5]
-        sortedx = sorted(templist, key=lambda x: x[0])
-        sortedy = sorted(templist, key=lambda x: x[1])
-        sortedz = sorted(templist, key=lambda x: x[2])
+        sortedx = sorted(templist, key=itemgetter(0))
+        sortedy = sorted(templist, key=itemgetter(1))
+        sortedz = sorted(templist, key=itemgetter(2))
         maxdict[key] = [(sortedx[0][0], sortedy[0][1], sortedz[0][2]), (sortedx[-1][0], sortedy[-1][1], sortedz[-1][2])]
     
     for key in maxdict:
