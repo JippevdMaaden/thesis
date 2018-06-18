@@ -167,9 +167,9 @@ if __name__ == '__main__':
       
       dictkey = '%s' % int(distance)
       if dictkey not in distdict:
-        distdict[dictkey] = [point]
+        distdict[dictkey] = [(point)]
       else:
-        distdict[dictkey].append(point)
+        distdict[dictkey].append((point))
       
     maxdict = {}
     for key in distdict:
@@ -187,8 +187,13 @@ if __name__ == '__main__':
         density = float(numpoints) / float(volume)
         densdict[key] = density
     
+    denslist = []
     for key in densdict:
-        print densdict[key]
+        denslist.append((key, densdict[key]))
+    
+    denslist.sort()
+    for histo in denslist:
+        print histo
  
     #########################
     
