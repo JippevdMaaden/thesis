@@ -168,9 +168,11 @@ if __name__ == '__main__':
       if dictkey not in distdict:
         distdict[dictkey] = [distance]
       else:
-        distdict[dictkey].append(distance)
+        distdict[dictkey].append(point)
     
-    print distdict
+    for key in distdict:
+        print key
+        print distdict[key][5:]
     #########################
     
     inFile.close()
