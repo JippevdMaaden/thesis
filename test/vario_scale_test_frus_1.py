@@ -187,14 +187,22 @@ if __name__ == '__main__':
         density = float(numpoints) / float(volume)
         densdict[key] = density
     
-    denslist = []
-    for key in densdict:
-        denslist.append((int(key), densdict[key]))
+#    denslist = []
+#    for key in densdict:
+#        denslist.append((int(key), densdict[key]))
+#    
+#    denslist.sort()
+#    for histo in denslist:
+#        print histo
     
-    denslist.sort()
-    for histo in denslist:
-        print histo
- 
+    print len(allpoints)
+    # remove every 10th meter of points
+    for key in densdict:
+        if int(key) % 10 == 0:
+            for point in distdict[key]:
+                allpoints.remove(point)
+    
+    print len(allpoints)
     #########################
     
     inFile.close()
