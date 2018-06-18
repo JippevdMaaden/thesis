@@ -191,7 +191,11 @@ if __name__ == '__main__':
     densdict = {}
     for key in maxdict:
         bbox = maxdict[key]
-        volume = abs(bbox[0][0] - bbox[1][0]) * abs(bbox[0][1] - bbox[1][1]) + abs(bbox[0][2] - bbox[1][2])
+        area1 = np.pi * int(key) ** 2
+        area2 = np.pi * ( int(key) + 1 ) ** 2
+        area = area2 - area1 / ( 360 / float(fov) )
+#        volume = abs(bbox[0][0] - bbox[1][0]) * abs(bbox[0][1] - bbox[1][1]) + abs(bbox[0][2] - bbox[1][2])
+        volume = area * abs(bbox[0][2] - bbox[1][2])
         numpoints = len(distdict[key])
         density = float(numpoints) / float(volume)
         densdict[key] = density
