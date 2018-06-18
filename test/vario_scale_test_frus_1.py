@@ -156,6 +156,15 @@ if __name__ == '__main__':
     output_file.Y = goodpointy
     output_file.Z = goodpointz
     
+    allpoints = []
+    
+    for i in range(len(goodpointx)):
+      templist = []
+      templist.append(goodpointx[i])
+      templist.append(goodpointy[i])
+      templist.append(goodpointz[i])
+      allpoints.append((templist))
+    
     #########################
     # Method implementation #
     #########################
@@ -167,9 +176,9 @@ if __name__ == '__main__':
       
       dictkey = '%s' % int(distance)
       if dictkey not in distdict:
-        distdict[dictkey] = [(point)]
+        distdict[dictkey] = [point]
       else:
-        distdict[dictkey].append((point))
+        distdict[dictkey].append(point)
       
     maxdict = {}
     for key in distdict:
