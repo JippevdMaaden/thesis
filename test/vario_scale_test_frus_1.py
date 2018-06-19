@@ -237,8 +237,9 @@ if __name__ == '__main__':
     # remove so that every bin has 100 points in it using list remove
     for key in distdict:
         if len(distdict[key]) > 100:
-            for point in distdict[key][:100]:
+            for point in distdict[key][100:]:
                 allpoints.remove(point)
+                
     endtime2 = time.time()
     
     totaltime1 = endtime1 - starttime1
