@@ -213,14 +213,19 @@ if __name__ == '__main__':
         print histo
     
     print len(allpoints)
+    
     # remove every 10th meter of points
-    for key in densdict:
-        if int(key) % 10 == 0:
-            for point in distdict[key]:
-                allpoints.remove(point)
+    #for key in densdict:
+    #    if int(key) % 10 == 0:
+    #        for point in distdict[key]:
+    #            allpoints.remove(point)
                 
     # remove using exponential formula where 0 -> 1 and 100 -> 0.001
     # TODO
+    
+    # remove so that every bin has 100 points in it
+    for key in densdict:
+        print densdict[key][:5]
     
     print len(allpoints)
     
