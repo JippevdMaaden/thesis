@@ -209,8 +209,6 @@ if __name__ == '__main__':
         denslist.append((int(key), densdict[key]))
     
     denslist.sort()
-    for histo in denslist:
-        print histo
     
     print len(allpoints)
     
