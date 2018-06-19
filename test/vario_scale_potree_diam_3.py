@@ -183,8 +183,8 @@ if __name__ == '__main__':
       distancevector = (point[0] - cameraorigin[0], point[1] - cameraorigin[1], point[2] - cameraorigin[2])
       distance = (distancevector[0] ** 2 + distancevector[1] ** 2 + distancevector[2] ** 2) ** 0.5
       
-      # implement exponential method here (distance * 0.01)
-      nn = kdtree.query_ball_point(point, distance * 0.01)
+      # implement exponential method here
+      nn = kdtree.query_ball_point(point, distance ** 0.5)
       
       appendvar = True
       
