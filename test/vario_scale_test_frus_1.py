@@ -263,7 +263,7 @@ if __name__ == '__main__':
     goodpointy = []
     goodpointz = []
     
-    for point in allpoints:
+    for point in newallpoints:
       if viewfrustum.isVisible([point[0], point[1], point[2]]):
         goodpointx.append(point[0])
         goodpointy.append(point[1])
