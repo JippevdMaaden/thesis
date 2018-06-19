@@ -22,6 +22,10 @@ from util.utils import *
 # a vario-scale implementation is done using arbitrary
 # camera parameters.
 #
+# The implemented method uses a linear function to describe
+# which points should be removed
+#
+
 def info(resource):
     url = BASE+"resource/"+resource+"/info"
     http = urllib3.PoolManager()
