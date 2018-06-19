@@ -225,7 +225,7 @@ if __name__ == '__main__':
     
     # remove so that every bin has 100 points in it
     for key in densdict:
-        print densdict[key][:5]
+        print distdict[key][:5]
     
     print len(allpoints)
     
