@@ -258,6 +258,8 @@ if __name__ == '__main__':
         else:
             newallpoints = np.append(newallpoints, distdict[key], axis = 0)
     
+    print len(newallpoints)
+    
     # Save to file
     goodpointx = []
     goodpointy = []
