@@ -22,7 +22,7 @@ from util.utils import *
 # a vario-scale implementation is done using arbitrary
 # camera parameters.
 #
-# The implemented method uses a logarithmic function to describe
+# The implemented method uses a logarithmic(10) function to describe
 # which points should be removed
 #
 
@@ -183,8 +183,8 @@ if __name__ == '__main__':
       distancevector = (point[0] - cameraorigin[0], point[1] - cameraorigin[1], point[2] - cameraorigin[2])
       distance = (distancevector[0] ** 2 + distancevector[1] ** 2 + distancevector[2] ** 2) ** 0.5
       
-      # implement logarithmic function here (distance * 0.01)
-      nn = kdtree.query_ball_point(point, distance * 0.01)
+      # implement logarithmic(10) function here
+      nn = kdtree.query_ball_point(point, np.log10(distance))
       
       appendvar = True
       
