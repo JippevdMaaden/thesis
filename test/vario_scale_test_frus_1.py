@@ -223,12 +223,29 @@ if __name__ == '__main__':
     # remove using exponential formula where 0 -> 1 and 100 -> 0.001
     # TODO
     
-    # remove so that every bin has 100 points in it
-    for key in densdict:
-        print distdict[key][:5]
+    starttime1 = time.time()
+    # remove so that every bin has 100 points in it using numpy array
+    newallpoints = np.array([]).reshape(0,3)
+    for key in distdict:
+        if len(distdict[key]) > 100:
+            newallpoints = np.append(newallpoints, distdict[key][:100], axis = 100)
+        else:
+            newallpoints = np.append(newallpoints, distdict[key], axis = 100)
+    endtime1 = time.time()
     
-    print len(allpoints)
+    starttime2 = time.time()
+    # remove so that every bin has 100 points in it using list remove
+    for key in distdict:
+        if len(distdict[key]) > 100:
+            for point in distdict[key][:100]:
+                allpoints.remove(point)
+    endtime2 = time.time()
     
+    totaltime1 = endtime1 - starttime1
+    totaltime2 = endtime2 - starttime2
+    
+    print 'Using numpy takes {} seconds, and results in {} points'.format(totaltime1, len(newallpoints))
+    print 'using list takes {} seconds, and results in {} points'.format(totaltime2, len(allpoints))
     
     
     # Save to file
