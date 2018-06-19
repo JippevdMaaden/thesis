@@ -184,7 +184,7 @@ if __name__ == '__main__':
       distance = (distancevector[0] ** 2 + distancevector[1] ** 2 + distancevector[2] ** 2) ** 0.5
       
       # implement exponential method here
-      nn = kdtree.query_ball_point(point, distance ** 0.4)
+      nn = kdtree.query_ball_point(point, distance ** 0.3)
       
       appendvar = True
       
