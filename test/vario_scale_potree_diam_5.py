@@ -184,7 +184,7 @@ if __name__ == '__main__':
       distance = (distancevector[0] ** 2 + distancevector[1] ** 2 + distancevector[2] ** 2) ** 0.5
       
       # implement logarithmic(e) function here
-      nn = kdtree.query_ball_point(point, np.log(distance))
+      nn = kdtree.query_ball_point(point, np.log(distance*0.5))
       
       appendvar = True
       
