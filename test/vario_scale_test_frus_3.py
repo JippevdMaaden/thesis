@@ -122,7 +122,7 @@ if __name__ == '__main__':
     center = [_3Dcenter[0], _3Dcenter[1]]
     basedepth = allinfo['baseDepth']
 
-    depth = [7,13]
+    depth = [7,15]
     dtype = buildNumpyDescription(allinfo['schema'])
     data = readdata()
     
@@ -262,8 +262,11 @@ if __name__ == '__main__':
     #print 'Using numpy takes {} seconds, and results in {} points'.format(totaltime1, len(newallpoints))
     #print 'using list takes {} seconds, and results in {} points'.format(totaltime2, len(allpoints))
     
+    print 
+    
     newallpoints = np.array([]).reshape(0,3)
     for key in distdict:
+        density = densdict[key]
         if len(distdict[key]) > 500:
             temppoints = random.sample(distdict[key], 500)
             newallpoints = np.append(newallpoints, np.array(temppoints), axis = 0)
