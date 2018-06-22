@@ -267,8 +267,8 @@ if __name__ == '__main__':
     newallpoints = np.array([]).reshape(0,3)
     for key in distdict:
         density = densdict[key]
-        if len(distdict[key]) > 500:
-            temppoints = random.sample(distdict[key], 500)
+        if len(distdict[key]) > 2000:
+            temppoints = random.sample(distdict[key], 2000)
             newallpoints = np.append(newallpoints, np.array(temppoints), axis = 0)
         else:
             newallpoints = np.append(newallpoints, distdict[key], axis = 0)
