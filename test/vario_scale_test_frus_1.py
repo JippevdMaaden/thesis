@@ -251,8 +251,8 @@ if __name__ == '__main__':
     
     newallpoints = np.array([]).reshape(0,3)
     for key in distdict:
-        if len(distdict[key]) > 100:
-            newallpoints = np.append(newallpoints, distdict[key][:100], axis = 0)
+        if len(distdict[key]) > 500:
+            newallpoints = np.append(newallpoints, distdict[key][:500], axis = 0)
         else:
             newallpoints = np.append(newallpoints, distdict[key], axis = 0)
     
