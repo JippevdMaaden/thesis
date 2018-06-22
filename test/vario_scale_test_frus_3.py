@@ -214,7 +214,9 @@ if __name__ == '__main__':
             print "ZeroDivisionErro when calculation density"
             density = 999
         densdict[key] = density
-        print 'The density is %d' % density
+        print 'The number of points is {} and the area is {}'.format(numpoints, area)
+        print 'The density is {}'.format(density)
+        print
     denslist = []
     for key in densdict:
         denslist.append((int(key), densdict[key]))
