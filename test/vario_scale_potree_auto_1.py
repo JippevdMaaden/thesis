@@ -221,10 +221,11 @@ if __name__ == '__main__':
             
     ### Find formula for gradual density decent from jump to jump
     # find 'same' bounding boxes
+    filenameList = []
+    for key in filenameDict:
+        filenameList.append(key)
+    filenameList.sort()
     print filenameList
-    print filenameDict
-    print densityDict
-    print bboxDict
     
     ### Use formula to filter points accordingly
     
