@@ -229,8 +229,8 @@ if __name__ == '__main__':
     
     for i, level in enumerate(filenameList[:-1]):
         nextlevel = filenameList[i+1]
-        areathislevel = (bboxDict[level]['xmin'] + bboxDict[level]['xmax']) * (bboxDict[level]['ymin'] + bboxDict[level]['ymax'])
-        areanextlevel = (bboxDict[nextlevel]['xmin'] + bboxDict[nextlevel]['xmax']) * (bboxDict[nextlevel]['ymin'] + bboxDict[nextlevel]['ymax'])
+        areathislevel = (abs(bboxDict[level]['xmin']) + bboxDict[level]['xmax']) * (abs(bboxDict[level]['ymin']) + bboxDict[level]['ymax'])
+        areanextlevel = (abs(bboxDict[nextlevel]['xmin']) + bboxDict[nextlevel]['xmax']) * (abs(bboxDict[nextlevel]['ymin']) + bboxDict[nextlevel]['ymax'])
         
         print 'level %s, and next level %s' % (level, nextlevel)
         print areathislevel
