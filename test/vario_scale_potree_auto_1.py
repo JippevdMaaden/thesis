@@ -140,7 +140,7 @@ if __name__ == '__main__':
             appendfilename = filename + ' '
             filenameDict[depth] += appendfilename
         else:
-            appendfilename = ' ' + filename
+            appendfilename = ' ' + filename + ' '
             filenameDict[depth] = appendfilename
             
         # retrieve from Greyhound webserver
