@@ -122,7 +122,7 @@ if __name__ == '__main__':
     potreefile = open('urls.txt', 'r')
     for j, line in enumerate(potreefile):
         # extract data to retrieve from Greyhound webserver
-        print 'row %s' % j
+ #       print 'row %s' % j
         newline = line.split('&')
         box = newline[2].split('=')[1]
         depthBegin = newline[0].split('=')[1]
@@ -151,7 +151,7 @@ if __name__ == '__main__':
         data = readdata()
         writeLASfile(data, filename)
     
-    print filenameDict
+#    print filenameDict
     potreefile.close()
     
     #for each 'level' create 1 file
@@ -159,7 +159,7 @@ if __name__ == '__main__':
         filenames = filenameDict[key]
         outname = key + '.las'
         mergefiles = 'lasmerge -i ' + filenames + ' -o ' + outname
-        print mergefiles
+#        print mergefiles
         os.system(mergefiles)
 
     #cleanup
@@ -182,7 +182,7 @@ if __name__ == '__main__':
         filename = key + '.las'
         outname = key + '.txt'
         densityfiles = 'lasinfo -i ' + filename + ' -compute_density -nv -nmm -nco -o ' + outname
-        print densityfiles
+#        print densityfiles
         os.system(densityfiles)
     
     #create dict with density for each level
@@ -196,7 +196,7 @@ if __name__ == '__main__':
                 density = float(newline[4])
                 densityDict[key] = density
         densityfile.close()
-    print densityDict
+#    print densityDict
     
     #create dict with bbox for each level (using -nh)
     for key in filenameDict:
@@ -217,10 +217,11 @@ if __name__ == '__main__':
                 bboxDict[key]['ymax'] = newline[5]
                 bboxDict[key]['zmax'] = newline[6]
         densityfile.close()
-    print bboxDict
+#    print bboxDict
             
     ### Find formula for gradual density decent from jump to jump
-    
+    # find 'same' bounding boxes
+
     
     ### Use formula to filter points accordingly
     
