@@ -106,20 +106,16 @@ def writeLASfile(data, filename):
     output.close()
 
 if __name__ == '__main__':
+    ### Preparation
     resource = 'tu-delft-campus'
     BASE = getGreyhoundServer()
     allinfo = info(resource)
     dtype = buildNumpyDescription(allinfo['schema'])
     
+    ### Retrieve points from webserver
     downloadFromS3('jippe-home', 'POTREE_reads.txt', 'urls.txt')
     
     potreefile = open('urls.txt', 'r')
-
-    # from each line I need:
-    # bounds = []
-    # depthBegin = int
-    # depthEnd = int
-    # compress=false
     for j, line in enumerate(potreefile):
         print 'row %s' % j
         newline = line.split('&')
@@ -127,26 +123,42 @@ if __name__ == '__main__':
         depthBegin = newline[0].split('=')[1]
         depthEnd = newline[1].split('=')[1]
         
+        print type(depthBegin)
+        
         filename = 'originalfile%s.las' % j
         data = readdata()
         writeLASfile(data, filename)
     
     potreefile.close()
     
-    mergefiles = 'lasmerge -i *.las -o out.las'
-    os.system(mergefiles)
+    #for each 'level' create 1 file
     
+    
+    # Should the files be added already???
+    #mergefiles = 'lasmerge -i *.las -o out.las'
+    #os.system(mergefiles)
     #cleanup
-    print j
-    for i in range(j):
-        try:
-            filename = 'originalfile%s.las' % i
-            removeFile(filename)
-        except OSError:
-            print '%s does not exist' % filename
+    #print j
+    #for i in range(j):
+    #    try:
+    #        filename = 'originalfile%s.las' % i
+    #        removeFile(filename)
+    #    except OSError:
+    #        print '%s does not exist' % filename
             
-    # Unknown variables
+    ### Retrieve camera parameters from webviewer
     cameraorigin = [1000,-1800,100]
+    
+    ### Determine point distance from camera
+    
+    ### Determine density jumps between levels
+    # Determine density per level
+    #for each file do os.system(lasinfo -i inputfile.las -compute_density -nh -nv -nmm -nco -o outputfile.txt)
+    #create dict with density for each level
+    
+    ### Find formula for gradual density decent from jump to jump
+    
+    ### Use formula to filter points accordingly
     
     #########################
     # Method implementation #
