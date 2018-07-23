@@ -248,6 +248,16 @@ if __name__ == '__main__':
     # for each camera parameter determine dist distance from min and max of the level
     # the bigger distance of the two is where the next level can 'start'
     
+    for level in filenameList:
+        bbox = bboxDict[level]
+        distx = [(bbox['xmin'] - cameraorigin[0], 'xmin'), (bbox['xmax'] - cameraorigin[0], 'xmax')]
+        disty = [(bbox['ymin'] - cameraorigin[1], 'ymin'), (bbox['ymax'] - cameraorigin[1], 'ymax')]
+        distz = [(bbox['zmin'] - cameraorigin[2], 'zmin'), (bbox['zmax'] - cameraorigin[2], 'zmax')]
+        print max(distx)
+        print max(disty)
+        print max(distz)
+        
+    
     
     ### Use formula to filter points accordingly
     
