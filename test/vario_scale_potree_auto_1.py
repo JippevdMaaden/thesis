@@ -266,7 +266,7 @@ if __name__ == '__main__':
         print max(distz)
         
         furthestcornersDict['max max max'] = [(max(distx)[1],  max(disty)[1], max(distz)[1], ((max(distx)[0]) ** 2 + (max(disty)[0]) ** 2 + (max(distz)[0]) ** 2) ** 0.5)]
-        print futhestcornersDict
+        print furthestcornersDict
 
         
     
