@@ -254,7 +254,7 @@ if __name__ == '__main__':
     
     # for each camera parameter determine dist distance from min and max of the level
     # the bigger distance of the two is where the next level can 'start'
-    
+    densjumpDict = {}
     furthestcornersDict = {}
     for i, level in enumerate(densjumpList[:-1]):
         bbox = bboxDict[densjumpList[i+1]]
@@ -277,7 +277,12 @@ if __name__ == '__main__':
             else:
                 if mindist > furthestcornersDict[key][1]:
                     mindist = furthestcornersDict[key][1]
+    
+    #minimal distance jump between level and level+1
         print mindist
+        densjumpDict[level] = mindist
+    
+    print densjumpDict
             
         
         
