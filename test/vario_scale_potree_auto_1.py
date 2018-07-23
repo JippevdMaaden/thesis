@@ -159,18 +159,13 @@ if __name__ == '__main__':
         mergefiles = 'lasmerge -i ' + filenames + ' -o ' + outname
         print mergefiles
         os.system(mergefiles)
-    
-    # Should the files be added already???
-    #mergefiles = 'lasmerge -i *.las -o out.las'
-    #os.system(mergefiles)
+
     #cleanup
-    #print j
-    #for i in range(j):
-    #    try:
-    #        filename = 'originalfile%s.las' % i
-    #        removeFile(filename)
-    #    except OSError:
-    #        print '%s does not exist' % filename
+    for filename in filenameList:
+        try:
+            removeFile(filename)
+        except OSError:
+            print '%s does not exist' % filename
             
     ### Retrieve camera parameters from webviewer
     cameraorigin = [1000,-1800,100]
