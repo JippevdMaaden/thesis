@@ -259,9 +259,9 @@ if __name__ == '__main__':
         print level
         bbox = bboxDict[densjumpList[i+1]]
         print bbox
-        distx = [(cameraorigin[0] - bbox['xmin'], 'xmin'), (cameraorigin[0] - bbox['xmax'], 'xmax')]
-        disty = [(cameraorigin[1] - bbox['ymin'], 'ymin'), (cameraorigin[1] - bbox['ymax'], 'ymax')]
-        distz = [(cameraorigin[2] - bbox['zmin'], 'zmin'), (cameraorigin[2] - bbox['zmax'], 'zmax')]
+        distx = [(abs(cameraorigin[0] - bbox['xmin']), 'xmin'), (abs(cameraorigin[0] - bbox['xmax']), 'xmax')]
+        disty = [(abs(cameraorigin[1] - bbox['ymin']), 'ymin'), (abs(cameraorigin[1] - bbox['ymax']), 'ymax')]
+        distz = [(abs(cameraorigin[2] - bbox['zmin']), 'zmin'), (abs(cameraorigin[2] - bbox['zmax']), 'zmax')]
         print distx
         print disty
         print distz
