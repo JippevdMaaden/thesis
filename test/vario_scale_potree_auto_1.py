@@ -207,15 +207,15 @@ if __name__ == '__main__':
             if line[:11] == '  min x y z':
 #                print line
                 newline = line.split()
-                bboxDict[key]['xmin'] = newline[4]
-                bboxDict[key]['ymin'] = newline[5]
-                bboxDict[key]['zmin'] = newline[6]
+                bboxDict[key]['xmin'] = float(newline[4])
+                bboxDict[key]['ymin'] = float(newline[5])
+                bboxDict[key]['zmin'] = float(newline[6])
             if line[:11] == '  max x y z':
 #                print line
                 newline = line.split()
-                bboxDict[key]['xmax'] = newline[4]
-                bboxDict[key]['ymax'] = newline[5]
-                bboxDict[key]['zmax'] = newline[6]
+                bboxDict[key]['xmax'] = float(newline[4])
+                bboxDict[key]['ymax'] = float(newline[5])
+                bboxDict[key]['zmax'] = float(newline[6])
         densityfile.close()
 #    print bboxDict
             
