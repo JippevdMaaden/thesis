@@ -227,6 +227,15 @@ if __name__ == '__main__':
     filenameList.sort()
     print filenameList
     
+    for i, level in enumerate(filenameList[:-1]):
+        nextlevel = filenamelist[i+1]
+        areathislevel = (bboxDict[level]['xmin'] + bboxDict[level]['xmax']) * (bboxDict[level]['ymin'] + bboxDict[level]['ymax'])
+        areanextlevel = (bboxDict[nextlevel]['xmin'] + bboxDict[nextlevel]['xmax']) * (bboxDict[nextlevel]['ymin'] + bboxDict[nextlevel]['ymax'])
+        
+        print 'level %s, and next level %s' % (level, nextlevel)
+        print areathislevel
+        print areanextlevel
+        print
     ### Use formula to filter points accordingly
     
     #test upload files to S3
