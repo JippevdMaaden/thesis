@@ -111,6 +111,7 @@ if __name__ == '__main__':
     BASE = getGreyhoundServer()
     allinfo = info(resource)
     dtype = buildNumpyDescription(allinfo['schema'])
+    filenameList = []
     filenameDict = {}
     
     ### Retrieve points from webserver
@@ -134,6 +135,7 @@ if __name__ == '__main__':
         
         # create filename with depth '0000' appended to front
         filename = '%soriginalfile%s.las' % (depth, j)
+        filenameList.append(filename)
         
         # make filenamedict for merging with lasmerge
         if depth in filenameDict:
@@ -151,7 +153,12 @@ if __name__ == '__main__':
     potreefile.close()
     
     #for each 'level' create 1 file
-    
+    for key in filenameDict:
+        filenames = filenameDict[key]
+        outname = key + '.las'
+        mergefiles = 'lasmerge -i ' + filenames + ' -o ' + outname
+        print mergefiles
+        os.system(mergefiles)
     
     # Should the files be added already???
     #mergefiles = 'lasmerge -i *.las -o out.las'
