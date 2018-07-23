@@ -257,7 +257,7 @@ if __name__ == '__main__':
     
     for i, level in enumerate(densjumpList[:-1]):
         print level
-        bbox = bboxDict[i+1]
+        bbox = bboxDict[densjumpList[i+1]]
         print bbox
         distx = [(cameraorigin[0] - bbox['xmin'], 'xmin'), (cameraorigin[0] - bbox['xmax'], 'xmax')]
         disty = [(cameraorigin[1] - bbox['ymin'], 'ymin'), (cameraorigin[1] - bbox['ymax'], 'ymax')]
