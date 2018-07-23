@@ -255,9 +255,9 @@ if __name__ == '__main__':
     # for each camera parameter determine dist distance from min and max of the level
     # the bigger distance of the two is where the next level can 'start'
     
-    for level in densjumpList[:-1]:
+    for i, level in enumerate(densjumpList[:-1]):
         print level
-        bbox = bboxDict[level]
+        bbox = bboxDict[i+1]
         print bbox
         distx = [(cameraorigin[0] - bbox['xmin'], 'xmin'), (cameraorigin[0] - bbox['xmax'], 'xmax')]
         disty = [(cameraorigin[1] - bbox['ymin'], 'ymin'), (cameraorigin[1] - bbox['ymax'], 'ymax')]
