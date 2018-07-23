@@ -180,7 +180,7 @@ if __name__ == '__main__':
     for key in filenameDict:
         filename = key + '.las'
         outname = key + '.txt'
-        densityfiles = 'lasinfo -i ' + filename + ' -compute_density -nh -nv- nm -nco -o ' + outname
+        densityfiles = 'lasinfo -i ' + filename + ' -compute_density -nh -nv -nm -nco -o ' + outname
         print densityfiles
         os.system(densityfiles)
     
