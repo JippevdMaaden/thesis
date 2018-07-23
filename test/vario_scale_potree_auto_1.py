@@ -250,6 +250,7 @@ if __name__ == '__main__':
     
     for level in filenameList:
         bbox = bboxDict[level]
+        print bbox
         distx = [(bbox['xmin'] - cameraorigin[0], 'xmin'), (bbox['xmax'] - cameraorigin[0], 'xmax')]
         disty = [(bbox['ymin'] - cameraorigin[1], 'ymin'), (bbox['ymax'] - cameraorigin[1], 'ymax')]
         distz = [(bbox['zmin'] - cameraorigin[2], 'zmin'), (bbox['zmax'] - cameraorigin[2], 'zmax')]
