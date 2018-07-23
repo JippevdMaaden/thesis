@@ -230,6 +230,12 @@ if __name__ == '__main__':
     
     ### Use formula to filter points accordingly
     
+    #test upload files to S3
+    uploadToS3('0009.las', 'jippe-test', '0009.las')
+    uploadToS3('0010.las', 'jippe-test', '0010.las')
+    uploadToS3('0011.las', 'jippe-test', '0011.las')
+    #
+    
     #########################
     # Method implementation #
     #########################
