@@ -111,6 +111,7 @@ if __name__ == '__main__':
     BASE = getGreyhoundServer()
     allinfo = info(resource)
     dtype = buildNumpyDescription(allinfo['schema'])
+    filenameDict = {}
     
     ### Retrieve points from webserver
     downloadFromS3('jippe-home', 'POTREE_reads.txt', 'urls.txt')
@@ -134,10 +135,19 @@ if __name__ == '__main__':
         # create filename with depth '0000' appended to front
         filename = '%soriginalfile%s.las' % (depth, j)
         
+        # make filenamedict for merging with lasmerge
+        if depth in filenameDict:
+            appendfilename = filename + ' '
+            filenameDict[depth] += appendfilename
+        else:
+            appendfilename = ' ' + filename
+            filenameDict[depth] = appendfilename
+            
         # retrieve from Greyhound webserver
         data = readdata()
         writeLASfile(data, filename)
     
+    print filenameDict
     potreefile.close()
     
     #for each 'level' create 1 file
