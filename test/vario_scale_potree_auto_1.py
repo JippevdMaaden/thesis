@@ -114,6 +114,7 @@ if __name__ == '__main__':
     filenameList = []
     filenameDict = {}
     densityDict = {}
+    bboxDict = {}
     
     ### Retrieve points from webserver
     downloadFromS3('jippe-home', 'POTREE_reads.txt', 'urls.txt')
@@ -172,15 +173,15 @@ if __name__ == '__main__':
     cameraorigin = [1000,-1800,100]
     
     ### Determine point distance from camera
-    
+    # is this needed? Might depend on method implementation later on
     
     ### Determine density jumps between levels
     #for each file do os.system(lasinfo -i inputfile.las -compute_density -nh -nv -nmm -nco -o outputfile.txt)
-    # Determine density per level
+    # Determine density per level, and bbox per level
     for key in filenameDict:
         filename = key + '.las'
         outname = key + '.txt'
-        densityfiles = 'lasinfo -i ' + filename + ' -compute_density -nh -nv -nmm -nco -o ' + outname
+        densityfiles = 'lasinfo -i ' + filename + ' -compute_density -nh -nv -nco -o ' + outname
         print densityfiles
         os.system(densityfiles)
     
@@ -194,10 +195,38 @@ if __name__ == '__main__':
                 newline = line.split()
                 density = float(newline[4])
                 densityDict[key] = density
+        densityfile.close()
     print densityDict
-            
     
+    #create dict with bbox for each level
+    for key in filenameDict:
+        bboxDict[key] = {}
+        filename = key + '.txt'
+        densityfile = open(filename, 'r')
+        for line in densityfile:
+            if line[:3] == '  X':
+                print line
+                newline = line.split()
+                xbox = [int(newline[1]), int(newline[2])]
+                bboxDict[key]['xmin'] = min(xbox)
+                bboxDict[key]['xmax'] = max(xbox)
+            if line[:3] == '  Y':
+                print line
+                newline = line.split()
+                ybox = [int(newline[1]), int(newline[2])]
+                bboxDict[key]['ymin'] = min(ybox)
+                bboxDict[key]['ymax'] = max(ybox)
+            if line[:3] == '  Z':
+                print line
+                newline = line.split()
+                zbox = [int(newline[1]), int(newline[2])]
+                bboxDict[key]['zmin'] = min(zbox)
+                bboxDict[key]['zmax'] = max(zbox)
+        densityfile.close()
+    print bboxDict
+            
     ### Find formula for gradual density decent from jump to jump
+    
     
     ### Use formula to filter points accordingly
     
