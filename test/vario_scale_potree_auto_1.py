@@ -283,7 +283,7 @@ if __name__ == '__main__':
         densjumpDict[level] = mindist
     
     print densjumpDict
-    print 'from density 0011 to 0010 the jump from {} to {} has to be made within {} units'.format(densDict['0011'], densDict['0010'], densjumpDict['0010'])
+    print 'from density 0011 to 0010 the jump from {} to {} has to be made within {} units'.format(densityDict['0011'], densityDict['0010'], densjumpDict['0010'])
             
         
         
