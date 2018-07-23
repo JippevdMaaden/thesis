@@ -132,7 +132,7 @@ if __name__ == '__main__':
         depth = filler + depthEnd
         
         # create filename with depth '0000' appended to front
-        filename = '$soriginalfile%s.las' % (depth, j)
+        filename = '%soriginalfile%s.las' % (depth, j)
         
         # retrieve from Greyhound webserver
         data = readdata()
