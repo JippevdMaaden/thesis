@@ -185,7 +185,7 @@ if __name__ == '__main__':
 #        print densityfiles
         os.system(densityfiles)
     
-    #create dict with density for each level
+    #create dict with density for each level (old), using lasinfo gives some weird results
     for key in filenameDict:
         filename = key + '.txt'
         densityfile = open(filename, 'r')
@@ -197,6 +197,8 @@ if __name__ == '__main__':
                 densityDict[key] = density
         densityfile.close()
 #    print densityDict
+    
+
     
     #create dict with bbox for each level (using -nh)
     for key in filenameDict:
@@ -218,6 +220,24 @@ if __name__ == '__main__':
                 bboxDict[key]['zmax'] = float(newline[6])
         densityfile.close()
 #    print bboxDict
+
+    #create dict with density estimation for each level
+    for key in filenameDict:
+        filename = key + '.txt'
+        densityfile = open(filename, 'r')
+        for line in densityfile:
+            if line[:25] == '  number of point records':
+                newline = line.split()
+                numpoints = int(newline[4])
+        densityfile.close()
+        areathislevel = (abs(bboxDict[key]['xmin']) + bboxDict[key]['xmax']) * (abs(bboxDict[key]['ymin']) + bboxDict[key]['ymax'])
+        densthislevel = numpoints / areathislevel
+        print key
+        print densthislevel
+        densityDict[key] = densthislevel
+    print densityDict
+        
+        
             
     ### Find formula for gradual density decent from jump to jump
     # find 'same' bounding boxes, where multiple levels cover the same area
