@@ -191,7 +191,7 @@ if __name__ == '__main__':
         densityfile = open(filename, 'r')
         for line in densityfile:
             if line[:13] == 'point density':
-                print line
+#                print line
                 newline = line.split()
                 density = float(newline[4])
                 densityDict[key] = density
@@ -205,13 +205,13 @@ if __name__ == '__main__':
         densityfile = open(filename, 'r')
         for line in densityfile:
             if line[:11] == '  min x y z':
-                print line
+#                print line
                 newline = line.split()
                 bboxDict[key]['xmin'] = newline[4]
                 bboxDict[key]['ymin'] = newline[5]
                 bboxDict[key]['zmin'] = newline[6]
             if line[:11] == '  max x y z':
-                print line
+#                print line
                 newline = line.split()
                 bboxDict[key]['xmax'] = newline[4]
                 bboxDict[key]['ymax'] = newline[5]
