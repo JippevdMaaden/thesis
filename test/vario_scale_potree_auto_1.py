@@ -249,14 +249,19 @@ if __name__ == '__main__':
     # the bigger distance of the two is where the next level can 'start'
     
     for level in filenameList:
+        print level
         bbox = bboxDict[level]
         print bbox
         distx = [(bbox['xmin'] - cameraorigin[0], 'xmin'), (bbox['xmax'] - cameraorigin[0], 'xmax')]
         disty = [(bbox['ymin'] - cameraorigin[1], 'ymin'), (bbox['ymax'] - cameraorigin[1], 'ymax')]
         distz = [(bbox['zmin'] - cameraorigin[2], 'zmin'), (bbox['zmax'] - cameraorigin[2], 'zmax')]
+        print distx
+        print disty
+        print distz
         print max(distx)
         print max(disty)
         print max(distz)
+        print
         
     
     
