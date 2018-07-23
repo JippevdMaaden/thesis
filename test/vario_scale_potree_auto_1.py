@@ -225,17 +225,22 @@ if __name__ == '__main__':
     for key in filenameDict:
         filenameList.append(key)
     filenameList.sort()
-    print filenameList
     
     for i, level in enumerate(filenameList[:-1]):
         nextlevel = filenameList[i+1]
         areathislevel = (abs(bboxDict[level]['xmin']) + bboxDict[level]['xmax']) * (abs(bboxDict[level]['ymin']) + bboxDict[level]['ymax'])
         areanextlevel = (abs(bboxDict[nextlevel]['xmin']) + bboxDict[nextlevel]['xmax']) * (abs(bboxDict[nextlevel]['ymin']) + bboxDict[nextlevel]['ymax'])
+        areajump = areathislevel / areanextlevel
         
         print 'level %s, and next level %s' % (level, nextlevel)
         print areathislevel
         print areanextlevel
-        print
+        print areajump
+        
+        if int(areajump) == 1:
+            print 'there is no jump from level %s to level %s' % (level, nextlevel)
+        
+        
     ### Use formula to filter points accordingly
     
     #test upload files to S3
