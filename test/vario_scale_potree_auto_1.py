@@ -220,7 +220,7 @@ if __name__ == '__main__':
 #    print bboxDict
             
     ### Find formula for gradual density decent from jump to jump
-    # find 'same' bounding boxes
+    # find 'same' bounding boxes, where multiple levels cover the same area
     filenameList = []
     for key in filenameDict:
         filenameList.append(key)
@@ -232,15 +232,23 @@ if __name__ == '__main__':
         areanextlevel = (abs(bboxDict[nextlevel]['xmin']) + bboxDict[nextlevel]['xmax']) * (abs(bboxDict[nextlevel]['ymin']) + bboxDict[nextlevel]['ymax'])
         areajump = areathislevel / areanextlevel
         
-        print 'level %s, and next level %s' % (level, nextlevel)
-        print areathislevel
-        print areanextlevel
-        print areajump
-        
+        # if they cover the same area, add them together or just note that they are the same????
         if int(areajump) == 1:
-            print 'there is no jump from level %s to level %s' % (level, nextlevel)
+            print 'there is no bbox jump from level %s to level %s' % (level, nextlevel)
+    
         
-        
+    # determine closest distance where the density of level X has to start
+    # for the highest level this would be at the bbox edge closest to the camera
+    
+    # for the other levels this would not be the bbox edge, since this is the same as the highest level
+    # for the other levels a plane has to be formed where the level+1 ends, and thus the level density begins
+    # there can be 1 to 4 planes created this way. For each of those planes the shortest distance towards it
+    # must be calculated. The minimum distance is the distance we're looking for
+    
+    # for each camera parameter determine dist distance from min and max of the level
+    # the bigger distance of the two is where the next level can 'start'
+    
+    
     ### Use formula to filter points accordingly
     
     #test upload files to S3
