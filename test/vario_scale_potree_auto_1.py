@@ -185,6 +185,17 @@ if __name__ == '__main__':
         os.system(densityfiles)
     
     #create dict with density for each level
+    for key in filenameDict:
+        filename = key + '.txt'
+        densityfile = open(filename, 'r')
+        for line in densityfile:
+            if line[:13] == 'point density':
+                print line
+                newline = line.split()
+                density = float(newline[4])
+                densityDict[key] = density
+    print densityDict
+            
     
     ### Find formula for gradual density decent from jump to jump
     
