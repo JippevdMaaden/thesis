@@ -255,20 +255,19 @@ if __name__ == '__main__':
     # for each camera parameter determine dist distance from min and max of the level
     # the bigger distance of the two is where the next level can 'start'
     
+    furthestcornersDict = {}
     for i, level in enumerate(densjumpList[:-1]):
-        print level
         bbox = bboxDict[densjumpList[i+1]]
-        print bbox
         distx = [(abs(cameraorigin[0] - bbox['xmin']), 'xmin'), (abs(cameraorigin[0] - bbox['xmax']), 'xmax')]
         disty = [(abs(cameraorigin[1] - bbox['ymin']), 'ymin'), (abs(cameraorigin[1] - bbox['ymax']), 'ymax')]
         distz = [(abs(cameraorigin[2] - bbox['zmin']), 'zmin'), (abs(cameraorigin[2] - bbox['zmax']), 'zmax')]
-        print distx
-        print disty
-        print distz
         print max(distx)
         print max(disty)
         print max(distz)
-        print
+        
+        furthestcornersDict['max max max'] = [(max(distx)[1],  max(disty)[1], max(distz)[1]), ((max(distx)[0]) ** 2 + (max(disty)[0]) ** 2 + (max(distz)[1])) ** 2) ** 0.5]
+        print futhestcornersDict
+
         
     
     
