@@ -113,6 +113,7 @@ if __name__ == '__main__':
     dtype = buildNumpyDescription(allinfo['schema'])
     filenameList = []
     filenameDict = {}
+    densityDict = {}
     
     ### Retrieve points from webserver
     downloadFromS3('jippe-home', 'POTREE_reads.txt', 'urls.txt')
@@ -172,9 +173,17 @@ if __name__ == '__main__':
     
     ### Determine point distance from camera
     
+    
     ### Determine density jumps between levels
-    # Determine density per level
     #for each file do os.system(lasinfo -i inputfile.las -compute_density -nh -nv -nmm -nco -o outputfile.txt)
+    # Determine density per level
+    for key in filenameDict:
+        filename = key + '.las'
+        outname = key + '.txt'
+        densityfiles = 'lasinfo -i ' + filename + ' -compute_density -nh -nv- nm -nco -o ' + outname
+        print densityfiles
+        os.system(densityfiles)
+    
     #create dict with density for each level
     
     ### Find formula for gradual density decent from jump to jump
