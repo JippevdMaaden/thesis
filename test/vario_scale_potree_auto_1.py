@@ -117,15 +117,24 @@ if __name__ == '__main__':
     
     potreefile = open('urls.txt', 'r')
     for j, line in enumerate(potreefile):
+        # extract data to retrieve from Greyhound webserver
         print 'row %s' % j
         newline = line.split('&')
         box = newline[2].split('=')[1]
         depthBegin = newline[0].split('=')[1]
         depthEnd = newline[1].split('=')[1]
         
-        print type(depthBegin)
+        if int(depthEnd) - int(depthBegin) != 1:
+            startDepth = depthEnd
         
-        filename = 'originalfile%s.las' % j
+        # make sure all octree levers are 4 numbers
+        filler = '0' * (4 - len(depthEnd))
+        depth = filler + depthEnd
+        
+        # create filename with depth '0000' appended to front
+        filename = '$soriginalfile%s.las' % (depth, j)
+        
+        # retrieve from Greyhound webserver
         data = readdata()
         writeLASfile(data, filename)
     
