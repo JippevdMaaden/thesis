@@ -226,6 +226,7 @@ if __name__ == '__main__':
         filenameList.append(key)
     filenameList.sort()
     
+    densjumpList = []
     for i, level in enumerate(filenameList[:-1]):
         nextlevel = filenameList[i+1]
         areathislevel = (abs(bboxDict[level]['xmin']) + bboxDict[level]['xmax']) * (abs(bboxDict[level]['ymin']) + bboxDict[level]['ymax'])
@@ -235,6 +236,12 @@ if __name__ == '__main__':
         # if they cover the same area, add them together or just note that they are the same????
         if int(areajump) == 1:
             print 'there is no bbox jump from level %s to level %s' % (level, nextlevel)
+        else:
+            if level not in densjumpList:
+                densjumpList.append(level)
+            if nextlevel not in densjumpList:
+                densjumpList.append(nextlevel)
+            
     
         
     # determine closest distance where the density of level X has to start
@@ -248,7 +255,7 @@ if __name__ == '__main__':
     # for each camera parameter determine dist distance from min and max of the level
     # the bigger distance of the two is where the next level can 'start'
     
-    for level in filenameList:
+    for level in densjumpList[:-1]:
         print level
         bbox = bboxDict[level]
         print bbox
