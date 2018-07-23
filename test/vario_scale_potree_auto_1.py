@@ -252,9 +252,9 @@ if __name__ == '__main__':
         print level
         bbox = bboxDict[level]
         print bbox
-        distx = [(bbox['xmin'] - cameraorigin[0], 'xmin'), (bbox['xmax'] - cameraorigin[0], 'xmax')]
-        disty = [(bbox['ymin'] - cameraorigin[1], 'ymin'), (bbox['ymax'] - cameraorigin[1], 'ymax')]
-        distz = [(bbox['zmin'] - cameraorigin[2], 'zmin'), (bbox['zmax'] - cameraorigin[2], 'zmax')]
+        distx = [(cameraorigin[0] - bbox['xmin'], 'xmin'), (cameraorigin[0] - bbox['xmax'], 'xmax')]
+        disty = [(cameraorigin[1] - bbox['ymin'], 'ymin'), (cameraorigin[1] - bbox['ymax'], 'ymax')]
+        distz = [(cameraorigin[2] - bbox['zmin'], 'zmin'), (cameraorigin[2] - bbox['zmax'], 'zmax')]
         print distx
         print disty
         print distz
