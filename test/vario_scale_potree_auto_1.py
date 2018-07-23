@@ -181,7 +181,7 @@ if __name__ == '__main__':
     for key in filenameDict:
         filename = key + '.las'
         outname = key + '.txt'
-        densityfiles = 'lasinfo -i ' + filename + ' -compute_density -nv -nco -o ' + outname
+        densityfiles = 'lasinfo -i ' + filename + ' -compute_density -nv -nmm -nco -o ' + outname
         print densityfiles
         os.system(densityfiles)
     
@@ -198,34 +198,7 @@ if __name__ == '__main__':
         densityfile.close()
     print densityDict
     
-    #create dict with bbox for each level (using -nmm)
-    for key in filenameDict:
-        bboxDict[key] = {}
-        filename = key + '.txt'
-        densityfile = open(filename, 'r')
-        for line in densityfile:
-            if line[:3] == '  X':
-                print line
-                newline = line.split()
-                xbox = [int(newline[1]), int(newline[2])]
-                bboxDict[key]['xmin'] = min(xbox)
-                bboxDict[key]['xmax'] = max(xbox)
-            if line[:3] == '  Y':
-                print line
-                newline = line.split()
-                ybox = [int(newline[1]), int(newline[2])]
-                bboxDict[key]['ymin'] = min(ybox)
-                bboxDict[key]['ymax'] = max(ybox)
-            if line[:3] == '  Z':
-                print line
-                newline = line.split()
-                zbox = [int(newline[1]), int(newline[2])]
-                bboxDict[key]['zmin'] = min(zbox)
-                bboxDict[key]['zmax'] = max(zbox)
-        densityfile.close()
-    print bboxDict
-    
-    #create dict with bbox for each level (using -nmm)
+    #create dict with bbox for each level (using -nh)
     for key in filenameDict:
         bboxDict[key] = {}
         filename = key + '.txt'
