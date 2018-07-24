@@ -220,22 +220,18 @@ if __name__ == '__main__':
 
     #create dict with density estimation for each level
     density = 0
-    print filenameList
     for name in filenameList:
-        print name
         filename = name + '.txt'
         densityfile = open(filename, 'r')
         for line in densityfile:
             if line[:25] == '  number of point records':
                 newline = line.split()
                 numpoints = int(newline[4])
-        print numpoints
         densityfile.close()
         areathislevel = (abs(bboxDict[name]['xmin']) + bboxDict[name]['xmax']) * (abs(bboxDict[name]['ymin']) + bboxDict[name]['ymax'])
         densthislevel = numpoints / areathislevel
         density += densthislevel
-        densityDict[key] = density
-        print
+        densityDict[name] = density
     print densityDict
         
         
