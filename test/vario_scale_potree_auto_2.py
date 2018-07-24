@@ -29,6 +29,8 @@ from util.utils import *
 # then it combines all point cloud files and filteres the
 # new file as a whole.
 #
+# Also a fade away to 0 density is added
+#
 
 def info(resource):
     url = BASE+"resource/"+resource+"/info"
@@ -188,22 +190,7 @@ if __name__ == '__main__':
         densityfiles = 'lasinfo -i ' + filename + ' -compute_density -nv -nmm -nco -o ' + outname
 #        print densityfiles
         os.system(densityfiles)
-    
-    #create dict with density for each level (old), using lasinfo gives some weird results
-    for key in filenameDict:
-        filename = key + '.txt'
-        densityfile = open(filename, 'r')
-        for line in densityfile:
-            if line[:13] == 'point density':
-#                print line
-                newline = line.split()
-                density = float(newline[4])
-                densityDict[key] = density
-        densityfile.close()
-#    print densityDict
-    
-
-    
+       
     #create dict with bbox for each level (using -nh)
     for key in filenameDict:
         bboxDict[key] = {}
@@ -226,6 +213,7 @@ if __name__ == '__main__':
 #    print bboxDict
 
     #create dict with density estimation for each level
+    density = 0
     for key in filenameDict:
         filename = key + '.txt'
         densityfile = open(filename, 'r')
@@ -236,9 +224,8 @@ if __name__ == '__main__':
         densityfile.close()
         areathislevel = (abs(bboxDict[key]['xmin']) + bboxDict[key]['xmax']) * (abs(bboxDict[key]['ymin']) + bboxDict[key]['ymax'])
         densthislevel = numpoints / areathislevel
-        print key
-        print densthislevel
-        densityDict[key] = densthislevel
+        density += densthislevel
+        densityDict[key] = density
     print densityDict
         
         
