@@ -160,6 +160,12 @@ if __name__ == '__main__':
 #    print filenameDict
     potreefile.close()
     
+    # Create a filename list with sorted filenameDict values
+    filenameList = []
+    for key in filenameDict:
+        filenameList.append(key)
+    filenameList.sort()
+    
     #for each 'level' create 1 file
     for key in filenameDict:
         filenames = filenameDict[key]
@@ -214,15 +220,15 @@ if __name__ == '__main__':
 
     #create dict with density estimation for each level
     density = 0
-    for key in filenameDict:
-        filename = key + '.txt'
+    for name in filenameList:
+        filename = name + '.txt'
         densityfile = open(filename, 'r')
         for line in densityfile:
             if line[:25] == '  number of point records':
                 newline = line.split()
                 numpoints = int(newline[4])
         densityfile.close()
-        areathislevel = (abs(bboxDict[key]['xmin']) + bboxDict[key]['xmax']) * (abs(bboxDict[key]['ymin']) + bboxDict[key]['ymax'])
+        areathislevel = (abs(bboxDict[name]['xmin']) + bboxDict[name]['xmax']) * (abs(bboxDict[name]['ymin']) + bboxDict[name]['ymax'])
         densthislevel = numpoints / areathislevel
         density += densthislevel
         densityDict[key] = density
@@ -232,10 +238,7 @@ if __name__ == '__main__':
             
     ### Find formula for gradual density decent from jump to jump
     # find 'same' bounding boxes, where multiple levels cover the same area
-    filenameList = []
-    for key in filenameDict:
-        filenameList.append(key)
-    filenameList.sort()
+
     
     densjumpList = []
     for i, level in enumerate(filenameList[:-1]):
