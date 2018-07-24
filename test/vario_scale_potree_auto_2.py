@@ -294,7 +294,14 @@ if __name__ == '__main__':
     
     #minimal distance jump between level and level+1
         print mindist
-        densjumpDict[level] = mindist
+        
+        tempDict = {}
+        tempDict['level'] = densjumpList[i]
+        tempDict['level+1'] = densjumpList[i+1]
+        tempDict['distance'] = mindist
+        tempDict['density'] = densityDict[densjumpList[i]]
+        tempDict['density+1'] = densityDict[densjumpList[i+1]]
+        densjumpDict[level] = tempDict
     
     print densjumpDict
     print 'from density 0011 to 0010 the jump from {} to {} has to be made within {} units'.format(densityDict['0011'], densityDict['0010'], densjumpDict['0010'])
