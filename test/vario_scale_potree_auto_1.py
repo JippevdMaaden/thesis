@@ -22,8 +22,10 @@ from util.utils import *
 # a vario-scale implementation is done using arbitrary
 # camera parameters.
 #
-# The implemented method uses a logarithmic(e) function to describe
-# which points should be removed
+# The implemented method uses automatic processing as described
+# during my P3 presentation
+#
+# This file contains the basics that are used for further development
 #
 
 def info(resource):
