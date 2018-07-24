@@ -220,6 +220,7 @@ if __name__ == '__main__':
 
     #create dict with density estimation for each level
     density = 0
+    print filenameList
     for name in filenameList:
         filename = name + '.txt'
         densityfile = open(filename, 'r')
