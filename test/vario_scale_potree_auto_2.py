@@ -270,7 +270,7 @@ if __name__ == '__main__':
     # the bigger distance of the two is where the next level can 'start'
     
     # Add '0000' to densjumpList and densityDict so the density will go to 0
-    densjumpList.insert('0000', 0)
+    densjumpList.insert(0, '0000')
     densityDict['0000'] = float(0)
     
     densjumpDict = {}
