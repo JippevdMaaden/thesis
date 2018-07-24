@@ -268,6 +268,11 @@ if __name__ == '__main__':
     
     # for each camera parameter determine dist distance from min and max of the level
     # the bigger distance of the two is where the next level can 'start'
+    
+    # Add '0000' to densjumpList and densityDict so the density will go to 0
+    densjumpList.insert('0000', 0)
+    densityDict['0000'] = float(0)
+    
     densjumpDict = {}
     furthestcornersDict = {}
     for i, level in enumerate(densjumpList[:-1]):
@@ -302,6 +307,8 @@ if __name__ == '__main__':
         tempDict['density'] = densityDict[densjumpList[i]]
         tempDict['density+1'] = densityDict[densjumpList[i+1]]
         densjumpDict[level] = tempDict
+    
+    # Add  a densityjump to 0 density to the densjumpDict
     
     print densjumpDict
     print 'from density 0011 to 0010 the jump from {} to {} has to be made within {} units'.format(densityDict['0011'], densityDict['0010'], densjumpDict['0010'])
