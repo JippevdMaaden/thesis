@@ -10,7 +10,7 @@ from util.utils import *
 app = Flask(__name__)
 api = Api(app)
 
-prefix_resource = 'resource/tu-delft-campus'
+prefix_resource = '/resource/tu-delft-campus'
 greyhoud_server = getGreyhoundServer()
 
 class Greyhound_read(Resource):
