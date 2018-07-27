@@ -44,7 +44,8 @@ class Greyhound_read(Resource):
     
     for key in temp_dict:
       if key == 'schema':
-        temp_var = temp_dict[key].replace("\", "")
+        temp_var = temp_dict[key]
+        temp_var.replace("/", "")
         temp_dict[key] = temp_var
       new_var = key+ '=' + temp_dict[key] + '&'
       temp_dict[key] = new_var
