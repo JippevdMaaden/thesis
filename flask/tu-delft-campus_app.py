@@ -17,7 +17,17 @@ class Greyhound_read(Resource):
   def get(self):
     parser = reqparse.RequestParser()
     parser.add_argument('depthEnd', type=int)
+    parser.add_argument('depthEnd', type=int)
     parser.add_argument('depthBegin', type=int)
+    parser.add_argument('bounds', type=str)
+    parser.add_argument('scale', type=float)
+    parser.add_argument('offset', type=list)
+    parser.add_argument('filter')
+    parser.add_argument('schema')
+    parser.add_argument('compress', type=str)
+    
+    
+    
     
     return parser.parse_args()
     
