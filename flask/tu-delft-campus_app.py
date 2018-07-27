@@ -62,8 +62,10 @@ class Greyhound_read(Resource):
     server_to_call = '{}{}/read?{}'.format(greyhound_server[:-1], prefix_resource, string_to_add)
     
     # call greyhound server
-    print server_to_call
-    return read(server_to_call)
+    to_return = read(server_to_call)
+    print to_return
+    
+    #return read(server_to_call)
     return server_to_call
     return temp_dict
     return 'im reading this, will forward it to {}'.format(server_to_call)
