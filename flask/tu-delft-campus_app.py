@@ -125,6 +125,8 @@ class Greyhound_hierarchy(Resource):
     
     print server_to_call
     
+    return read(server_to_call)
+    
     json_read = json.loads(read(server_to_call))
     return json_read
 
