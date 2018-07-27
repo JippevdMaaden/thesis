@@ -10,7 +10,7 @@ from util.utils import *
 app = Flask(__name__)
 api = Api(app)
 
-prefix_resource = '/resource/tu-delft-campus'
+prefix_resource = 'resource/tu-delft-campus'
 greyhoud_server = getGreyhoundServer()
 
 class Greyhound_read(Resource):
@@ -36,15 +36,13 @@ class Greyhound_read(Resource):
     for key in remove_args:
       del temp_dict[key]
     
-    string_to_add = ''
     for key in temp_dict:
-      temp_string = '{}={}&'.format(key,temp_dict[key])
-      string_to_add += temp_string
+      new_var = str(temp_dict[key]) + key
     
     greyhound_server = getGreyhoundServer()
-    server_to_call = '{}{}/read?'.format(greyhound_server, prefix_resource, string_to_add)
+    server_to_call = '{}{}/read?{}'.format(greyhound_server, prefix_resource, string_to_add)
     
-    return server_to_call
+    #return server_to_call
     return temp_dict
     return 'im reading this, will forward it to {}'.format(server_to_call)
 
