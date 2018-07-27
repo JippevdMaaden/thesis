@@ -15,6 +15,7 @@ greyhoud_server = getGreyhoundServer()
 
 class Greyhound_read(Resource):
   def get(self, action):
+    greyhound_server = getGreyhoundServer()
     server_to_call = greyhound_server + action
     return 'im reading this, will forward it to {}'.format(server_to_call)
 
