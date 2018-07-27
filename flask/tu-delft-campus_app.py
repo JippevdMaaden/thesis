@@ -123,6 +123,8 @@ class Greyhound_hierarchy(Resource):
     greyhound_server = getGreyhoundServer()
     server_to_call = '{}{}/read?{}'.format(greyhound_server[:-1], prefix_resource, string_to_add)
     
+    print server_to_call
+    
     json_read = json.loads(read(server_to_call))
     return json_read
 
