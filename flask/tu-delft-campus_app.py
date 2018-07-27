@@ -22,6 +22,14 @@ def read(url):
     return data
 
 class Greyhound_read(Resource):
+    # to debug this Class I probably will have to solve the error:
+    #
+    # UnicodeDecodeError: 'utf8' codec can't decode byte 0xd9 in position 0: invalid continuation byte
+    #
+    # Most probably I will have to unpack the datastream to LAZ files, see test folder
+    # and then use PotreeConverter to create a datastream again
+    # then send that as 'return'
+    
   def get(self):
     parser = reqparse.RequestParser()
     parser.add_argument('depthEnd', type=str)
