@@ -65,7 +65,8 @@ class Greyhound_read(Resource):
     to_return = read(server_to_call)
     print to_return
     
-    #return read(server_to_call)
+    return to_return
+    return read(server_to_call)
     return server_to_call
     return temp_dict
     return 'im reading this, will forward it to {}'.format(server_to_call)
