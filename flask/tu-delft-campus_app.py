@@ -63,7 +63,6 @@ class Greyhound_read(Resource):
     
     # call greyhound server
     to_return = read(server_to_call)
-    print to_return
     
     return to_return
     return read(server_to_call)
