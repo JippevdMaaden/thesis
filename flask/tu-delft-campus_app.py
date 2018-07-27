@@ -14,7 +14,7 @@ prefix_resource = '/resource/tu-delft-campus'
 greyhoud_server = getGreyhoundServer()
 
 class Greyhound_read(Resource):
-  def get(self, action):
+  def get(self):
     parser = reqparse.RequestParser()
     parser.add_argument('depthEnd', type=int)
     parser.add_argument('depthBegin', type=int)
