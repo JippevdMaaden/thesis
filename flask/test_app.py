@@ -46,10 +46,10 @@ api.add_resource(Quotes, '/quotes')
 
 api.add_resource(Info, '/info')
 api.add_resource(Read, '/read')
-api.add_resource(Static, '/static')
-api.add_resource(Count, '/count')
-api.add_resource(Hierarchy, '/hierarchy')
-api.add_resource(Files, '/files')
+#api.add_resource(Static, '/static')
+#api.add_resource(Count, '/count')
+#api.add_resource(Hierarchy, '/hierarchy')
+#api.add_resource(Files, '/files')
 
 if __name__ == '__main__':
   app.run(host="0.0.0.0", port=80, debug=True)
