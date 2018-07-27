@@ -69,6 +69,8 @@ class Greyhound_read(Resource):
 
 class Greyhound_info(Resource):
   def get(self):
+    # create full url-string
+    greyhound_server = getGreyhoundServer()
     server_to_call = '{}{}/info'.format(greyhound_server[:-1], prefix_resource)
     return read(server_to_call)
 
