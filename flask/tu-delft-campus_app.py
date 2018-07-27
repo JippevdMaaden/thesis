@@ -46,7 +46,7 @@ class Greyhound_read(Resource):
     string_to_add = temp_string_to_add[:-1]
     
     greyhound_server = getGreyhoundServer()
-    server_to_call = '{}{}/read?{}'.format(greyhound_server, prefix_resource, string_to_add)
+    server_to_call = '{}{}/read?{}'.format(greyhound_server[:-1], prefix_resource, string_to_add)
     
     return server_to_call
     return temp_dict
