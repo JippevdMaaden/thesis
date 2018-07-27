@@ -42,6 +42,8 @@ class Greyhound_read(Resource):
     for key in remove_args:
       del temp_dict[key]
     
+    del temp_dict['schema']
+    
     for key in temp_dict:
       if key == 'schema':
         temp_var = temp_dict[key]
