@@ -1,3 +1,4 @@
+import urllib3
 import sys
 
 from flask import Flask
@@ -12,6 +13,12 @@ api = Api(app)
 
 prefix_resource = '/resource/tu-delft-campus'
 greyhoud_server = getGreyhoundServer()
+
+def read(url):
+    http = urllib3.PoolManager()
+    u = http.request('GET', url)
+    data = u.data
+    return data
 
 class Greyhound_read(Resource):
   def get(self):
@@ -48,6 +55,7 @@ class Greyhound_read(Resource):
     greyhound_server = getGreyhoundServer()
     server_to_call = '{}{}/read?{}'.format(greyhound_server[:-1], prefix_resource, string_to_add)
     
+    return read(server_to_call)
     return server_to_call
     return temp_dict
     return 'im reading this, will forward it to {}'.format(server_to_call)
