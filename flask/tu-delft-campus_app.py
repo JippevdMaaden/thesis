@@ -26,10 +26,10 @@ class Greyhound_read(Resource):
     parser.add_argument('schema')
     parser.add_argument('compress', type=str)
     
+    temp_dict = parser.parse_args()
     
     
-    
-    return parser.parse_args()
+    return temp_dict
     
     greyhound_server = getGreyhoundServer()
     server_to_call = greyhound_server + action
