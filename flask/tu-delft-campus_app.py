@@ -17,7 +17,6 @@ class Greyhound_read(Resource):
   def get(self):
     parser = reqparse.RequestParser()
     parser.add_argument('depthEnd', type=str)
-    parser.add_argument('depthEnd', type=str)
     parser.add_argument('depthBegin', type=str)
     parser.add_argument('bounds', type=str)
     parser.add_argument('scale', type=str)
@@ -40,10 +39,14 @@ class Greyhound_read(Resource):
       new_var = key+ '=' + temp_dict[key]
       temp_dict[key] = new_var
     
-    greyhound_server = getGreyhoundServer()
-    server_to_call = '{}{}/read?'.format(greyhound_server, prefix_resource)
+    string_to_add = ''
+    for key in temp_dict:
+      string_to_add += temp_dict[key]
     
-    #return server_to_call
+    greyhound_server = getGreyhoundServer()
+    server_to_call = '{}{}/read?{}'.format(greyhound_server, prefix_resource, string_to_add)
+    
+    return server_to_call
     return temp_dict
     return 'im reading this, will forward it to {}'.format(server_to_call)
 
