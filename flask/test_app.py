@@ -8,7 +8,7 @@ class Quotes(Resource):
   def get(self):
       return {
           'ataturk': {'quote': ['A 1', 'A 2', 'A 3']},
-          'linus: {'quote': ['Talk is cheap. Show me the code.']}
+          'linus': {'quote': ['Talk is cheap. Show me the code.']}
           }
 
 api.add_resrouce(Quotes, '/')
