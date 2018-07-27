@@ -4,6 +4,11 @@ from flask_restful import Resource, Api
 app = Flask(__name__)
 api = Api(app)
 
+class Greyhound(Resource):
+  def get(self, todo_string):
+    return todo_string
+    
+    
 class Hello_world(Resource):
   def get(self):
     return 'Hello world'
@@ -41,11 +46,11 @@ class Files(Resource):
   
 
     
-api.add_resource(Hello_world, '/')
-api.add_resource(Quotes, '/quotes')
+api.add_resource(Greyhound, '/<string:todo_string>')
+#api.add_resource(Quotes, '/quotes')
 
-api.add_resource(Info, '/info')
-api.add_resource(Read, '/read')
+#api.add_resource(Info, '/info')
+#api.add_resource(Read, '/read')
 #api.add_resource(Static, '/static')
 #api.add_resource(Count, '/count')
 #api.add_resource(Hierarchy, '/hierarchy')
