@@ -36,12 +36,14 @@ class Greyhound_read(Resource):
       del temp_dict[key]
     
     for key in temp_dict:
-      new_var = key+ '=' + temp_dict[key]
+      new_var = key+ '=' + temp_dict[key] + '&'
       temp_dict[key] = new_var
     
-    string_to_add = ''
+    temp_string_to_add = ''
     for key in temp_dict:
-      string_to_add += temp_dict[key]
+      temp_string_to_add += temp_dict[key]
+    
+    string_to_add = temp_string_to_add[:-1]
     
     greyhound_server = getGreyhoundServer()
     server_to_call = '{}{}/read?{}'.format(greyhound_server, prefix_resource, string_to_add)
