@@ -39,7 +39,7 @@ class Greyhound_read(Resource):
     string_to_add = ''
     for key in temp_dict:
       temp_string = '{}={}&'.format(key,temp_dict[key])
-      string_to_add += tempstring
+      string_to_add += temp_string
     
     greyhound_server = getGreyhoundServer()
     server_to_call = '{}{}/read?'.format(greyhound_server, prefix_resource, string_to_add)
