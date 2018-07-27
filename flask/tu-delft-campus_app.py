@@ -6,14 +6,16 @@ api = Api(app)
 
 prefix_resource = '/resource/tu-delft-campus'
 
-class Greyhound(Resource):
+class Greyhound_read(Resource):
   def get(self):
     return 'im reading this'
 
-api.add_resource(Greyhound, prefix_resource + '/read')
-api.add_resource(Greyhound, prefix_resource + '/info')
+class Greyhound_info(Resource):
+  def get(self):
+    return 'im reading this info'
 
-
+api.add_resource(Greyhound_read, prefix_resource + '/read')
+api.add_resource(Greyhound_info, prefix_resource + '/info')
 
 if __name__ == '__main__':
   app.run(host="0.0.0.0", port=8080, debug=True)
