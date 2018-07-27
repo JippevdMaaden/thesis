@@ -33,6 +33,9 @@ class Greyhound_read(Resource):
       if temp_dict[key] == None:
         remove_args.append(key)
     
+    for key in remove_args:
+      del temp_dict[key]
+    
     #return remove_args
     return temp_dict
     
