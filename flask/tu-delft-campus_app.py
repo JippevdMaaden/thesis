@@ -36,12 +36,16 @@ class Greyhound_read(Resource):
     for key in remove_args:
       del temp_dict[key]
     
-    #return remove_args
-    return temp_dict
+    string_to_add = ''
+    for key in temp_dict:
+      temp_string = '{}={}&'.format(key,temp_dict[key])
+      string_to_add += tempstring
     
     greyhound_server = getGreyhoundServer()
-    server_to_call = greyhound_server + action
+    server_to_call = '{}{}/read?'.format(greyhound_server, prefix_resource, string_to_add)
     
+    return server_to_call
+    return temp_dict
     return 'im reading this, will forward it to {}'.format(server_to_call)
 
 class Greyhound_info(Resource):
