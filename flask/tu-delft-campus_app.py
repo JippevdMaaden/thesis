@@ -28,8 +28,12 @@ class Greyhound_read(Resource):
     
     temp_dict = parser.parse_args()
     
+    remove_args = []
+    for key in temp_dict:
+      if temp_dict[key] == None:
+        remove_args.append(key)
     
-    return temp_dict
+    return remove_args
     
     greyhound_server = getGreyhoundServer()
     server_to_call = greyhound_server + action
