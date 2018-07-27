@@ -33,7 +33,8 @@ class Greyhound_read(Resource):
       if temp_dict[key] == None:
         remove_args.append(key)
     
-    return remove_args
+    #return remove_args
+    return temp_dict
     
     greyhound_server = getGreyhoundServer()
     server_to_call = greyhound_server + action
