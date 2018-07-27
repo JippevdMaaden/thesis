@@ -130,7 +130,7 @@ class Greyhound_hierarchy(Resource):
 
 api.add_resource(Greyhound_read, prefix_resource + '/read', endpoint='read')
 api.add_resource(Greyhound_info, prefix_resource + '/info')
-api.add_resource(Greyhound_info, prefix_resource + '/hierarchy')
+api.add_resource(Greyhound_info, prefix_resource + '/hierarchy', endpoint='hierarcy')
 
 if __name__ == '__main__':
   app.run(host="0.0.0.0", port=8080, debug=True)
