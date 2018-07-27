@@ -34,6 +34,7 @@ class Greyhound_read(Resource):
     
     temp_dict = parser.parse_args()
     
+    # remove arguments not in the original query
     remove_args = []
     for key in temp_dict:
       if temp_dict[key] == None:
@@ -42,27 +43,24 @@ class Greyhound_read(Resource):
     for key in remove_args:
       del temp_dict[key]
     
-    del temp_dict['schema']
-    
+    # parse arguments so they can be appended to the url-string
     for key in temp_dict:
-      if key == 'schema':
-        temp_var = temp_dict[key]
-        print temp_var
-        temp_var.replace("%22", "")
-        print temp_var
-        temp_dict[key] = temp_var
       new_var = key+ '=' + temp_dict[key] + '&'
       temp_dict[key] = new_var
     
+    # append args to the url-string
     temp_string_to_add = ''
     for key in temp_dict:
       temp_string_to_add += temp_dict[key]
     
+    # remove the last '&' from the url-string
     string_to_add = temp_string_to_add[:-1]
     
+    # create full url-string
     greyhound_server = getGreyhoundServer()
     server_to_call = '{}{}/read?{}'.format(greyhound_server[:-1], prefix_resource, string_to_add)
     
+    # call greyhound server
     print server_to_call
     return read(server_to_call)
     return server_to_call
@@ -71,7 +69,8 @@ class Greyhound_read(Resource):
 
 class Greyhound_info(Resource):
   def get(self):
-    return 'im reading this info'
+    server_to_call = '{}{}/info'.format(greyhound_server[:-1], prefix_resource)
+    return read(server_to_call)
 
 api.add_resource(Greyhound_read, prefix_resource + '/read', endpoint='read')
 api.add_resource(Greyhound_info, prefix_resource + '/info')
