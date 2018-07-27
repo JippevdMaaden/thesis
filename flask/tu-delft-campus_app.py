@@ -87,6 +87,8 @@ class Greyhound_info(Resource):
     return json_read
 
 class Greyhound_hierarchy(Resource):
+    # getting the same error as the Greyhound_read Class, which is weird
+    # Will have to dive deeper into this issue
   def get(self):
     parser = reqparse.RequestParser()
     parser.add_argument('depthEnd', type=str)
