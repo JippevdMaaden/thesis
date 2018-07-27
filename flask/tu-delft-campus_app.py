@@ -1,6 +1,8 @@
 from flask import Flask
 from flask_restful import Resource, Api
 
+sys.path.insert(0, '/home/ec2-user/thesis')
+
 from util.utils import *
 
 app = Flask(__name__)
