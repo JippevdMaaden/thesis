@@ -11,7 +11,7 @@ class Quotes(Resource):
           'linus': {'quote': ['Talk is cheap. Show me the code.']}
           }
 
-api.add_resrouce(Quotes, '/')
+api.add_resource(Quotes, '/')
 
 if __name__ == '__main__':
   app.run(debug=True)
