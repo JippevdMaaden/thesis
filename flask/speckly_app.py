@@ -47,6 +47,9 @@ class Greyhound_read(Resource):
     for key in temp_dict:
       if temp_dict[key] == None:
         remove_args.append(key)
+        
+    # remove schema for now
+    remove_args.append('schema')
     
     for key in remove_args:
       del temp_dict[key]
