@@ -12,7 +12,7 @@ from util.utils import *
 app = Flask(__name__)
 api = Api(app)
 
-prefix_resource = '/resource/tu-delft-campus'
+prefix_resource = '/resource/municipality-delft'
 greyhoud_server = getGreyhoundServer()
 
 def read(url):
@@ -37,7 +37,6 @@ class Greyhound_read(Resource):
     parser.add_argument('bounds', type=str)
     parser.add_argument('scale', type=str)
     parser.add_argument('offset', type=str)
-    parser.add_argument('filter', type=str)
     parser.add_argument('schema', type=str)
     parser.add_argument('compress', type=str)
     
@@ -72,8 +71,8 @@ class Greyhound_read(Resource):
     # call greyhound server
     to_return = read(server_to_call)
     
-    return to_return
-    return read(server_to_call)
+    #return to_return
+    #return read(server_to_call)
     return server_to_call
     return temp_dict
     return 'im reading this, will forward it to {}'.format(server_to_call)
@@ -124,13 +123,12 @@ class Greyhound_hierarchy(Resource):
     # create full url-string
     greyhound_server = getGreyhoundServer()
     server_to_call = '{}{}/read?{}'.format(greyhound_server[:-1], prefix_resource, string_to_add)
-    
-    print server_to_call
-    
-    return read(server_to_call)
+        
+    return server_to_call
+    #return read(server_to_call)
     
     json_read = json.loads(read(server_to_call))
-    return json_read
+    #return json_read
 
 api.add_resource(Greyhound_read, prefix_resource + '/read', endpoint='read')
 api.add_resource(Greyhound_info, prefix_resource + '/info')
