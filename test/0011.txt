@@ -1,0 +1,30 @@
+reporting all LAS header entries:
+  file signature:             'LASF'
+  file source ID:             0
+  global_encoding:            0
+  project ID GUID data 1-4:   00000000-0000-0000-0000-000000000000
+  version major.minor:        1.2
+  system identifier:          'LAStools (c) by rapidlasso GmbH'
+  generating software:        'lasmerge (version 180303)'
+  file creation day/year:     205/2018
+  header size:                227
+  offset to point data:       227
+  number var. length records: 0
+  point data format:          0
+  point data record length:   20
+  number of point records:    218663
+  number of points by return: 218663 0 0 0 0
+  scale factor x y z:         0.01 0.01 0.01
+  offset x y z:               71 -374 2
+  min x y z:                  -425.00 -1850.00 -54.00
+  max x y z:                  1352.00 0.00 28.00
+WARNING: there is coordinate resolution fluff (x10) in XYZ
+WARNING: there is serious coordinate resolution fluff (x100) in XYZ
+number of first returns:        218663
+number of intermediate returns: 0
+number of last returns:         218663
+number of single returns:       218663
+covered area in square units/kilounits: 613416/0.61
+point density: all returns 0.36 last only 0.36 (per square units)
+      spacing: all returns 1.67 last only 1.67 (in units)
+overview over number of returns of given pulse: 218663 0 0 0 0 0 0

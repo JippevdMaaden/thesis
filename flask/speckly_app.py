@@ -1,7 +1,10 @@
 import urllib3
 import sys
 import json
+import struct
+import numpy as np
 
+from bitstream import BitStream
 from flask import Flask
 from flask_restful import Resource, Api, reqparse
 
@@ -15,11 +18,78 @@ api = Api(app)
 prefix_resource = '/resource/municipality-delft'
 greyhoud_server = getGreyhoundServer()
 
+def info(resource):
+    url = greyhoud_server[:-1] + prefix_resource + '/info'
+    
+    http = urllib3.PoolManager()
+    u = http.request('GET', url)
+    data = u.data
+    return json.loads(data)
+
 def read(url):
     http = urllib3.PoolManager()
     u = http.request('GET', url)
     data = u.data
     return data
+
+def buildNumpyDescription(schema):
+    output = {}
+    formats = []
+    names = []
+    for s in schema:
+        t = s['type']
+        if t == 'floating':
+            t = 'f'
+        elif t == 'unsigned':
+            t = 'u'
+        else:
+            t = 'i'
+
+        f = '%s%d' % (t, int(s['size']))
+        names.append(s['name'])
+        formats.append(f)
+    output['formats'] = formats
+    output['names'] = names
+    return output
+
+
+def writeLASfile(data, filename, dtype):
+    count = struct.unpack('<L',data[-4:])[0]
+
+
+    # last four bytes are the count
+    data = data[0:-4]
+    d = np.ndarray(shape=(count,),buffer=data,dtype=dtype)
+    try:
+        minx = min(d['X'])
+        miny = min(d['Y'])
+        minz = min(d['Z'])
+    except ValueError:
+        print 'No points available in this bbox geometry'
+        return
+
+    header = laspy.header.Header()
+    scale = 0.01
+    header.x_scale = scale; header.y_scale = scale; header.z_scale = scale
+    header.x_offset = minx ;header.y_offset = miny; header.z_offset = minz
+    header.offset = [minx, miny, minz]
+
+    X = (d['X'] - header.x_offset)/header.x_scale
+    Y = (d['Y'] - header.y_offset)/header.y_scale
+    Z = (d['Z'] - header.z_offset)/header.z_scale
+    output = laspy.file.File(filename, mode='w', header = header)
+    output.X = X
+    output.set_scan_dir_flag(d['ScanDirectionFlag'])
+    output.set_intensity(d['Intensity'])
+    output.set_scan_angle_rank(d['ScanAngleRank'])
+    output.set_pt_src_id(d['PointSourceId'])
+    output.set_edge_flight_line(d['EdgeOfFlightLine'])
+    output.set_return_num(d['ReturnNumber'])
+    output.set_num_returns(d['NumberOfReturns'])
+    output.Y = Y
+    output.Z = Z
+    output.Raw_Classification = d['Classification']
+    output.close()
 
 class Greyhound_read(Resource):
     # to debug this Class I probably will have to solve the error:
@@ -72,8 +142,17 @@ class Greyhound_read(Resource):
     server_to_call = '{}{}/read?{}'.format(greyhound_server[:-1], prefix_resource, string_to_add)
     
     # call greyhound server
-    to_return = read(server_to_call)
+    data = read(server_to_call)
     
+    # create schema
+    allinfo = info('hardcoded the info url')
+    dtype = buildNumpyDescription(allinfo['schema'])
+
+    # create lasfile
+    filename = 'originalfile.las'
+    writeLASfile(data, filename, dtype)
+
+
     #return to_return
     #return read(server_to_call)
     return server_to_call
