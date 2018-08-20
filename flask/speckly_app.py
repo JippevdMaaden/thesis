@@ -125,7 +125,7 @@ class Greyhound_hierarchy(Resource):
     
     # create full url-string
     greyhound_server = getGreyhoundServer()
-    server_to_call = '{}{}/read?{}'.format(greyhound_server[:-1], prefix_resource, string_to_add)
+    server_to_call = '{}{}/hierarchy?{}'.format(greyhound_server[:-1], prefix_resource, string_to_add)
         
     return server_to_call
     #return read(server_to_call)
