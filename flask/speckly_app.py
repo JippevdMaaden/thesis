@@ -3,9 +3,10 @@ import sys
 import json
 import struct
 import numpy as np
+import io
 
 from bitstream import BitStream
-from flask import Flask
+from flask import Flask, send_file, make_response
 from flask_restful import Resource, Api, reqparse
 
 sys.path.insert(0, '/home/ec2-user/thesis')
@@ -144,6 +145,17 @@ class Greyhound_read(Resource):
     # call greyhound server
     data = read(server_to_call)
     
+    resp = make_response(send_file(io.BytesIO(data), attachment_filename='read', mimetype='binary/octet-stream'))
+#    resp = app.response_class(response=io.BytesIO(data), status=200, mimetype='binary/octet-stream')
+
+    resp.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    resp.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE'
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Cache-Control'] = 'public, max-age=300'
+    resp.headers['Connection'] = 'keep-alive'
+    resp.headers['X-powered-by'] = 'Jippe van der Maaden'
+    return resp
+    
     # create schema
     allinfo = info('hardcoded the info url')
     dtype = buildNumpyDescription(allinfo['schema'])
@@ -164,8 +176,18 @@ class Greyhound_info(Resource):
     # create full url-string
     greyhound_server = getGreyhoundServer()
     server_to_call = '{}{}/info'.format(greyhound_server[:-1], prefix_resource)
-    json_read = json.loads(read(server_to_call))
-    return json_read
+    data = read(server_to_call)
+    json_read = json.loads(data)
+    json_write = json.dumps(json_read)
+
+    resp = app.response_class(response=json_write, status=200, mimetype='application/json')
+
+    resp.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    resp.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE'
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Connection'] = 'keep-alive'
+    resp.headers['X-powered-by'] = 'Jippe van der Maaden'
+    return resp
 
 class Greyhound_hierarchy(Resource):
     # getting the same error as the Greyhound_read Class, which is weird
@@ -205,8 +227,20 @@ class Greyhound_hierarchy(Resource):
     # create full url-string
     greyhound_server = getGreyhoundServer()
     server_to_call = '{}{}/hierarchy?{}'.format(greyhound_server[:-1], prefix_resource, string_to_add)
-        
-    return server_to_call
+    print(server_to_call)
+
+    data = read(server_to_call)
+    print(type(data))
+    json_read = json.loads(data)
+    json_write = json.dumps(json_read)
+
+    resp = app.response_class(response=json_write, status=200, mimetype='application/json')
+
+    resp.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    resp.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE'
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['X-powered-by'] = 'Jippe van der Maaden'
+    return resp
     #return read(server_to_call)
     
     json_read = json.loads(read(server_to_call))
@@ -217,4 +251,4 @@ api.add_resource(Greyhound_info, prefix_resource + '/info')
 api.add_resource(Greyhound_hierarchy, prefix_resource + '/hierarchy', endpoint='hierarcy')
 
 if __name__ == '__main__':
-  app.run(host="0.0.0.0", port=8080, debug=True)
+  app.run(host="0.0.0.0", port=5000, debug=True)
