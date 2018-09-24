@@ -94,7 +94,7 @@ class MethodBase():
             
         return densityDict
 
-    def determine_gradual_descent_formula(self):
+    def determine_gradual_descent_formula(self, densityDict):
         ### Find formula for gradual density decent from jump to jump
         # find 'same' bounding boxes, where multiple levels cover the same area
         filenameList = []
@@ -161,14 +161,14 @@ class MethodBase():
 
         return densjumpDict
         
-    def base_method(self):
+    def base_method(self, file_name):
         """"
         Base method implementation
         """
         #########################
         # Method implementation #
         #########################
-        inFile = openLasFile('out.las')
+        inFile = openLasFile(filename)
 
         numpoints = len(inFile.points)
         print 'There are %s points in the original file' % numpoints
@@ -243,13 +243,13 @@ class MethodBase():
         inFile.close()
 
         #######################
-        convertLasZip('out.las', 'out.laz')
+        convertLasZip(filename, 'out.laz')
         convertLasZip('method.las', 'method.laz')
 
         uploadToS3('out.laz', 'jippe-greyhound-to-las-test-dense', 'potree_original.laz')
         uploadToS3('method.laz', 'jippe-greyhound-to-las-test-dense', 'potree_method.laz')
 
-        removeFile('out.las')
+        removeFile(filename)
         removeFile('out.laz')
         removeFile('method.las')
         removeFile('method.laz')
