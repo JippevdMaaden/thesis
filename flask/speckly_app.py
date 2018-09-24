@@ -120,9 +120,17 @@ class Greyhound_read(Resource):
       if temp_dict[key] == None:
         remove_args.append(key)
         
-    # remove schema for now
+    # remove schema from dict for now
+    file_schema = temp_dict['schema']
     remove_args.append('schema')
-    
+    print file_schema
+    print type(file_schema)
+
+    new_schema = json.loads(file_schema)
+    print new_schema
+    print type(new_schema)
+    print new_schema[0]
+
     for key in remove_args:
       del temp_dict[key]
     
@@ -149,7 +157,7 @@ class Greyhound_read(Resource):
 
     filename = '{}{}{}'.format(temp_dict['depthBegin'], temp_dict['depthEnd'], temp_dict['bounds'])
 
-    writeLASfile(data, filename)
+    writeLASfile(data, filename, buildNumpyDescription(new_schema))
 
     return None
 
