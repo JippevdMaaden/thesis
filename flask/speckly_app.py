@@ -4,6 +4,7 @@ import json
 import struct
 import numpy as np
 import io
+import requests
 
 from bitstream import BitStream
 from flask import Flask, send_file, make_response
@@ -126,50 +127,32 @@ class Greyhound_read(Resource):
       del temp_dict[key]
     
     # parse arguments so they can be appended to the url-string
+    greyhound_dict = {}
     for key in temp_dict:
-      new_var = key+ '=' + temp_dict[key] + '&'
-      temp_dict[key] = new_var
-    
+      new_var = key + '=' + temp_dict[key] + '&'
+      greyhound_dict[key] = new_var
+
     # append args to the url-string
-    temp_string_to_add = ''
-    for key in temp_dict:
-      temp_string_to_add += temp_dict[key]
-    
+    greyhound_string_to_add = ''
+    for key in greyhound_dict:
+      greyhound_string_to_add += greyhound_dict[key]
+
     # remove the last '&' from the url-string
-    string_to_add = temp_string_to_add[:-1]
-    
+    string_to_add = greyhound_string_to_add[:-1]
+
     # create full url-string
     greyhound_server = getGreyhoundServer()
     server_to_call = '{}{}/read?{}'.format(greyhound_server[:-1], prefix_resource, string_to_add)
-    
-    # call greyhound server
+
+    # call greyhound server, save each file
     data = read(server_to_call)
-    
-    resp = make_response(send_file(io.BytesIO(data), attachment_filename='read', mimetype='binary/octet-stream'))
-#    resp = app.response_class(response=io.BytesIO(data), status=200, mimetype='binary/octet-stream')
 
-    resp.headers['Access-Control-Allow-Headers'] = 'Content-Type'
-    resp.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE'
-    resp.headers['Access-Control-Allow-Origin'] = '*'
-    resp.headers['Cache-Control'] = 'public, max-age=300'
-    resp.headers['Connection'] = 'keep-alive'
-    resp.headers['X-powered-by'] = 'Jippe van der Maaden'
-    return resp
-    
-    # create schema
-    allinfo = info('hardcoded the info url')
-    dtype = buildNumpyDescription(allinfo['schema'])
+    filename = '{}{}{}'.format(temp_dict['depthBegin'], temp_dict['depthEnd'], temp_dict['bounds'])
 
-    # create lasfile
-    filename = 'originalfile.las'
-    writeLASfile(data, filename, dtype)
+    writeLASfile(data, filename)
 
+    return None
 
-    #return to_return
-    #return read(server_to_call)
-    return server_to_call
-    return temp_dict
-    return 'im reading this, will forward it to {}'.format(server_to_call)
 
 class Greyhound_info(Resource):
   def get(self):
@@ -241,10 +224,6 @@ class Greyhound_hierarchy(Resource):
     resp.headers['Access-Control-Allow-Origin'] = '*'
     resp.headers['X-powered-by'] = 'Jippe van der Maaden'
     return resp
-    #return read(server_to_call)
-    
-    json_read = json.loads(read(server_to_call))
-    #return json_read
 
 api.add_resource(Greyhound_read, prefix_resource + '/read', endpoint='read')
 api.add_resource(Greyhound_info, prefix_resource + '/info')
