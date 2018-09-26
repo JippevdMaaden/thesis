@@ -159,7 +159,15 @@ class Greyhound_read(Resource):
 
     writeLASfile(data, filename, buildNumpyDescription(new_schema))
 
-    return None
+    # fake response, so the speck.ly front-end will keep sending requests
+    resp = make_response(send_file(io.BytesIO(data), attachment_filename='read', mimetype='binary/octet-stream'))
+    resp.headers['Access-Control-Allow-Headers'] = 'Content-Type'
+    resp.headers['Access-Control-Allow-Methods'] = 'GET,PUT,POST,DELETE'
+    resp.headers['Access-Control-Allow-Origin'] = '*'
+    resp.headers['Cache-Control'] = 'public, max-age=300'
+    resp.headers['Connection'] = 'keep-alive'
+    resp.headers['X-powered-by'] = 'Jippe van der Maaden'
+    return resp
 
 
 class Greyhound_info(Resource):
