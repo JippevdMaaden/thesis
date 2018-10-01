@@ -10,6 +10,7 @@ import random
 import copy
 import laspy
 import json
+import struct
 
 from urllib2 import urlopen
 from awscli.customizations.s3.utils import split_s3_bucket_key
@@ -470,7 +471,7 @@ class GreyhoundConnection():
 	    u = urlopen(url)
 	    data = u.read()
 	    count = struct.unpack('<L',data[-4:])[0]
-	    array = np.ndarray(shape=(count,),buffer=data,dtype=self.info['dtype'])
+	    array = np.ndarray(shape=(count,),buffer=data,dtype=self.info()['dtype'])
 	    return array
 
 	def buildNumpyDescription(self, schema):

@@ -53,7 +53,7 @@ class Greyhound_read(Resource):
     filename = '{} {} {}.las'.format(param_dict['depthBegin'], param_dict['depthEnd'], param_dict['bounds'])
 
     r = GreyhoundConnection(prefix_resource, param_dict, filename)
-    r.get_pointcloud()
+    r.get_pointcloud(param_dict)
 
     # fake response, so the speck.ly front-end will keep sending requests
     resp = make_response(send_file(io.BytesIO(data), attachment_filename='read', mimetype='binary/octet-stream'))
