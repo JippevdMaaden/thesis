@@ -28,3 +28,19 @@ def merge_by_level(path_to_directory):
 
     return file_name_list
 
+def merge_all(path_to_directory):
+    dir_list = os.listdir(path_to_directory)
+    merge_string = 'lasmerge -i '
+    file_name = path_to_diirectory + 'all.las'
+
+    for file in dir_list:
+	merge_string += path_to_directory
+	merge_string += file
+	merge_string += ' '
+
+    merge_string += '-o '
+    merge_string += path_to_directory
+    merge_string += file_name
+    os.system(merge_string)
+
+    return file_name
