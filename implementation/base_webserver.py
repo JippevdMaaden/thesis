@@ -17,81 +17,9 @@ from util.utils import *
 app = Flask(__name__)
 api = Api(app)
 
-prefix_resource = '/resource/municipality-delft'
+prefix_resource = 'municipality-delft'
 greyhoud_server = getGreyhoundServer()
 
-def info(resource):
-    url = greyhoud_server[:-1] + prefix_resource + '/info'
-    
-    http = urllib3.PoolManager()
-    u = http.request('GET', url)
-    data = u.data
-    return json.loads(data)
-
-def read(url):
-    http = urllib3.PoolManager()
-    u = http.request('GET', url)
-    data = u.data
-    return data
-
-def buildNumpyDescription(schema):
-    output = {}
-    formats = []
-    names = []
-    for s in schema:
-        t = s['type']
-        if t == 'floating':
-            t = 'f'
-        elif t == 'unsigned':
-            t = 'u'
-        else:
-            t = 'i'
-
-        f = '%s%d' % (t, int(s['size']))
-        names.append(s['name'])
-        formats.append(f)
-    output['formats'] = formats
-    output['names'] = names
-    return output
-
-
-def writeLASfile(data, filename, dtype):
-    count = struct.unpack('<L',data[-4:])[0]
-
-
-    # last four bytes are the count
-    data = data[0:-4]
-    d = np.ndarray(shape=(count,),buffer=data,dtype=dtype)
-    try:
-        minx = min(d['X'])
-        miny = min(d['Y'])
-        minz = min(d['Z'])
-    except ValueError:
-        print 'No points available in this bbox geometry'
-        return
-
-    header = laspy.header.Header()
-    scale = 0.01
-    header.x_scale = scale; header.y_scale = scale; header.z_scale = scale
-    header.x_offset = minx ;header.y_offset = miny; header.z_offset = minz
-    header.offset = [minx, miny, minz]
-
-    X = (d['X'] - header.x_offset)/header.x_scale
-    Y = (d['Y'] - header.y_offset)/header.y_scale
-    Z = (d['Z'] - header.z_offset)/header.z_scale
-    output = laspy.file.File(filename, mode='w', header = header)
-    output.X = X
-    output.set_scan_dir_flag(d['ScanDirectionFlag'])
-    output.set_intensity(d['Intensity'])
-    output.set_scan_angle_rank(d['ScanAngleRank'])
-    output.set_pt_src_id(d['PointSourceId'])
-    output.set_edge_flight_line(d['EdgeOfFlightLine'])
-    output.set_return_num(d['ReturnNumber'])
-    output.set_num_returns(d['NumberOfReturns'])
-    output.Y = Y
-    output.Z = Z
-    output.Raw_Classification = d['Classification']
-    output.close()
 
 class Greyhound_read(Resource):
     # to debug this Class I probably will have to solve the error:
@@ -112,52 +40,20 @@ class Greyhound_read(Resource):
     parser.add_argument('schema', type=str)
     parser.add_argument('compress', type=str)
     
-    temp_dict = parser.parse_args()
+    param_dict = parser.parse_args()
     
     # remove arguments not in the original query
     remove_args = []
-    for key in temp_dict:
-      if temp_dict[key] == None:
+    for key in param_dict:
+      if param_dict[key] == None:
         remove_args.append(key)
-        
-    # remove schema from dict for now
-    file_schema = temp_dict['schema']
-    remove_args.append('schema')
-    print file_schema
-    print type(file_schema)
-
-    new_schema = json.loads(file_schema)
-    print new_schema
-    print type(new_schema)
-    print new_schema[0]
-
     for key in remove_args:
-      del temp_dict[key]
-    
-    # parse arguments so they can be appended to the url-string
-    greyhound_dict = {}
-    for key in temp_dict:
-      new_var = key + '=' + temp_dict[key] + '&'
-      greyhound_dict[key] = new_var
+      del param_dict[key]
 
-    # append args to the url-string
-    greyhound_string_to_add = ''
-    for key in greyhound_dict:
-      greyhound_string_to_add += greyhound_dict[key]
+    filename = '{} {} {}.las'.format(param_dict['depthBegin'], param_dict['depthEnd'], param_dict['bounds'])
 
-    # remove the last '&' from the url-string
-    string_to_add = greyhound_string_to_add[:-1]
-
-    # create full url-string
-    greyhound_server = getGreyhoundServer()
-    server_to_call = '{}{}/read?{}'.format(greyhound_server[:-1], prefix_resource, string_to_add)
-
-    # call greyhound server, save each file
-    data = read(server_to_call)
-
-    filename = '{} {} {}'.format(temp_dict['depthBegin'], temp_dict['depthEnd'], temp_dict['bounds'])
-
-    writeLASfile(data, filename, buildNumpyDescription(new_schema))
+    r = GreyhoundConnection(prefix_resource, param_dict, filename)
+    r.get_pointcloud()
 
     # fake response, so the speck.ly front-end will keep sending requests
     resp = make_response(send_file(io.BytesIO(data), attachment_filename='read', mimetype='binary/octet-stream'))
