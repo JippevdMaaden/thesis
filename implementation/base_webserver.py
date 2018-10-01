@@ -70,10 +70,15 @@ class Greyhound_info(Resource):
   def get(self):
     # create full url-string
     greyhound_server = getGreyhoundServer()
-    server_to_call = '{}{}/info'.format(greyhound_server[:-1], prefix_resource)
-    data = read(server_to_call)
-    json_read = json.loads(data)
-    json_write = json.dumps(json_read)
+
+    r = GreyhoundConnection(prefix_resource)
+    data = r.info()
+
+    print(data)
+#    json_read = json.loads(data)
+#    print(json_read)
+    json_write = json.dumps(data)
+    print(json_write)
 
     resp = app.response_class(response=json_write, status=200, mimetype='application/json')
 
@@ -137,9 +142,9 @@ class Greyhound_hierarchy(Resource):
     resp.headers['X-powered-by'] = 'Jippe van der Maaden'
     return resp
 
-api.add_resource(Greyhound_read, prefix_resource + '/read', endpoint='read')
-api.add_resource(Greyhound_info, prefix_resource + '/info')
-api.add_resource(Greyhound_hierarchy, prefix_resource + '/hierarchy', endpoint='hierarcy')
+api.add_resource(Greyhound_read, '/resource/' + prefix_resource + '/read', endpoint='read')
+api.add_resource(Greyhound_info, '/resource/' + prefix_resource + '/info')
+api.add_resource(Greyhound_hierarchy, '/resource/' +  prefix_resource + '/hierarchy', endpoint='hierarcy')
 
 if __name__ == '__main__':
   app.run(host="0.0.0.0", port=5000, debug=True)

@@ -9,7 +9,9 @@ import time
 import random
 import copy
 import laspy
+import json
 
+from urllib2 import urlopen
 from awscli.customizations.s3.utils import split_s3_bucket_key
 from laspy.file import File
 from io import BytesIO
@@ -429,7 +431,7 @@ class CameraCone:
 
 	
 class GreyhoundConnection():
-	def __init__(self, resource, param_schema, filename):
+	def __init__(self, resource, param_schema = None, filename = None):
 	    self.base_url = getGreyhoundServer() + 'resource/'
 	    self.resource = resource	    
 	    self.j = self.info()
@@ -454,8 +456,14 @@ class GreyhoundConnection():
 	    u = urlopen(url)
 	    data = u.read()
 	    j = json.loads(data)
-	    j['dtype'] = self.buildNumpyDescription(j['schema'])
-	    return j
+
+	    try:
+	    	if self.filename:
+		    j['dtype'] = self.buildNumpyDescription(j['schema'])
+	    except AttributeError:
+		pass
+
+            return j
 	
 	def read(self):
 	    url = self.base_url + self.resource + '/read?' + self.param_str
