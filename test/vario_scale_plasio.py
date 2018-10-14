@@ -1,3 +1,4 @@
+
 import urllib3
 import numpy as np
 import json
@@ -7,6 +8,7 @@ import sys
 import scipy.spatial
 import time
 import urlparse
+import click
 
 from laspy.file import File
 
@@ -32,14 +34,14 @@ from util.utils import *
 # Also a fade away to 0 density is added
 #
 
-def info(resource):
+def info(BASE, resource):
     url = BASE+"resource/"+resource+"/info"
     http = urllib3.PoolManager()
     u = http.request('GET', url)
     data = u.data
     return json.loads(data)
 
-def read(resource, box, depthBegin, depthEnd):
+def read(BASE, resource, box, depthBegin, depthEnd):
     url = BASE+'resource/' + resource + '/read?'
     url += 'bounds=%s&depthEnd=%s&depthBegin=%s&compress=false&offset=[85910,445600,50]' % (box, depthEnd, depthBegin)
     http = urllib3.PoolManager()
@@ -47,8 +49,8 @@ def read(resource, box, depthBegin, depthEnd):
     data = u.data
     return data
 
-def readdata():
-    data = read(resource, box, depthBegin, depthEnd)
+def readdata(BASE, resource, box, depthBegin, depthEnd):
+    data = read(BASE, resource, box, depthBegin, depthEnd)
     #f = open('raw-greyhound-data','rb')
     #data = f.read()
     return data
@@ -73,7 +75,7 @@ def buildNumpyDescription(schema):
     output['names'] = names
     return output
 
-def writeLASfile(data, filename):
+def writeLASfile(dtype, data, filename):
     count = struct.unpack('<L',data[-4:])[0]
 
 
@@ -111,12 +113,8 @@ def writeLASfile(data, filename):
     output.Raw_Classification = d['Classification']
     output.close()
 
-if __name__ == '__main__':
+def implementation(camera_parameters = None):
     ### Preparation
-    resource = 'tu-delft-campus'
-    BASE = getGreyhoundServer()
-    allinfo = info(resource)
-    dtype = buildNumpyDescription(allinfo['schema'])
     filenameList = []
     filenameDict = {}
     densityDict = {}
@@ -132,7 +130,12 @@ if __name__ == '__main__':
         parsed = urlparse.urlparse(url)
         params = urlparse.parse_qsl(parsed.query)
         dict_params = dict(params)
+	resource = parsed.path.split('/')[2]
 
+	# to make box an actual list:
+	# import ast
+	# ast.literal_eval(dict_params['bounds'])
+	box = dict_params['bounds']
         depthBegin = int(dict_params['depthBegin'])
         depthEnd = int(dict_params['depthEnd'])
         
@@ -140,8 +143,8 @@ if __name__ == '__main__':
             startDepth = depthEnd
         
         # make sure all octree levers are 4 numbers
-        filler = '0' * (4 - len(depthEnd))
-        depth = filler + depthEnd
+        filler = '0' * (4 - len(str(depthEnd)))
+        depth = filler + str(depthEnd)
         
         # create filename with depth '0000' appended to front
         filename = '%soriginalfile%s.las' % (depth, j)
@@ -156,34 +159,66 @@ if __name__ == '__main__':
             filenameDict[depth] = appendfilename
             
         # retrieve from Greyhound webserver
-        data = readdata()
-        writeLASfile(data, filename)
-    
+	BASE = getGreyhoundServer()
+	allinfo = info(BASE, resource)
+	dtype = buildNumpyDescription(allinfo['schema'])
+
+        data = readdata(BASE, resource, box, depthBegin, depthEnd)
+        writeLASfile(dtype, data, filename)
+
     potreefile.close()
-    
+
+    # find camera offset
+    camera_offset_command = "".join(('lasinfo -i ', filenameList[0], ' -nv -nmm -nco -o outputfile.txt'))
+    os.system(camera_offset_command)
+    with open('outputfile.txt') as f:
+	for line in f:
+	    if line[:14] == '  offset x y z':
+		print(line)
+		newline = line.split()
+		camera_offset_params = float(newline[4]), float(newline[5]), float(newline[6])
+
     # Create a filename list with sorted filenameDict values
-    filenameList = []
+    levelfilenameList = []
     for key in filenameDict:
-        filenameList.append(key)
-    filenameList.sort()
-    
-    #for each 'level' create 1 file
+        levelfilenameList.append("".join((key,'.las')))
+    levelfilenameList.sort()
+    print(filenameList)
+
+    # For each 'level' create 1 file
     for key in filenameDict:
         filenames = filenameDict[key]
-        outname = key + '.las'
+        outname = "".join((key,'.las'))
         mergefiles = 'lasmerge -i ' + filenames + ' -o ' + outname
         os.system(mergefiles)
 
-    #cleanup
+    # Cleanup
     for filename in filenameList:
         try:
             removeFile(filename)
-        except OSError:
+        except OSError as e:
+	    print(e)
             print '%s does not exist' % filename
-            
+
+    # Create one single file
+    mergefiles = 'lasmerge -i *.las -o out.las'
+    os.system(mergefiles)
+
+    for filename in levelfilenameList:
+	try:
+	    removeFile(filename)
+	except OSError as e:
+	    print(e)
+	    print('{} does not exist'.format(filename))
     ### Input camera parameters manually from url
-    cameraorigin = [1000,-1800,100]
-    
+    if camera_parameters == None:
+	cameraorigin = (1000,-1800,100)
+    else:
+	cameraorigin = camera_parameters
+
+    print(cameraorigin)
+    print(camera_offset_params)
+
     ### Find formula for gradual density descent. This is implemented
     ### in more detail in other files in this folder. If needed copy
     ### the basics from there and continue.    
@@ -242,7 +277,8 @@ if __name__ == '__main__':
       newpercentage = int(j/float(numpoints)*100)
       if newpercentage > percentage:
         percentage = newpercentage
-        print "Work in progress, %d%% done" % percentage
+	if percentage == 1 or percentage % 10 == 0:
+            print "Work in progress, %d%% done" % percentage
     
     endtime1 = time.time()
     timetaken1 = endtime1 - starttime1
@@ -272,11 +308,21 @@ if __name__ == '__main__':
     convertLasZip('out.las', 'out.laz')
     convertLasZip('method.las', 'method.laz')
     
-    uploadToS3('out.laz', 'jippe-greyhound-to-las-test-dense', 'potree_original.laz')
-    uploadToS3('method.laz', 'jippe-greyhound-to-las-test-dense', 'potree_method.laz')
+    uploadToS3('out.laz', 'jippe-greyhound-to-las-test-dense', "".join(('plasio_', resource, '_potree_original.laz')))
+    uploadToS3('method.laz', 'jippe-greyhound-to-las-test-dense', "".join(('plasio_', resoure, '_potree_method.laz')))
     
     removeFile('out.las')
     removeFile('out.laz')
     removeFile('method.las')
     removeFile('method.laz')
     removeFile('urls.txt')
+    removeFile('outputfile.txt')
+
+@click.command()
+@click.option('--camera_parameter', '-cp', type=(float,float,float), help='camera paramaters as specified by speck.ly')
+def cli(camera_parameter):
+    print(camera_parameter)
+    implementation(camera_parameter)
+
+if __name__ == '__main__':
+    cli()
