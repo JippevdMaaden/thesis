@@ -1,4 +1,4 @@
-
+import ast
 import urllib3
 import numpy as np
 import json
@@ -113,16 +113,43 @@ def writeLASfile(dtype, data, filename):
     output.Raw_Classification = d['Classification']
     output.close()
 
-def implementation(camera_parameters = None):
+def implementation(camera_url):
     ### Preparation
+    url = camera_url
+    parsed = urlparse.urlparse(url)
+    params = urlparse.parse_qsl(parsed.query)
+    dict_params = dict(params)
+
+    # what is in dict_params:
+    # ps = point size
+    # pa = point size attenuation (closer to you appear larger)
+    # ca = camera rotation xy (z-axis)
+    # ce = camera rotation yz (x-axis)
+    # cd = camera distance to target
+    # s = server
+    # r = resource
+    # ze = Z-exaggeration
+    # c0s = imagery
+    # ct = camera target
+
+    resource = dict_params['r']
+    camera_target = ast.literal_eval(dict_params['ct'])
+    camera_rotation_z = ast.literal_eval(dict_params['ca'])
+    camera_rotation_x = ast.literal_eval(dict_params['ce'])
+    camera_distance = ast.literal_eval(dict_params['cd'])
+    print(camera_rotation_z, type(camera_rotation_z))
+    print(camera_rotation_x, type(camera_rotation_x))
+    print(camera_distance, type(camera_distance))
+    return
+
     filenameList = []
     filenameDict = {}
     densityDict = {}
     bboxDict = {}
-    
+
     ### Retrieve points from webserver
     downloadFromS3('jippe-home', 'POTREE_reads.txt', 'urls.txt')
-    
+
     potreefile = open('urls.txt', 'r')
     for j, line in enumerate(potreefile):
         # extract params from READ request
@@ -130,26 +157,35 @@ def implementation(camera_parameters = None):
         parsed = urlparse.urlparse(url)
         params = urlparse.parse_qsl(parsed.query)
         dict_params = dict(params)
-	resource = parsed.path.split('/')[2]
+
+	# what is in dict_params?
+	# depthBegin = starting depth
+	# scale = dataset scale
+	# depthEnd = end depth
+	# compress = stored as LAZ (True) or LAS (False)
+	# bounds = bbox
+	# offset = offset from main dataset (AHN2)
 
 	# to make box an actual list:
 	# import ast
 	# ast.literal_eval(dict_params['bounds'])
-	box = dict_params['bounds']
+	box = ast.literal_eval(dict_params['bounds'])
         depthBegin = int(dict_params['depthBegin'])
         depthEnd = int(dict_params['depthEnd'])
-        
+	dataset_offset = ast.literal_eval(dict_params['offset'])
+	adjusted_camera_target = tuple(c_i - d_i for c_i, d_i in zip(camera_target, dataset_offset))
+
         if depthEnd - depthBegin != 1:
             startDepth = depthEnd
-        
+
         # make sure all octree levers are 4 numbers
         filler = '0' * (4 - len(str(depthEnd)))
         depth = filler + str(depthEnd)
-        
+
         # create filename with depth '0000' appended to front
         filename = '%soriginalfile%s.las' % (depth, j)
         filenameList.append(filename)
-        
+
         # make filenamedict for merging with lasmerge
         if depth in filenameDict:
             appendfilename = filename + ' '
@@ -157,7 +193,7 @@ def implementation(camera_parameters = None):
         else:
             appendfilename = ' ' + filename + ' '
             filenameDict[depth] = appendfilename
-            
+
         # retrieve from Greyhound webserver
 	BASE = getGreyhoundServer()
 	allinfo = info(BASE, resource)
@@ -210,18 +246,10 @@ def implementation(camera_parameters = None):
 	except OSError as e:
 	    print(e)
 	    print('{} does not exist'.format(filename))
-    ### Input camera parameters manually from url
-    if camera_parameters == None:
-	cameraorigin = (1000,-1800,100)
-    else:
-	cameraorigin = camera_parameters
-
-    print(cameraorigin)
-    print(camera_offset_params)
 
     ### Find formula for gradual density descent. This is implemented
     ### in more detail in other files in this folder. If needed copy
-    ### the basics from there and continue.    
+    ### the basics from there and continue.
     
     #########################
     # Method implementation #
@@ -254,56 +282,59 @@ def implementation(camera_parameters = None):
     for j, point in enumerate(allpoints):
       if used[j] == True:
         continue
-        
-      distancevector = (point[0] - cameraorigin[0], point[1] - cameraorigin[1], point[2] - cameraorigin[2])
-      distance = (distancevector[0] ** 2 + distancevector[1] ** 2 + distancevector[2] ** 2) ** 0.5
-      
-      # implement exponential function here
-      # This should later be the density function
-      nn = kdtree.query_ball_point(point, distance**0.2)
-      
-      appendvar = True
-      
+
+    # !!!This needs some serious reworking!!!
+    camera_origin = adjusted_camera_target
+
+    distancevector = (point[0] - camera_origin[0], point[1] - camera_origin[1], point[2] - camera_origin[2])
+    distance = (distancevector[0] ** 2 + distancevector[1] ** 2 + distancevector[2] ** 2) ** 0.5
+
+    # implement exponential function here
+    # This should later be the density function
+    nn = kdtree.query_ball_point(point, distance**0.2)
+
+    appendvar = True
+
+    for i in nn:
+        if allpoints[i] in methodpoints:
+            appendvar = False
+            break
+
+    if appendvar == True:
+      methodpoints.add(point)
       for i in nn:
-          if allpoints[i] in methodpoints:
-              appendvar = False
-              break
-        
-      if appendvar == True:
-        methodpoints.add(point)
-        for i in nn:
-            used[i] = True
-      
-      newpercentage = int(j/float(numpoints)*100)
-      if newpercentage > percentage:
+          used[i] = True
+
+    newpercentage = int(j/float(numpoints)*100)
+    if newpercentage > percentage:
         percentage = newpercentage
-	if percentage == 1 or percentage % 10 == 0:
+        if percentage == 1 or percentage % 10 == 0:
             print "Work in progress, %d%% done" % percentage
-    
+
     endtime1 = time.time()
     timetaken1 = endtime1 - starttime1
     print 'There are %s points in the view frustum after vario-scale method application' % len(methodpoints)
     print 'This took %s seconds to calculate' % timetaken1
-    
+
     methodpointx = []
     methodpointy = []
     methodpointz = []
-    
+
     for point in methodpoints:
       methodpointx.append(point[0])
       methodpointy.append(point[1])
       methodpointz.append(point[2])
-    
+
     print
-    
+
     newoutput_file = File('method.las', mode = "w", header = inFile.header)
     newoutput_file.X = methodpointx
     newoutput_file.Y = methodpointy
     newoutput_file.Z = methodpointz
-    
+
     newoutput_file.close()
     inFile.close()
-    
+
     #######################
     convertLasZip('out.las', 'out.laz')
     convertLasZip('method.las', 'method.laz')
@@ -319,10 +350,9 @@ def implementation(camera_parameters = None):
     removeFile('outputfile.txt')
 
 @click.command()
-@click.option('--camera_parameter', '-cp', type=(float,float,float), help='camera paramaters as specified by speck.ly')
-def cli(camera_parameter):
-    print(camera_parameter)
-    implementation(camera_parameter)
+@click.option('--camera_url', '-cu', help='camera url as used in speck.ly')
+def cli(camera_url):
+    implementation(camera_url)
 
 if __name__ == '__main__':
     cli()
