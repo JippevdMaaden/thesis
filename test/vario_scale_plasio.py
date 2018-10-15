@@ -9,6 +9,7 @@ import scipy.spatial
 import time
 import urlparse
 import click
+import math
 
 from laspy.file import File
 
@@ -137,9 +138,12 @@ def implementation(camera_url):
     camera_rotation_z = ast.literal_eval(dict_params['ca'])
     camera_rotation_x = ast.literal_eval(dict_params['ce'])
     camera_distance = ast.literal_eval(dict_params['cd'])
-    print(camera_rotation_z, type(camera_rotation_z))
-    print(camera_rotation_x, type(camera_rotation_x))
-    print(camera_distance, type(camera_distance))
+
+    print('Angle_z: {}'.format(camera_rotation_z))
+    print('Angle_x: {}'.format(camera_rotation_x))
+    print('Distance: {}'.format(camera_distance))
+    print('Target: {}'.format(camera_target))
+
     return
 
     filenameList = []
@@ -283,7 +287,16 @@ def implementation(camera_url):
       if used[j] == True:
         continue
 
-    # !!!This needs some serious reworking!!!
+    # !!!This needs some serious reworking!!! (see comment down below)
+    # We can assume the camera parameters needed are just the camera_origin, this is because the
+    # speck.ly query itsself has already made the distinguishment what is inside and outside of the
+    # view frustrum. Knowing this it should be an operation using both the known angles and the 
+    # distance from the target that give us the location; simple stuff
+    
+    print('Angle_x: {}'.format(camera_angle_x))
+    print('Angle_y: {}'.format(camera_angle_y))
+    print('Distance: {}'.format(camera_distance))
+    print('Target: {}'.format(adjusted_camera_target))
     camera_origin = adjusted_camera_target
 
     distancevector = (point[0] - camera_origin[0], point[1] - camera_origin[1], point[2] - camera_origin[2])
