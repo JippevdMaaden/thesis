@@ -292,7 +292,25 @@ def implementation(camera_url):
     # speck.ly query itsself has already made the distinguishment what is inside and outside of the
     # view frustrum. Knowing this it should be an operation using both the known angles and the 
     # distance from the target that give us the location; simple stuff
-    
+
+    def find_vector(alpha, beta):
+        """
+        Alpha is the angle from Y to Z
+        Beta is the angle from X to Z
+        """
+	a,b = math.radians(alpha), math.radians(beta)
+	x = -1 * math.sin(a) * math.cos(b)
+	y = -1 * math.cos(a) * math.cos(b)
+	z = math.sin(b)
+	return (x,y,z)
+
+    print('Calculating camera_parameters')
+    camera_vector = find_vector(camera_angle_y, camera_angle_x)
+    print('Camera vector: {}'.format(camera_vector))
+    camera_vector_distance = tuple(x * camera_distance for x in camera_vector)
+    print('Camera vector distance: {}'.format(camera_vector_distance))
+
+    print('Calculated using:')
     print('Angle_x: {}'.format(camera_angle_x))
     print('Angle_y: {}'.format(camera_angle_y))
     print('Distance: {}'.format(camera_distance))
