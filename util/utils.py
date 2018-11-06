@@ -23,7 +23,7 @@ resource = boto3.resource('s3')
 
 ###################################################################################################################
 def getGreyhoundServer():
-	return 'ec2-18-194-139-135.eu-central-1.compute.amazonaws.com:8080/'
+	return 'ec2-18-185-97-202.eu-central-1.compute.amazonaws.com:8080/'
 
 def getGreyhoundTempServer():
 	return None
