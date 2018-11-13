@@ -91,7 +91,6 @@ def main():
         # continue if the point has been used as nn for other points
         if used[j] == True:
             continue
-        
         # get point distance from camera
         distance_vector = [point[0], camera_location[0],
                            point[1], camera_location[1],
@@ -119,11 +118,24 @@ def main():
     methodpointy = [point[1] for point in methodpoints]
     methodpointz = [point[2] for point in methodpoints]
     methodpointi = [point[3] for point in methodpoints]
+    
+    print('There are {} points in the method_file'.format(len(methodpoints)))
+    # we have to make the scale and offset correct for the points first.
+    # 1. remove the offset
+    # 2. divide by the scale 
+    offset = inFile.header.offset
+    scale = inFile.header.scale
+    methodpoint_remove_offset = None
+    
+    methodpointX = [((point[0] - offset[0]) / scale[0]) for point in methodpoints]
+    methodpointY = [((point[1] - offset[1]) / scale[1]) for point in methodpoints]
+    methodpointZ = [((point[2] - offset[2]) / scale[2]) for point in methodpoints]
+    methodpointi = [point[3] for point in methodpoints]
 
     newoutput_file = File('method.las', mode = "w", header = inFile.header)
-    newoutput_file.X = methodpointx
-    newoutput_file.Y = methodpointy
-    newoutput_file.Z = methodpointz
+    newoutput_file.X = methodpointX
+    newoutput_file.Y = methodpointY
+    newoutput_file.Z = methodpointZ
     newoutput_file.intensity = methodpointi
     newoutput_file.close()
     inFile.close()
