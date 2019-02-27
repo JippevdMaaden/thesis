@@ -39,7 +39,7 @@ def main():
     goodpoints = np.vstack((inFile.x, inFile.y, inFile.z)).transpose()
 
     used = [False] * numpoints
-
+    non_used = [True] * numpoints
     print('Creating kdtree')    
     kdtree = scipy.spatial.cKDTree(goodpoints, leafsize=2)
     print('Done creating kdtree')
@@ -86,6 +86,7 @@ def main():
     ##############################
     allpoints = [(point[0], point[1], point[2]) for point in goodpoints]
     
+    used_points_list = []
     methodpoints = set([])
     for j, point in enumerate(allpoints):
         # continue if the point has been used as nn for other points
@@ -113,7 +114,8 @@ def main():
             methodpoints.add(point_tuple) 
             for i in nn:
                 used[i] = True
-
+        used_points_list.append(j)
+ 
     methodpointx = [point[0] for point in methodpoints]
     methodpointy = [point[1] for point in methodpoints]
     methodpointz = [point[2] for point in methodpoints]
@@ -138,9 +140,41 @@ def main():
     newoutput_file.Z = methodpointZ
     newoutput_file.intensity = methodpointi
     newoutput_file.close()
-    inFile.close()
-    
+        
     uploadToS3('method.las', 'jippe-home', 'method.las')
+
+    # also save the removed points, for the Results chapter
+
+    for _index in used_points_list:
+        non_used[_index] = False
+
+    non_method_points = set([])
+    for j, non_used_point in enumerate(non_used):
+        if non_used_point:
+            next_not_used_point = allpoints[j]
+            non_method_points.add(next_not_used_point)
+        else:
+            continue
+        
+    non_method_point_x = [point[0] for point in non_method_points]
+    non_method_point_y = [point[1] for point in non_method_points]
+    non_method_point_z = [point[2] for point in non_method_points]
+    
+    print('There are {} points in the non_method_file'.format(len(non_method_points)))
+
+    non_method_point_X = [((point[0] - offset[0]) / scale[0]) for point in non_method_points]
+    non_method_point_Y = [((point[1] - offset[1]) / scale[1]) for point in non_method_points]
+    non_method_point_Z = [((point[2] - offset[2]) / scale[2]) for point in non_method_points]
+
+    newoutput_file = File('non_method.las', mode = "w", header = inFile.header)
+    newoutput_file.X = non_method_point_X
+    newoutput_file.Y = non_method_point_Y
+    newoutput_file.Z = non_method_point_Z
+    newoutput_file.close()
+    inFile.close()
+
+    uploadToS3('non_method.las', 'jippe-home', 'non_method.las')
+
     os.system('rm *.las')
     os.system('rm *.txt')
 
