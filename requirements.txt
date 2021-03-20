@@ -14,7 +14,7 @@ ecdsa==0.11
 futures==3.2.0
 hibagent==1.0.0
 iniparse==0.3.1
-Jinja2==2.7.2
+Jinja2==2.11.3
 jmespath==0.9.3
 jsonpatch==1.2
 jsonpointer==1.0
