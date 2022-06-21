@@ -22,7 +22,7 @@ kitchen==1.1.1
 laspy==1.5.1
 lockfile==0.8
 MarkupSafe==0.11
-numpy==1.14.1
+numpy==1.22.0
 paramiko==1.15.1
 PIL==1.1.6
 ply==3.4
